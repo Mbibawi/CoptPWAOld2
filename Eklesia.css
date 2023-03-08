@@ -1,0 +1,256 @@
+@font-face {
+  font-family: AvaShenouda;
+  src: url(./fonts/Avva_Shenouda.ttf);
+}
+@font-face {
+  font-family: ArialCoptic;
+  src: url(./fonts/ArialCoptic.ttf);
+}
+.Container {
+  display: flex;
+  flex-direction: column;
+}
+.Content {
+  margin: 5px 5px;
+}
+.Title {
+  /* font-style: italic !important; */
+  color: rgb(45, 71, 100) !important;
+  font-weight: bold;
+  font-size: 11pt !important;
+  text-align: center !important;
+  padding: 2px 4px;
+}
+.AR,
+.FR,
+.COP,
+.CA,
+.Title,
+.PrayerText{
+  width: 50%;
+  text-align: justify;
+}
+.AR,
+.CA {
+  font-size: 14pt;
+  direction: rtl !important;
+}
+.FR,
+.EN {
+  font-size: 14pt;
+}
+.COP {
+  font-family: ArialCoptic;
+  font-weight: bold;
+}
+.Menu {
+  background-color: #5270a3;
+}
+.sideBarBtn, .inlineBtn {
+  height:fit-content;
+  border-radius: 9px;
+  background-color: #95190c;
+  padding: 2px;
+  margin-left: 05px;
+  align-items: center !important;
+}
+.sideBarBtn{
+  width: 95%;
+}
+.inlineBtn {
+width: auto !important;
+
+}
+.inlineBtns {
+  display:flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+.Repeatable {
+  margin-bottom: 50px;
+  padding-left: 1cm;
+  padding-right: 1cm;
+}
+.btnText, .btnLableAR, .btnLableFR, .btnLableEN {
+  font-weight: bold;
+  font-size: 2vmin;
+  color: #f1f1f1;
+  font-family: "Times New Roman", Times, serif;
+  line-height:9pt;
+  overflow-wrap: normal;
+}
+.PrayerText,
+.Title {
+  padding: 0vw 0vw;
+  margin: 1vw 1vw;
+}
+.TargetRow {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-start;
+  border-radius: 5px;
+  margin-bottom: 1px;
+}
+.addLang {
+  background-color: rgba(161, 9, 29, 0.705);
+  border-radius: 10px;
+  font-family: "Times New Roman", Times, serif;
+  width: 10vmax;
+  padding: 3pt;
+  word-wrap:break-word;
+}
+.TargetRowTitle {
+  background-color: rgb(228, 229, 145) !important;
+  margin-top: 15px;
+  margin-bottom: 1px;
+  border-radius: 5px;
+  align-items: center;
+}
+.Priest,
+#PriestColor {
+  background-color: #d9f5fc;
+}
+.Diacon,
+#DiaconColor {
+  background-color: #e0ecd0;
+}
+.Assembly,
+#AssemblyColor {
+  background-color: #fdf9e2;
+}
+
+.btns {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  padding: 3pt;
+  font-family: "Times New Roman", Times, serif;
+}
+.colorbtn {
+  border-radius: 10px;
+  padding: 3pt;
+  font-size: 9pt !important;
+}
+.showDate {
+  color: #5270a3;
+  font-weight: bold;
+  padding: 7px;
+}
+.comment {
+  color: chocolate;
+  font-style: italic;
+  font-weight: bold;
+}
+
+/* The sidebar menu */
+.sideBar {
+  height: 100%; /* 100% Full-height */
+  width: 0px; /* 0 width - change this with JavaScript */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #111; /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  padding-top: 60px; /* Place content 60px from the top */
+  transition: 0.2s; /* 0.5 second transition effect to slide in the sidebar */
+}
+/*the right sidebar*/
+.rightSideBar { 
+  align-self:auto !important;
+  right:0 !important;
+}
+/*the text of the titles shown in the right sidebar*/
+.sideTitle{
+  font-style: italic;
+  color:white;
+  font-weight: bold;
+  font-size: small;
+  padding-left: 3px;
+  padding-right: 3px;
+  margin-left: 4px;
+  margin-right: 4px;
+  text-align: right;
+  background-color: darkslategray;
+  border-radius: 4px;
+}
+
+/* The sidebar links */
+.sideBar a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+  transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sideBar a:hover {
+  color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sideBar .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+/* The button used to open the sidebar */
+.openbtn {
+  font-size: 20px;
+  cursor: pointer;
+  background-color: #111;
+  color: white;
+  padding: 10px 15px;
+  margin-top: 2px;
+  margin: 3px;
+  border: none;
+}
+
+.openbtn:hover {
+  background-color: #444;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#content {
+  transition: margin-left 0.3s; /* If you want a transition effect */
+  padding: 10px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+  .sideBar {
+    padding-top: 15px;
+  }
+  .sideBar a {
+    font-size: 18px;
+  }
+}
+.label {
+  display: inline;
+  font: 1rem;
+  font-family: "Times New Roman", Times, serif;
+}
+#datePicker {
+  display: inline;
+  width: 20vw;
+  height: 5vw;
+  margin-bottom: 5px;
+  padding-bottom: 5px;
+  background-color: rgb(55, 211, 211);
+}
+#ProvideIDFromInput {
+  padding-top: 5vw;
+}
+.amplifiedTextSize{
+  width:180vw !important;
+  font-size: x-large;
+}
