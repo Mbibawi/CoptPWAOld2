@@ -1,13 +1,16 @@
 class Button {
     constructor(btn) {
         this._label = { FR: '', AR: '', EN: '' };
+        this._retrieved = false;
         this._btnID = btn.btnID;
         this._label = btn.label;
         this._rootID = btn.rootID;
         this._parentBtn = btn.parentBtn;
         this._children = btn.children;
         this._prayers = btn.prayers;
+        this._retrieved = btn.retrieved;
         this._prayersArray = btn.prayersArray;
+        this._titlesArray = btn.titlesArray;
         this._languages = btn.languages;
         this._onClick = btn.onClick;
         this._value = btn.value;
@@ -21,7 +24,11 @@ class Button {
     ;
     get prayers() { return this._prayers; }
     ;
+    get retrieved() { return this._retrieved; }
+    ;
     get prayersArray() { return this._prayersArray; }
+    ;
+    get titlesArray() { return this._titlesArray; }
     ;
     get languages() { return this._languages; }
     ;
@@ -47,7 +54,11 @@ class Button {
     ;
     set prayers(btnPrayers) { this._prayers = btnPrayers; }
     ;
+    set retrieved(retrieved) { this._retrieved = retrieved; }
+    ;
     set prayersArray(btnPrayersArray) { this._prayersArray = btnPrayersArray; }
+    ;
+    set titlesArray(titles) { this._titlesArray = titles; }
     ;
     set languages(btnLanguages) { this._languages = btnLanguages; }
     ;
@@ -63,7 +74,6 @@ class Button {
 class inlineButton extends Button {
     constructor(btn) {
         super(btn);
-        this.btnID;
         this.cssClass = 'inlineBtn';
     }
     ;
@@ -189,8 +199,14 @@ const btnIncenseDawn = new Button({
             btn.prayers.map(p => btnIncenseDawn.prayers.splice(btnIncenseDawn.prayers.indexOf(p, 1)));
         }
         ;
-        //We will then add other prayers according to the occasion
+        // We will add the Gospel readings to the prayers
         let index;
+        index = btnIncenseDawn.prayers.indexOf('PrayerGospelIntroductionPart3Date=0000' + 1);
+        let gospel = setGospelPrayers('IncenseDawn'); //we get the gospel prayers array for the Incense Dawn office
+        insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, setGospelPrayers('IncenseDawn').splice(0, 1)); //we remove the 'Psalm response' ;
+        index = btnIncenseDawn.prayers.indexOf('PrayerGospelPrayerPart2Date=0000' + 1); //this is the end of the Gospel Prayer
+        insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, [gospel[0]]); //we insert the 'Psalm response' ;
+        //We will then add other prayers according to the occasion
         if (Season == Seasons.GreatLent) {
             //we will add the 'Eklonomin Taghonata' prayer to the Dawn Incense Office prayers, after the 'Efnoti Naynan' prayer
             index = btnIncenseDawn.prayers.indexOf('PrayerEfnotiNaynanPart4Date=0000') + 2;
@@ -218,6 +234,7 @@ const btnIncenseDawn = new Button({
             insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, ['']);
         }
         ;
+        btnIncenseDawn.prayersArray = retrieveBtnPrayers(btnIncenseDawn); //this must come at the end after customizing the btnIncenseDawn.prayers
     }
 });
 const btnIncenseVespers = new Button({
@@ -246,78 +263,131 @@ const btnIncenseVespers = new Button({
             btnIncenseVespers.prayers.splice(btnIncenseVespers.prayers.indexOf("PrayerCymbalVersesWatesDate=0000"), 1);
         }
         ;
+        btnIncenseVespers.prayersArray = retrieveBtnPrayers(btnIncenseVespers); //this must come at the end after customizing the btnIncenseVespers.prayers
     }
 });
 const btnMassStCyril = new Button({
     btnID: 'btnMassStCyril',
-    label: { AR: "كيرلسي", FR: "Encens Soir" },
-    rootID: 'StCyril',
-    parentBtn: btnMass,
+    label: { AR: "كيرلسي", FR: "Messe Saint Cyril", EN: "St Cyril Mass" },
+    prayersArray: PrayersArray,
     onClick: () => {
-        btnMassStCyril.prayers = [...ReconciliationPrayers];
+        // adding inline buttons if they were not already set when the user previously clicked the button
+        if (!btnMassStCyril.inlineBtns) {
+            btnMassStCyril.inlineBtns = [...goToAnotherMass];
+            btnMassStCyril.inlineBtns.splice(2, 1); //removing btnGoToStCyrilReconciliation from the inlineBtns
+        }
+        ;
+        //we will retrieve the prayers from the prayersArray and set the retrieved property to true
+        if (!btnMassStCyril.retrieved) {
+            btnMassStCyril.prayersArray = retrieveBtnPrayers(btnMassStCyril);
+        }
+        ;
     }
 });
 const btnMassStGregory = new Button({
     btnID: 'btnMassStGregory',
     label: { AR: "غريغوري", FR: "Saint Gregory" },
-    rootID: 'StGregory',
-    parentBtn: btnMass,
+    prayersArray: PrayersArray,
     onClick: () => {
-        btnMassStCyril.prayers = [...ReconciliationPrayers];
+        // adding inline buttons if they were not already set when the user previously clicked the button
+        if (!btnMassStGregory.inlineBtns) {
+            btnMassStGregory.inlineBtns = [...goToAnotherMass];
+            btnMassStGregory.inlineBtns.splice(1, 1); //removing btnGoToStGregoryReconciliation from the inlineBtns
+        }
+        ;
+        if (!btnMassStGregory.retrieved) {
+            btnMassStGregory.prayersArray = retrieveBtnPrayers(btnMassStGregory);
+        }
+        ;
     }
 });
 const btnMassStBasil = new Button({
     btnID: 'btnMassStBasil',
-    label: { AR: 'باسيلي', FR: 'Saint Basil' },
-    rootID: 'StBasil',
-    parentBtn: btnMass,
+    label: { AR: 'باسيلي', FR: 'Messe Saint Basil', EN: 'St Basil Mass' },
+    prayers: [...MassPrayers.MassCommonIntro, ...MassPrayers.MassStBasil, ...MassPrayers.MassLitanies, ...MassPrayers.MassFractions],
+    prayersArray: PrayersArray,
+    languages: prayersLanguages,
     onClick: () => {
-        btnMassStCyril.prayers = [...ReconciliationPrayers];
+        // adding inline buttons if they were not already set when the user previously clicked the button
+        if (!btnMassStBasil.inlineBtns) {
+            btnMassStBasil.inlineBtns = [...goToAnotherMass];
+            btnMassStBasil.inlineBtns.splice(0, 1); //removing btnGoToStBasilReconciliation from the inlineBtns
+        }
+        ;
+        //we will retrieve the prayers from the prayersArray and set the retrieved property to true
+        if (!btnMassStBasil.retrieved) {
+            btnMassStBasil.prayersArray = retrieveBtnPrayers(btnMassStBasil);
+        }
+        ;
     }
 });
-const btnMassStJean = new Button({
-    btnID: 'btnMassStJean',
+const btnMassStJohn = new Button({
+    btnID: 'btnMassStJohn',
     label: { AR: 'القديس يوحنا', FR: 'Saint Jean' },
-    rootID: 'StJean',
-    parentBtn: btnMass,
+    prayers: [],
     onClick: () => {
-        btnMassStCyril.prayers = [...ReconciliationPrayers];
+        // adding inline buttons if they were not already set when the user previously clicked the button
+        if (!btnMassStJohn.inlineBtns) {
+            btnMassStJohn.inlineBtns = [...goToAnotherMass];
+            btnMassStJohn.inlineBtns.splice(3, 1); //removing btnGoToStJohnReconciliation from the inlineBtns
+        }
+        ;
+        if (!btnMassStJohn.retrieved) {
+            btnMassStJohn.prayersArray = retrieveBtnPrayers(btnMassStJohn);
+        }
+        ;
     }
 });
-const btnGoToStGregoryReconciliation = new inlineButton({
-    btnID: 'btnGoToStGregoryReconciliation',
-    label: { AR: 'صلاة الصلح الغريغوري', FR: 'Reconciliation Saint Gregory' },
-    rootID: 'StGregory',
-    parentBtn: btnMass,
-    onClick: () => {
-        btnMassStCyril.prayers = [...ReconciliationPrayers];
+/**
+ * This function takes a Button or an inlineButton, and looks in the button's array of prayers text (i.e. btn.prayersArray) if there is a prayer having the same id as the id of each prayer in the btn.prayers array
+ * @param {Button || inlineButton} btn - a button having its btn.prayers && btn.prayersArray set (i.e. not undefined)
+ * @returns {string[][]} - an array of prayers text, each prayer is an array starting with the prayer id, the text in a given language, text in another languages, etc.,
+ */
+function retrieveBtnPrayers(btn) {
+    if (btn.prayers && btn.prayersArray) {
+        let retrieved = [];
+        btn.prayers.map(p => {
+            retrieved = [...retrieved, ...retrieveButtonPrayersFromItsPrayersArray(btn, p)];
+        });
+        btn.retrieved = true;
+        return retrieved;
     }
-});
-const btnGoToStBasilReconciliation = new inlineButton({
-    btnID: 'btnGoToStBasilReconciliation',
-    label: { AR: 'صلاة الصلح الباسيلي', FR: 'Reconciliation Saint Basil' },
-    rootID: 'StBasil',
-    parentBtn: btnMass,
-    onClick: () => {
-        btnMassStCyril.prayers = [...ReconciliationPrayers];
+    else {
+        console.log('the ' + btn.btnID + ' does not have its prayers or prayersArray set', 'prayers = ', btn.prayers, 'prayersArray = ', btn.prayersArray);
     }
-});
-const btnGoToStCyrilReconciliation = new inlineButton({
-    btnID: 'btnGoToStCyrilReconciliation',
-    label: { AR: 'صلاة الصلح الكيرلسي', FR: 'Reconciliation Saint Cyril' }, rootID: 'StCyril',
-    parentBtn: btnMass,
-    onClick: () => {
-        btnMassStCyril.prayers = [...ReconciliationPrayers];
-    }
-});
-const btnGoToStJeanReconciliation = new inlineButton({
-    btnID: 'btnGoToStJeanReconciliation',
-    label: { AR: 'صلاة الصلح للقديس يوحنا', FR: 'Reconciliation Saint Jean' }, rootID: 'StJohn',
-    parentBtn: btnMass,
-    onClick: () => {
-        btnMassStCyril.prayers = [...ReconciliationPrayers];
-    }
-});
+}
+;
+const goToAnotherMass = [
+    new inlineButton({
+        btnID: 'btnGoToStBasilReconciliation',
+        label: { AR: 'صلاة الصلح الباسيلي', FR: 'Reconciliation Saint Basil' },
+        onClick: () => {
+            showChildButtonsOrPrayers(btnMassStBasil);
+        }
+    }),
+    new inlineButton({
+        btnID: 'btnGoToStGregoryReconciliation',
+        label: { AR: 'صلاة الصلح الغريغوري', FR: 'Reconciliation Saint Gregory' },
+        onClick: () => {
+            showChildButtonsOrPrayers(btnMassStGregory);
+        }
+    }),
+    new inlineButton({
+        btnID: 'btnGoToStCyrilReconciliation',
+        label: { AR: 'صلاة الصلح الكيرلسي', FR: 'Reconciliation Saint Cyril' },
+        onClick: () => {
+            showChildButtonsOrPrayers(btnMassStCyril);
+        }
+    }),
+    new inlineButton({
+        btnID: 'btnGoToStJeanReconciliation',
+        label: { AR: 'صلاة الصلح للقديس يوحنا', FR: 'Reconciliation Saint Jean' }, rootID: 'StJohn',
+        parentBtn: btnMass,
+        onClick: () => {
+            showChildButtonsOrPrayers(btnMassStJohn);
+        }
+    })
+];
 const btnMassOfferingOfTheLamb = new Button({
     btnID: 'btnMassOfferingOfTheLamb',
     label: { AR: 'تقديم الحمل', FR: "Présentation de l'Agneau" }
@@ -338,7 +408,7 @@ const btnMassBaptised = new Button({
         EN: 'Baptized Mass'
     },
     parentBtn: btnMass,
-    children: [btnMassStBasil, btnMassStCyril, btnMassStGregory, btnMassStJean]
+    children: [btnMassStBasil, btnMassStCyril, btnMassStGregory, btnMassStJohn]
 });
 const btnFractionPrayers = new Button({
     btnID: 'btnFractionPrayers',
@@ -419,6 +489,18 @@ const btnReadingsGospelIncenseVespers = new Button({
     prayers: setGospelPrayers('IncenseVespers'),
     prayersArray: GospelVespersArray,
     languages: readingsLanguages,
+    onClick: () => {
+        //we will first store the value of Season because it might be changed during the following process
+        let currentSeason = Season;
+        // we will retrieve the vespers prayers by the date of the next day (i.e., if we are a Saturday, we will retrieve the gospel according to the date of Sunday not the date of Saturday itself). Thi is because the ppt slides were setting the date of the vespers gospel according the the next day
+        let readingDate = 'Date=' + setSeasonAndCopticReadingsDate(convertGregorianDateToCopticDate(new Date(todayDate.getTime() + calendarDay)));
+        //adding the date to the psalm
+        btnReadingsGospelIncenseVespers.prayers[1] += readingDate;
+        //adding the date to the gospel
+        btnReadingsGospelIncenseVespers.prayers[2] += readingDate;
+        //we then reset the Season because it was potentially modified when calling setSeasonAndCopticReadingsDate()
+        Season = currentSeason;
+    }
 });
 const btnReadingsGospelIncenseDawn = new Button({
     btnID: 'btnReadingsGospelIncenseDawn',
@@ -486,17 +568,13 @@ btnMass.children = [btnIncenseDawn, btnMassOfferingOfTheLamb, btnMassRoshoumat, 
 btnMassUnBaptised.children = [btnReadingsStPaul, btnReadingsKatholikon, btnReadingsPraxis, btnReadingsSynaxarium, btnReadingsGospelMass];
 btnIncenseVespers.children = [btnReadingsGospelIncenseVespers];
 btnIncenseDawn.children = [btnReadingsGospelIncenseDawn];
-const commonMassChildren = [btnMassReconciliation, btnMassAnaphora, btnFractionPrayers, btnMassCommunion];
-//btnMassReconciliation.children = [btnMassStCyrilReconciliation, btnMassStGregoryReconciliation, btnMassStCyrilReconciliation, btnMassStJeanReconciliation]
 btnDayReadings.children = [btnReadingsGospelIncenseVespers, btnReadingsGospelIncenseDawn, btnReadingsStPaul, btnReadingsKatholikon, btnReadingsPraxis, btnReadingsGospelMass];
-//we may need to change the properties of a given button for each mass: eg. changing the paryers property of btnMassReconciliation in order to adapt it
-btnMassStJean.children = commonMassChildren;
-btnMassStBasil.children = commonMassChildren;
-btnMassStBasil.inlineBtns = [btnGoToStGregoryReconciliation, btnGoToStCyrilReconciliation, btnGoToStJeanReconciliation];
-btnMassStCyril.children = commonMassChildren;
-btnMassStCyril.inlineBtns = [btnGoToStGregoryReconciliation, btnGoToStBasilReconciliation, btnGoToStJeanReconciliation];
-btnMassStGregory.children = commonMassChildren;
 btnIncenseOffice.children = [btnIncenseDawn, btnIncenseVespers];
+/**
+ * takes a liturgie name like "IncenseDawn" or "IncenseVespers" and replaces the word "Mass" in the buttons gospel readings prayers array by the name of the liturgie. It also sets the psalm and the gospel responses according to some sepcific occasions (e.g.: if we are the 29th day of a coptic month, etc.)
+ * @param liturgie {string} - expressing the name of the liturigie that will replace the word "Mass" in the original gospel readings prayers array
+ * @returns {string} - returns an array representing the sequence of the gospel reading prayers, i.e., an array like ['Psalm Response', 'Psalm', 'Gospel', 'Gospel Response']
+ */
 function setGospelPrayers(liturgie) {
     //this function sets the date or the season for the Psalm response and the gospel response
     // if (!todayDate) { var todayDate = new Date };
@@ -505,6 +583,7 @@ function setGospelPrayers(liturgie) {
     //we replace the word 'Mass' in 'ReadingsGospelMass' by the liturige, e.g.: 'IncenseDawn'
     prayers[psalm + 1] = prayers[psalm + 1].replace('Mass', liturgie);
     prayers[psalm + 2] = prayers[psalm + 2].replace('Mass', liturgie);
+    //setting the psalm and gospel responses
     if (Number(copticDay) == 29 && Number(copticMonth) != 4) {
         //we on the 29th of any coptic month except Kiahk (because the 29th of kiahk is the nativity feast)
         date = 'Date=2900';

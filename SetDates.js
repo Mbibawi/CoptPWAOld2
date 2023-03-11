@@ -1,6 +1,11 @@
 setCopticDates();
+/**
+ * a function that runs at the beginning and sets some global dates like the coptic date (as a string), today's Gregorian date (as a Date), the day of the week (as a number), the Season (a string), etc.
+ * @param {Date} today  - a Gregorian date provided by the user or set automatically to the date of today if missing
+ */
 function setCopticDates(today) {
     today ? (todayDate = today) : (todayDate = new Date());
+    weekDay = todayDate.getDay();
     copticDate = convertGregorianDateToCopticDate(todayDate);
     Season = copticDate; //this will be its default value unless it is changed by another function;
     copticMonth = copticDate.slice(2, 4);
@@ -15,6 +20,11 @@ function setCopticDates(today) {
     showDates();
 }
 ;
+/**
+ * Converts the Gregorian date to a string expressing the coptic date (e.g.: "0207")
+ * @param {Date} date  - a date expressing any Gregorian calendar date
+ * @returns {string} - a string expressing the coptic date
+ */
 function convertGregorianDateToCopticDate(date) {
     let day = date.getDate();
     let month = date.getMonth() + 1; //we add one because the months count starts at 0
@@ -101,6 +111,11 @@ function convertGregorianDateToCopticDate(date) {
         getTwoDigitsStringFromNumber(coptMonth));
 }
 ;
+/**
+ * Sets the coptic readings date according to the Katamaras
+ * @param {string} coptDate  - a string expressing the coptic day and month (e.g.: "0306")
+ * @returns {string} - a string expressing the coptic reading date (e.g.: "0512", "GreatLent20", "JonahFeast2", etc.)
+ */
 function setSeasonAndCopticReadingsDate(coptDate) {
     let greatLentOrPentecostal = checkIfInASpecificSeason(todayDate);
     //console.log("greateLentOrPentcostal = ", greatLentOrPentecostal)
@@ -129,6 +144,11 @@ function setSeasonAndCopticReadingsDate(coptDate) {
     }
 }
 ;
+/**
+ * It takes the date of today and checks whether according the Resurrection date this year, we are during an unfixed season like Great Lent, Pentecostal days or Apostles feast, etc.
+ * @param {Date} today  - is the date of today according to the Gregorian calendar (it can be any day of the year if the user had manually set it)
+ * @returns {string} - a string expressing the readings date . It will be added to the id of the reading in order to retrieve the coptic readings of the day
+ */
 function checkIfInASpecificSeason(today) {
     let readingsDate, resurrection;
     ResurrectionDates.map((d) => {
@@ -148,6 +168,14 @@ function checkIfInASpecificSeason(today) {
     return readingsDate;
 }
 ;
+/**
+ * Checks whether we are during the Great Lent Period, the Pentecoste days or any season
+ * @param {number} today  - is a number of milliseconds equal to the date of today at UTC 0 hours
+ *
+ * @param {number} resDate  - is a number of milliseconds equal to date of Resurrection in current year at UTC 0 hours
+ * @param {number} weekDay - is a number expressing which day of the week we are (e.g.: Sunday = 0)
+ * @returns {string} - which is equal to the season: e.g.: "Resurrection", "GreatLent30", "Pentecoste20", etc.
+ */
 function checkForUnfixedEvent(today, resDate, weekDay) {
     let difference = (resDate - today) / calendarDay; // we get the difference between the 2 dates in days (we are dividing the difference in milliseconds by the number of milliseconds in a day, which is a constant declared as calendarDay)
     if (difference == 0 || (difference == 1 && todayDate.getHours() > 15)) {
@@ -191,19 +219,16 @@ function checkForUnfixedEvent(today, resDate, weekDay) {
     }
 }
 ;
+/**
+ * If we are  during a given priod or season (like Great Lent): if we are a Sunday, it checks which Sunday of the coptic month we are and adds it to the "period" string. Otherwise, it adds the number of days elapsed since the beginning of the period
+ * @param {string} period  - the season or the period *@param {number} days  - the number of days elapsed since the beginning of a given season or period, e.g.:
+ * @param {number} weekDay - the day of the week as a number (Sunday = 0)
+ * @returns {string} - the period/season after adding either the Sunday or the number of days elapsed
+ */
 function isItSundayOrWeekDay(period, days, weekDay) {
-    // let weekday: string = todayDate.toLocaleDateString('en-GB', { weekday: 'long' });
-    //this returns the day of the week in English, eg.: Monday, Tuesday, etc.
     if (weekDay == 0) {
         //we are a Sunday
         return period + checkWhichSundayWeAre(days);
-    }
-    else if (weekDay == 6 && period == Seasons.GreatLent) {
-        // we are during the Great Lent and it is a Saturday, in this case we will add to the psalm and the gospel prayers of btnReadingsGospelIncenseVespers, 'Date=GreatLent' + the Sunday (which is next day, hence we pass day +1 not day)
-        btnReadingsGospelIncenseVespers.prayers[1] +=
-            'Date=' + period + checkWhichSundayWeAre(days + 1);
-        btnReadingsGospelIncenseVespers.prayers[2] +=
-            'Date=' + period + checkWhichSundayWeAre(days + 1);
     }
     else {
         // we are not a sunday
@@ -211,6 +236,9 @@ function isItSundayOrWeekDay(period, days, weekDay) {
     }
 }
 ;
+/**
+ * Shows the dates (Gregorian, coptic, coptic readings etc.), in an html element in the Temporary Dev Area
+ */
 function showDates() {
     let showDates = document.getElementById("showCurrentDate");
     showDates.innerText =

@@ -95,6 +95,7 @@ if (!todayDate) {
 }
 ;
 var todayString;
-var allLanguages = ['AR', 'FR', 'COP'];
+const allLanguages = ['AR', 'FR', 'COP', 'CA', 'EN'];
+const userLanguages = ['AR', 'FR', 'COP'];
 var allDivs;
-var copticDate, copticMonth, copticDay, copticReadingsDate, Season;
+var copticDate, copticMonth, copticDay, copticReadingsDate, Season, weekDay;
