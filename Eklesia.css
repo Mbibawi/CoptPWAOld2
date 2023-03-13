@@ -1,10 +1,10 @@
 @font-face {
   font-family: AvaShenouda;
-  src: url(Avva_Shenouda.ttf);
+  src: url(./fonts/Avva_Shenouda.ttf);
 }
 @font-face {
   font-family: ArialCoptic;
-  src: url(ArialCoptic.ttf);
+  src: url(./fonts/ArialCoptic.ttf);
 }
 .Container {
   display: flex;
@@ -50,8 +50,10 @@
   height:fit-content;
   border-radius: 9px;
   background-color: #95190c;
-  padding: 2px;
+  padding: 1px;
   margin-left: 05px;
+  margin-bottom: 2px;
+  border-color: #C45911 ;
   align-items: center !important;
 }
 .sideBarBtn{
@@ -59,7 +61,6 @@
 }
 .inlineBtn {
 width: auto !important;
-
 }
 .inlineBtns {
   display:flex !important;
@@ -203,6 +204,7 @@ width: auto !important;
 
 /* The button used to open the sidebar */
 .openbtn {
+  display: none;
   font-size: 20px;
   cursor: pointer;
   background-color: #111;
@@ -264,4 +266,17 @@ width: auto !important;
 }
 .CommentText {
   color: #C45911 !important;
+}
+.settings{
+  width:60px;
+  height: 60px;
+  background-color: black;
+  font-size: 30pt;
+  color:white;
+  text-align: center !important;
+  align-content: center !important;
+  border-radius: 10px;
+  margin: 5px 5px;
+  padding: 6px 6px;
+
 }

@@ -110,7 +110,7 @@ const btnIncenseOffice = new Button({
                 //btnIncenseDawn.children.unshift(btnReadingsPropheciesDawn);
                 //btnDayReadings.children.unshift(btnReadingsPropheciesDawn);
             }
-            else if (btnDayReadings.children.indexOf(btnReadingsPropheciesDawn) != -1
+            else if (btnDayReadings.children.indexOf(btnReadingsPropheciesDawn) > -1
                 && (todayDate.getDay() == 0 //i.e., we are a Sunday
                     || todayDate.getDay() == 6 //i.e., we are a Saturday
                 )) {
@@ -124,13 +124,24 @@ const btnIncenseOffice = new Button({
                 // it means that we are a Sunday. We add the Gospel Night button to the Day Readings menu (we do not add it to the Unbaptized mass menu because it is not read during the mass)
                 btnDayReadings.children.push(btnReadingsGospelNight);
             }
-            else if (btnDayReadings.children.indexOf(btnReadingsGospelNight) != -1 &&
+            else if (btnDayReadings.children.indexOf(btnReadingsGospelNight) > -1 &&
                 todayDate.getDay() != 0 //we are not a Sunday
             ) {
                 //it means we are not a Sunday, which means that if the Night Gospel button appears in the Day Readings menu, we need to remove it
-                btnDayReadings.children.splice(btnDayReadings.children.indexOf(btnReadingsGospelNight), 1);
+                btnDayReadings.children.splice(btnDayReadings.children.indexOf(btnReadingsGospelNight));
+            }
+            ;
+            //removing the vespers prayers if we are not a Saturday, and adding it if we aree
+            if (todayDate.getDay() != 6 && btnDayReadings.children.indexOf(btnIncenseVespers) > -1) {
+                //it means we are not a Saturday. we need to remove the btnIncenseVespers because there are not vespers
+                btnDayReadings.children.splice(btnDayReadings.children.indexOf(btnIncenseVespers), 1);
+            }
+            else if (todayDate.getDay() == 6 && btnDayReadings.children.indexOf(btnIncenseVespers) == -1) {
+                //it means we are  a Saturday. we need to add the btnReadingsGospelIncenseVespers if missing
+                btnDayReadings.children.splice(btnDayReadings.children.indexOf(btnReadingsGospelIncenseDawn), 0, btnIncenseVespers);
             }
         }
+        ;
     }
 });
 const btnIncenseDawn = new Button({
@@ -195,6 +206,7 @@ const btnIncenseDawn = new Button({
                     }
                 });
             }
+            ;
             //then removing the prayer id from the btnIncenseDawn.prayers array in order to exclude them unless requested by the user by clicking on the inline button
             btn.prayers.map(p => btnIncenseDawn.prayers.splice(btnIncenseDawn.prayers.indexOf(p, 1)));
         }
@@ -234,7 +246,6 @@ const btnIncenseDawn = new Button({
             insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, ['']);
         }
         ;
-        btnIncenseDawn.prayersArray = retrieveBtnPrayers(btnIncenseDawn); //this must come at the end after customizing the btnIncenseDawn.prayers
     }
 });
 const btnIncenseVespers = new Button({
@@ -263,7 +274,6 @@ const btnIncenseVespers = new Button({
             btnIncenseVespers.prayers.splice(btnIncenseVespers.prayers.indexOf("PrayerCymbalVersesWatesDate=0000"), 1);
         }
         ;
-        btnIncenseVespers.prayersArray = retrieveBtnPrayers(btnIncenseVespers); //this must come at the end after customizing the btnIncenseVespers.prayers
     }
 });
 const btnMassStCyril = new Button({
@@ -312,11 +322,6 @@ const btnMassStBasil = new Button({
         if (!btnMassStBasil.inlineBtns) {
             btnMassStBasil.inlineBtns = [...goToAnotherMass];
             btnMassStBasil.inlineBtns.splice(0, 1); //removing btnGoToStBasilReconciliation from the inlineBtns
-        }
-        ;
-        //we will retrieve the prayers from the prayersArray and set the retrieved property to true
-        if (!btnMassStBasil.retrieved) {
-            btnMassStBasil.prayersArray = retrieveBtnPrayers(btnMassStBasil);
         }
         ;
     }

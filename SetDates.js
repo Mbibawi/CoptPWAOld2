@@ -145,6 +145,29 @@ function setSeasonAndCopticReadingsDate(coptDate) {
 }
 ;
 /**
+ * Check which Sunday we are in the coptic month (i.e. are we 1st Sunday? 2nd Sunday, etc.)
+ * @param {number} day  - the day of the coptic month or the number of days since the beginning of a season like the Great Lent or the Pentecostal days
+ * The function returns a string like "1stSunday", "2nd Sunday", etc.
+ */
+function checkWhichSundayWeAre(day) {
+    let n = Math.ceil(day / 7);
+    let sunday = n.toString();
+    if (n == 1 || (n > 20 && n % 10 == 1)) {
+        sunday = sunday + "stSunday";
+    }
+    else if (n == 2 || (n > 20 && n % 10 == 2)) {
+        sunday = sunday + "ndSunday";
+    }
+    else if (n == 3 || (n > 20 && n % 10 == 3)) {
+        sunday = sunday + "rdSunday";
+    }
+    else {
+        sunday = sunday + "thSunday";
+    }
+    return sunday;
+}
+;
+/**
  * It takes the date of today and checks whether according the Resurrection date this year, we are during an unfixed season like Great Lent, Pentecostal days or Apostles feast, etc.
  * @param {Date} today  - is the date of today according to the Gregorian calendar (it can be any day of the year if the user had manually set it)
  * @returns {string} - a string expressing the readings date . It will be added to the id of the reading in order to retrieve the coptic readings of the day
