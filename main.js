@@ -214,7 +214,7 @@ btn) {
  *@param {string[]} idsArray - is an array containing 2 versions of any prayer id in the btn.prayers array: the first element is the prayer id with the word "Title" added before "Date=" (or at the end if no "Date="), the element is hence like "TheTitleOfTheTableTitleDate=". The second element is the prayer id as is
 */
 function processPrayers(btn, prayer, retrievedPrayersArray, idsArray) {
-    let prayerID = setActorsClasses(prayer[0])[0];
+    let prayerID = setActorsClasses(prayer[0][0])[0];
     if (prayerID == idsArray[0] ||
         prayerID == idsArray[1]) {
         // if we find an array which first element equals firstElement (i.e., we find an Array constructed according to this model = ['idsArray[0] || idsArray[1]', 'prayer text in Arabic', 'prayer text in French', ' prayer text in English']. We then create a newDiv to represent the text in this subArray
@@ -257,42 +257,12 @@ function displayPrayer(btn, retrievedPrayer) {
 function setActorsClasses(id) {
     let actorClass;
     let prayerID;
-    if (typeof (id) == 'string') {
-        prayerID = id;
-    }
-    else if (id) {
-        //it is a string[] with only 1 element which is the title
-        prayerID = id[0];
-    }
-    else {
-        prayerID = '';
-    }
-    ;
-    if (prayerID.includes('Assembly')) {
-        actorClass = 'Assembly';
-        prayerID = prayerID.replace('Assembly', ''); //we remove the word Assembly because the id of the Word table in PrayersArray represents the title without any information about the color of the table row. We add a class in order to reflect that this prayer is chanted by the Assembly, which will allow us to set the background color and other css of the html element accordingly. We do the same for 'Priest' and 'Diacon'.
-    }
-    else if (prayerID.includes('Priest')) {
-        actorClass = 'Priest';
-        prayerID = prayerID.replace('Priest', ''); //same comment as above
-    }
-    else if (prayerID.includes('Diacon')) {
-        actorClass = actorClass = 'Diacon'; //same comment as above
-        prayerID = prayerID.replace('Diacon', '');
-    }
-    else if (prayerID.includes('CommentDate=')) {
-        //the text is a comment not the text of a prayer, we will add specific class, but we will keep "Comment" in the id because the title of the table includes it
-        actorClass = actorClass = 'Comment';
-    }
-    else if (prayerID.includes('CommentTextDate=')) {
-        //this is another type of comment which we will show in different color
-        actorClass = actorClass = 'CommentTextDate=';
-    }
-    ;
+    prayerID = id;
     if (prayerID.includes('Class=')) {
+        actorClass = prayerID.split('Class=')[1];
         prayerID = prayerID.split('Class=')[0];
     }
-    ; //this is to get a prayerID reflecting the title of the table without any additions
+    ;
     return [prayerID, actorClass];
 }
 ;
@@ -309,7 +279,8 @@ function createHtmlElementForPrayer(firstElement, prayers, languagesArray, userL
     row = document.createElement("div");
     row.classList.add("TargetRow"); //we add 'TargetRow' class to this div
     row.id = firstElement; //we give it as id the 'prayer id'
-    if (actorClass) {
+    if (actorClass && actorClass !== 'Title') {
+        // we don't add the actorClass if it is "Title", because in this case we add a specific class called "TargetRowTitle" (see below)
         row.classList.add(actorClass);
     }
     ;
@@ -326,16 +297,16 @@ function createHtmlElementForPrayer(firstElement, prayers, languagesArray, userL
         //we check that the language is included in the allLanguages array, i.e. if it has not been removed by the user, which means that he does not want this language to be displayed. If the language is not removed, we retrieve the text in this language. otherwise we will not retrieve its text.
         if (userLanguages.indexOf(lang) > -1) {
             el = document.createElement("p"); //we create a new <p></p> element for the text of each language in the 'prayer' array (the 'prayer' array is constructed like ['prayer id', 'text in AR, 'text in FR', ' text in COP', 'text in Language', etc.])
-            if (firstElement.includes('Title')) {
+            if (actorClass == "Title") {
                 //this means that the 'prayer' array includes the titles of the prayer since its first element contains the word 'Title'. We add a class 'Title' to the newly created p element.
-                el.classList.add("Title");
+                el.classList.add(actorClass);
                 row.classList.add("TargetRowTitle"); //we also add a specific class to the <div></div> to which the <p></p> elements will be appended
                 //row.role = 'button';
                 row.tabIndex = 0; //in order to make the div focusable by using the focus() method
             }
-            else if (firstElement.includes('Comment')) {
+            else if (actorClass) {
                 //if the prayer is a comment like the comments in the Mass
-                el.classList.add('Comment');
+                el.classList.add(actorClass);
             }
             else {
                 //The 'prayer' array includes a paragraph of ordinary core text of the array. We give it 'PrayerText' as class
@@ -1145,7 +1116,7 @@ function showPrayers(btn) {
                         titles.push(row);
                     }
                     ;
-                    createHtmlElementForPrayer(title, row, btn.languages, userLanguages, setActorsClasses(row[0])[1]); //row[0] is the title of the table modified as the case may be to reflect wether the row contains the titles of the prayer, or who chants the prayer (in such case the words 'Title' or 'Class=' + 'Priest', 'Diacon', or 'Assembly' are added to the title)
+                    createHtmlElementForPrayer(title, row, btn.languages, userLanguages, row[0].split('Class=')[1]); //row[0] is the title of the table modified as the case may be to reflect wether the row contains the titles of the prayer, or who chants the prayer (in such case the words 'Title' or 'Class=' + 'Priest', 'Diacon', or 'Assembly' are added to the title)
                 }
                 ;
             }

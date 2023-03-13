@@ -314,7 +314,7 @@ const btnMassStGregory = new Button({
 const btnMassStBasil = new Button({
     btnID: 'btnMassStBasil',
     label: { AR: 'باسيلي', FR: 'Messe Saint Basil', EN: 'St Basil Mass' },
-    prayers: [...MassPrayers.MassCommonIntro, ...MassPrayers.MassStBasil, ...MassPrayers.MassLitanies, ...MassPrayers.MassFractions],
+    prayers: [...MassPrayers.MassCommonIntro, ...MassPrayers.MassStBasil, ...MassPrayers.MassCallOfHolySpirit, ...MassPrayers.MassLitanies, ...MassPrayers.MassFractions, ...MassPrayers.Communion],
     prayersArray: PrayersArray,
     languages: prayersLanguages,
     onClick: () => {

@@ -1,10 +1,10 @@
 @font-face {
   font-family: AvaShenouda;
-  src: url(Avva_Shenouda.ttf);
+  src: url(./fonts/Avva_Shenouda.ttf);
 }
 @font-face {
   font-family: ArialCoptic;
-  src: url(ArialCoptic.ttf);
+  src: url(./fonts/ArialCoptic.ttf);
 }
 .Container {
   display: flex;
@@ -29,6 +29,8 @@
 .PrayerText{
   width: 50%;
   text-align: justify;
+  margin:6px !important;
+  word-wrap: break-word;
 }
 .AR,
 .CA {
@@ -109,6 +111,14 @@ width: auto !important;
   align-items: center;
 }
 .Priest,
+.Diacon,
+.Assembly,
+Title
+{
+  word-wrap: break-word;
+  margin:1px;
+}
+.Priest,
 #PriestColor {
   background-color: #d9f5fc;
 }
@@ -137,11 +147,6 @@ width: auto !important;
   color: #5270a3;
   font-weight: bold;
   padding: 7px;
-}
-.comment {
-  color: chocolate;
-  font-style: italic;
-  font-weight: bold;
 }
 
 /* The sidebar menu */
