@@ -58,7 +58,7 @@ const CommonPrayers = {
 const Seasons = {
     StMaryFast: 'SaintMaryFast',
     GreatLent: 'GreatLent',
-    FiftyHolyDays: 'Pentecostal',
+    PentecostalDays: 'Pentecostal',
     JonahFast: 'JonahFast',
     ApostlesFast: 'ApostlesFast',
     Nayrouz: 'Nayrouz',
@@ -70,6 +70,7 @@ const copticFeasts = {
     Nayrouz: '0101',
     StJohnBaptist: '0201',
     Cross: '1701',
+    BeguiningNativityLent: '1603',
     NativityBaramoun: '2804',
     Nativity: '2904',
     Circumcision: '0605',
@@ -83,11 +84,12 @@ const copticFeasts = {
     StMaryFastVespers: '3010',
     StMaryFast: '0112',
     StMaryFeast: '1612',
-    PalmSunday: Seasons.GreatLent + '49',
-    LazarusSaturday: Seasons.GreatLent + '48',
+    PalmSunday: Seasons.GreatLent + '8thSunday',
+    LazarusSaturday: Seasons.GreatLent + '50',
     Resurrection: 'Resurrection',
-    Pentecoste: Seasons.Resurrection + '40',
-    Ascension: Seasons.Resurrection + '50',
+    Pentecoste: Seasons.Resurrection + '39',
+    Ascension: Seasons.PentecostalDays + '7thSunday',
+    Apostles: '0511',
 };
 //VARS
 if (!todayDate) {

@@ -215,26 +215,46 @@ const btnIncenseDawn = new Button({
         let index;
         index = btnIncenseDawn.prayers.indexOf('PrayerGospelIntroductionPart3Date=0000' + 1);
         let gospel = setGospelPrayers('IncenseDawn'); //we get the gospel prayers array for the Incense Dawn office
-        insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, setGospelPrayers('IncenseDawn').splice(0, 1)); //we remove the 'Psalm response' ;
+        insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, gospel.splice(0, 1)); //we remove the 'Psalm response' ;
         index = btnIncenseDawn.prayers.indexOf('PrayerGospelPrayerPart2Date=0000' + 1); //this is the end of the Gospel Prayer
         insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, [gospel[0]]); //we insert the 'Psalm response' ;
+        //We remove "Eklonomin Taghonata" from the prayers array
+        btnIncenseDawn.prayers.splice(btnIncenseDawn.prayers.indexOf('PrayerGodHaveMercyOnUsRefrainCommentSeason=GreatLent'), 1); //this is the comment
+        for (let i = 1; i < 6; i++) {
+            btnIncenseDawn.prayers.splice(btnIncenseDawn.prayers.indexOf('PrayerGodHaveMercyOnUsRefrainSeason=GreatLent'), 1);
+        }
+        ;
+        for (let i = 1; i < 16; i++) {
+            btnIncenseDawn.prayers.splice(btnIncenseDawn.prayers.indexOf('PrayerGodHaveMercyOnUsPart' + i.toString() + 'Season=GreatLent'), 2); // we remove 2 because there is Kirielyson after each part
+        }
+        ;
         //We will then add other prayers according to the occasion
         if (Season == Seasons.GreatLent) {
             //we will add the 'Eklonomin Taghonata' prayer to the Dawn Incense Office prayers, after the 'Efnoti Naynan' prayer
             index = btnIncenseDawn.prayers.indexOf('PrayerEfnotiNaynanPart4Date=0000') + 2;
+            let temp = [];
+            //we add the comment
+            temp.push('PrayerGodHaveMercyOnUsRefrainCommentDate=GreatLent');
             let prayer = ['PrayerGodHaveMercyOnUsRefrainSeason=GreatLent', 'PrayerKyrieEliesonDate=0000',
                 'PrayerKyrieEliesonThreeTimesWithoutAmenDate=0000'];
             let id = ['PrayerGodHaveMercyOnUsPart', 'Season=GreatLent'];
             let kyrielson = prayer[1], lastKyrie;
-            for (let i = 1; i < 13; i += 3) {
+            //then we add the refraint + each set of 3 prayers
+            for (let i = 1; i < 14; i += 3) {
                 i + 2 == 15 ? lastKyrie = prayer[2] : lastKyrie = kyrielson;
-                insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, [prayer[0], id[0] + i.toString() + id[1], kyrielson, id[0] + (i + 1).toString() + id[1], kyrielson, id[0] + (i + 2).toString() + id[1], lastKyrie]);
-                index += 7;
+                temp.push(prayer[0], id[0] + i.toString() + id[1], kyrielson, id[0] + (i + 1).toString() + id[1], kyrielson, id[0] + (i + 2).toString() + id[1], lastKyrie);
             }
             ;
+            insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, temp);
             //We will then add the GreatLent Doxologies to the Doxologies before the first Doxology of St. Mary
-            index = btnIncenseDawn.prayers.indexOf('PrayerDoxologyStMaryDate=0000') - 1;
-            insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, ['PrayerDoxology1Date=GreatLent', 'PrayerDoxology2Date=GreatLent', 'PrayerDoxology3Date=GreatLent', 'PrayerDoxology4Date=GreatLent', 'PrayerDoxology5Date=GreatLent']);
+            index = btnIncenseDawn.prayers.indexOf('PrayerDoxologyArchangelMichaelWatesDate=0000') - 1;
+            if (todayDate.getDay() != (0 || 6)) {
+                insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, ['PrayerDoxology1Date=GreatLentWeek', 'PrayerDoxology2Date=GreatLentWeek', 'PrayerDoxology3Date=GreatLentWeek', 'PrayerDoxology4Date=GreatLentWeek', 'PrayerDoxology5Date=GreatLentWeek']);
+            }
+            else if (todayDate.getDay() == (0 || 6)) {
+                insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, ['PrayerDoxology1Date=GreatLentSundays']);
+            }
+            ;
         }
         else if (Number(copticMonth) == 4) {
             index = btnIncenseDawn.prayers.indexOf('PrayerDoxologyStMaryDate=0000') - 1;
@@ -279,7 +299,9 @@ const btnIncenseVespers = new Button({
 const btnMassStCyril = new Button({
     btnID: 'btnMassStCyril',
     label: { AR: "كيرلسي", FR: "Messe Saint Cyril", EN: "St Cyril Mass" },
+    prayers: [...MassPrayers.MassCommonIntro, ...MassPrayers.MassStCyril, ...MassPrayers.MassFractions, ...MassPrayers.Communion],
     prayersArray: PrayersArray,
+    languages: prayersLanguages,
     onClick: () => {
         // adding inline buttons if they were not already set when the user previously clicked the button
         if (!btnMassStCyril.inlineBtns) {
@@ -297,16 +319,14 @@ const btnMassStCyril = new Button({
 const btnMassStGregory = new Button({
     btnID: 'btnMassStGregory',
     label: { AR: "غريغوري", FR: "Saint Gregory" },
+    prayers: [...MassPrayers.MassCommonIntro, ...MassPrayers.MassStGregory, ...MassPrayers.MassCallOfHolySpirit, ...MassPrayers.MassLitanies, ...MassPrayers.MassFractions, ...MassPrayers.Communion],
     prayersArray: PrayersArray,
+    languages: prayersLanguages,
     onClick: () => {
         // adding inline buttons if they were not already set when the user previously clicked the button
         if (!btnMassStGregory.inlineBtns) {
             btnMassStGregory.inlineBtns = [...goToAnotherMass];
             btnMassStGregory.inlineBtns.splice(1, 1); //removing btnGoToStGregoryReconciliation from the inlineBtns
-        }
-        ;
-        if (!btnMassStGregory.retrieved) {
-            btnMassStGregory.prayersArray = retrieveBtnPrayers(btnMassStGregory);
         }
         ;
     }
@@ -602,7 +622,7 @@ function setGospelPrayers(liturgie) {
     }
     else if (Season == Seasons.GreatLent) {
         //we are during the Great Lent period
-        todayDate.getDay() == (0 || 6) ? date = 'Season=' + Season + 'Sundays' : date = 'Season=' + Season + 'Week';
+        todayDate.getDay() == 0 || todayDate.getDay() == 6 ? date = 'Season=' + Season + 'Sundays' : date = 'Season=' + Season + 'Week';
         setResponse(gospel, date);
     }
     else if (Object.keys(copticFeasts).map(k => copticFeasts[k]).indexOf(copticDate) > -1 || //we check if copticDate = the value of any of the feasts dates in copticFeasts object

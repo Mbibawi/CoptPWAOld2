@@ -221,8 +221,8 @@ function checkForUnfixedEvent(today, resDate, weekDay) {
     else if (difference < 0 && Math.abs(difference) < 50) {
         difference;
         // we are during the 50 Pentecostal days
-        Season = Seasons.FiftyHolyDays;
-        return isItSundayOrWeekDay(Seasons.FiftyHolyDays, Math.abs(difference), weekDay);
+        Season = Seasons.PentecostalDays;
+        return isItSundayOrWeekDay(Seasons.PentecostalDays, Math.abs(difference), weekDay);
     }
     else if (difference < 0 && Math.abs(difference) > 50) {
         //We are more than 50 days after Resurrection, which means that we are potentially during the Apostles Lent

@@ -1,10 +1,10 @@
 @font-face {
   font-family: AvaShenouda;
-  src: url(Avva_Shenouda.ttf);
+  src: url(./fonts/Avva_Shenouda.ttf);
 }
 @font-face {
   font-family: ArialCoptic;
-  src: url(ArialCoptic.ttf);
+  src: url(./fonts/ArialCoptic.ttf);
 }
 .Container {
   display: flex;
@@ -43,7 +43,8 @@
 }
 .COP {
   font-family: ArialCoptic;
-  font-weight: bold;
+  font-weight: 595;
+  font-size: 12;
 }
 .Menu {
   background-color: #5270a3;
@@ -109,6 +110,11 @@ width: auto !important;
   margin-bottom: 1px;
   border-radius: 5px;
   align-items: center;
+}
+.TargetRowTitle > p{
+  font-weight: bold;
+  font-size: medium;
+  text-align: center;
 }
 .Priest,
 .Diacon,
