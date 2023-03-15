@@ -123,19 +123,6 @@ const btnIncenseOffice = new Button({
                 btnIncenseDawn.children.splice(btnIncenseDawn.children.indexOf(btnReadingsPropheciesDawn), 1);
             }
             ;
-            if (btnDayReadings.children.indexOf(btnReadingsGospelNight) == -1 &&
-                todayDate.getDay() == 0 //we are a Sunday
-            ) {
-                // it means that we are a Sunday. We add the Gospel Night button to the Day Readings menu (we do not add it to the Unbaptized mass menu because it is not read during the mass)
-                btnDayReadings.children.push(btnReadingsGospelNight);
-            }
-            else if (btnDayReadings.children.indexOf(btnReadingsGospelNight) > -1 &&
-                todayDate.getDay() != 0 //we are not a Sunday
-            ) {
-                //it means we are not a Sunday, which means that if the Night Gospel button appears in the Day Readings menu, we need to remove it
-                btnDayReadings.children.splice(btnDayReadings.children.indexOf(btnReadingsGospelNight));
-            }
-            ;
             //removing the vespers prayers if we are not a Saturday, and adding it if we aree
             if (todayDate.getDay() != 6 && btnDayReadings.children.indexOf(btnIncenseVespers) > -1) {
                 //it means we are not a Saturday. we need to remove the btnIncenseVespers because there are not vespers
@@ -479,18 +466,35 @@ const btnDayReadings = new Button({
     btnID: 'btnDayReadings',
     label: { AR: "قراءات اليوم", FR: "Lectures du jour", EN: 'Day\'s Readings' },
     onClick: () => {
+        //We set the btnDayReadings.children[] property
         btnDayReadings.children = [btnReadingsGospelIncenseVespers, btnReadingsGospelIncenseDawn, btnReadingsStPaul, btnReadingsKatholikon, btnReadingsPraxis, btnReadingsGospelMass];
         if (Season == Seasons.GreatLent && todayDate.getDay() != 6) {
+            //we are during the Great Lent and we are not a Saturday
             if (btnDayReadings.children.indexOf(btnReadingsGospelIncenseVespers) > -1) {
-                //if we are during the Great Lent and we are not a Saturday, there is no Vespers office: we remove the Vespers Gospel from the list of buttons
+                //There is no Vespers office: we remove the Vespers Gospel from the list of buttons
                 btnDayReadings.children.splice(btnDayReadings.children.indexOf(btnReadingsGospelIncenseVespers), 1);
             }
             ;
-            //If we are not a Sunday (we are during any week day other than Sunday and Saturday), we will  add the Prophecies button to the list of buttons
+            //If, in additon, we are not a Sunday (i.e., we are during any week day other than Sunday and Saturday), we will  add the Prophecies button to the list of buttons
             if (todayDate.getDay() != 0) {
+                //We are not a Sunday:
                 if (btnDayReadings.children.indexOf(btnReadingsPropheciesDawn) == -1) {
                     btnDayReadings.children.unshift(btnReadingsPropheciesDawn);
                 }
+                ;
+                //since we  are not a Sunday, we will also remove the Night Gospel if included
+                if (btnDayReadings.children.indexOf(btnReadingsGospelNight) > -1) {
+                    btnDayReadings.children.splice(btnDayReadings.children.indexOf(btnReadingsGospelNight), 1);
+                }
+                ;
+            }
+            else if (todayDate.getDay() == 0) {
+                //However, if we are a Sunday, we add the Night Gospel to the readings list of buttons
+                if (btnDayReadings.children.indexOf(btnReadingsGospelNight) == -1) {
+                    // (we do not add it to the Unbaptized mass menu because it is not read during the mass)
+                    btnDayReadings.children.push(btnReadingsGospelNight);
+                }
+                ;
             }
             ;
         }
