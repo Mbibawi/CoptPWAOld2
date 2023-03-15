@@ -108,22 +108,21 @@ const btnIncenseOffice = new Button({
             }
             ;
             // we will remove or add the Prophecies Readings button as a child to btnDayReadings depending on the day
-            if (btnDayReadings.children.indexOf(btnReadingsPropheciesDawn) == -1 //The Prophecies button is not among the children of btnDayReadings
+            if (btnIncenseDawn.children.indexOf(btnReadingsPropheciesDawn) == -1 //The Prophecies button is not among the children of btnDayReadings
                 && todayDate.getDay() != 0 //i.e., we are not a Sunday
                 && todayDate.getDay() != 6 //i.e., we are not a Saturday
             ) {
-                //it means btnReadingsPropheciesDawn does not appear in the Day Readings buttons list (i.e., =-1), and we are neither a Saturday or a Sunday, which means that there are prophecies lectures for these days and we need to add the button in all the Day Readings Menu, and the Incense Dawn
+                //it means btnReadingsPropheciesDawn does not appear in the Incense Dawn buttons list (i.e., =-1), and we are neither a Saturday or a Sunday, which means that there are prophecies lectures for these days and we need to add the button in all the Day Readings Menu, and the Incense Dawn
                 btnIncenseDawn.children.unshift(btnReadingsPropheciesDawn); //We add the Prophecies button at the begining of the btnIncenseDawn children[], i.e., we add it as the first button in the list of Incense Dawn buttons, the second one is the Gospel
-                btnDayReadings.children.splice(1, 0, btnReadingsPropheciesDawn); //We also add it after the btnReadingsGospelIncenseVespers in the btnDayReadings.children[], i.e., we add it in the list of buttons after the gospel of the Vespers 
             }
-            else if (btnDayReadings.children.indexOf(btnReadingsPropheciesDawn) > -1
+            else if (btnIncenseDawn.children.indexOf(btnReadingsPropheciesDawn) > -1
                 && (todayDate.getDay() == 0 //i.e., we are a Sunday
                     || todayDate.getDay() == 6 //i.e., we are a Saturday
                 )) {
-                //it means btnReadingsPropheciesDawn appears in the Day Readings buttons list, and we are either a Saturday or a Sunday, which means that there are no prophecies for these days and we need to remove the button from all the menus to which it had been added before
+                //it means btnReadingsPropheciesDawn appears in the Incense Dawn buttons list, and we are either a Saturday or a Sunday, which means that there are no prophecies for these days and we need to remove the button from all the menus to which it had been added before
                 btnIncenseDawn.children.splice(btnIncenseDawn.children.indexOf(btnReadingsPropheciesDawn), 1);
-                btnDayReadings.children.splice(btnDayReadings.children.indexOf(btnReadingsPropheciesDawn), 1);
             }
+            ;
             if (btnDayReadings.children.indexOf(btnReadingsGospelNight) == -1 &&
                 todayDate.getDay() == 0 //we are a Sunday
             ) {
