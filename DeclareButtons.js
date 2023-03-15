@@ -98,17 +98,23 @@ const btnIncenseOffice = new Button({
         FR: "Office des Encens Aube et Soir"
     },
     onClick: () => {
+        //setting the children of the btnIncenseOffice. This must be done by the onClick() in order to reset them each time the button is clicked 
+        btnIncenseOffice.children = [btnIncenseDawn, btnIncenseVespers];
         //show or hide the PropheciesDawn button if we are in the Great Lent or JonahFast:
         if (Season == Seasons.GreatLent || Season == Seasons.JonahFast) {
-            if (btnDayReadings.children.indexOf(btnReadingsPropheciesDawn) == -1
+            //we will remove the btnIncenseVespers from the children of btnIncenseOffice for all the days of the Week except Saturday because there is no Vespers incense office except on Saturday:
+            if (todayDate.getDay() != 6) {
+                btnIncenseOffice.children.splice(btnIncenseOffice.children.indexOf(btnIncenseVespers), 1);
+            }
+            ;
+            // we will remove or add the Prophecies Readings button as a child to btnDayReadings depending on the day
+            if (btnDayReadings.children.indexOf(btnReadingsPropheciesDawn) == -1 //The Prophecies button is not among the children of btnDayReadings
                 && todayDate.getDay() != 0 //i.e., we are not a Sunday
                 && todayDate.getDay() != 6 //i.e., we are not a Saturday
             ) {
                 //it means btnReadingsPropheciesDawn does not appear in the Day Readings buttons list (i.e., =-1), and we are neither a Saturday or a Sunday, which means that there are prophecies lectures for these days and we need to add the button in all the Day Readings Menu, and the Incense Dawn
-                btnIncenseDawn.children.unshift(btnReadingsPropheciesDawn);
-                btnDayReadings.children.splice(1, 0, btnReadingsPropheciesDawn);
-                //btnIncenseDawn.children.unshift(btnReadingsPropheciesDawn);
-                //btnDayReadings.children.unshift(btnReadingsPropheciesDawn);
+                btnIncenseDawn.children.unshift(btnReadingsPropheciesDawn); //We add the Prophecies button at the begining of the btnIncenseDawn children[], i.e., we add it as the first button in the list of Incense Dawn buttons, the second one is the Gospel
+                btnDayReadings.children.splice(1, 0, btnReadingsPropheciesDawn); //We also add it after the btnReadingsGospelIncenseVespers in the btnDayReadings.children[], i.e., we add it in the list of buttons after the gospel of the Vespers 
             }
             else if (btnDayReadings.children.indexOf(btnReadingsPropheciesDawn) > -1
                 && (todayDate.getDay() == 0 //i.e., we are a Sunday
@@ -266,6 +272,7 @@ const btnIncenseDawn = new Button({
             insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, ['']);
         }
         ;
+        return btnIncenseDawn.prayers;
     }
 });
 const btnIncenseVespers = new Button({
@@ -277,6 +284,7 @@ const btnIncenseVespers = new Button({
     prayersArray: PrayersArray,
     languages: prayersLanguages,
     onClick: () => {
+        btnIncenseVespers.children = [btnReadingsGospelIncenseVespers];
         btnIncenseVespers.prayers = [...IncensePrayers];
         //removing the Travelers Litany from IncenseVespers prayers
         btnIncenseVespers.prayers.splice(btnIncenseVespers.prayers.indexOf('PrayerTravelersPrayerPart1Date=0000'), 5);
@@ -294,15 +302,23 @@ const btnIncenseVespers = new Button({
             btnIncenseVespers.prayers.splice(btnIncenseVespers.prayers.indexOf("PrayerCymbalVersesWatesDate=0000"), 1);
         }
         ;
+        return btnIncenseVespers.prayers;
     }
 });
 const btnMassStCyril = new Button({
     btnID: 'btnMassStCyril',
     label: { AR: "كيرلسي", FR: "Messe Saint Cyril", EN: "St Cyril Mass" },
-    prayers: [...MassPrayers.MassCommonIntro, ...MassPrayers.MassStCyril, ...MassPrayers.MassFractions, ...MassPrayers.Communion],
     prayersArray: PrayersArray,
     languages: prayersLanguages,
     onClick: () => {
+        if (btnsPrayers[btns.indexOf(btnMassStCyril)]) {
+            //if the prayers array of this button had already been set by the async function setButtonsPrayers(), which is called when the app is loaded, then we will not recalculate the paryers array and will use the preset array
+            btnMassStCyril.prayers = btnsPrayers[btns.indexOf(btnMassStCyril)];
+            return;
+        }
+        ;
+        //Setting the standard mass prayers sequence
+        btnMassStCyril.prayers = [...MassPrayers.MassCommonIntro, ...MassPrayers.MassStCyril, ...MassPrayers.MassFractions, ...MassPrayers.Communion];
         // adding inline buttons if they were not already set when the user previously clicked the button
         if (!btnMassStCyril.inlineBtns) {
             btnMassStCyril.inlineBtns = [...goToAnotherMass];
@@ -310,40 +326,53 @@ const btnMassStCyril = new Button({
         }
         ;
         //we will retrieve the prayers from the prayersArray and set the retrieved property to true
-        if (!btnMassStCyril.retrieved) {
-            btnMassStCyril.prayersArray = retrieveBtnPrayers(btnMassStCyril);
-        }
-        ;
+        return btnMassStCyril.prayers;
     }
 });
 const btnMassStGregory = new Button({
     btnID: 'btnMassStGregory',
     label: { AR: "غريغوري", FR: "Saint Gregory" },
-    prayers: [...MassPrayers.MassCommonIntro, ...MassPrayers.MassStGregory, ...MassPrayers.MassCallOfHolySpirit, ...MassPrayers.MassLitanies, ...MassPrayers.MassFractions, ...MassPrayers.Communion],
     prayersArray: PrayersArray,
     languages: prayersLanguages,
     onClick: () => {
+        if (btnsPrayers[btns.indexOf(btnMassStGregory)]) {
+            //if the prayers array of this button had already been set by the async function setButtonsPrayers(), which is called when the app is loaded, then we will not recalculate the paryers array and will use the preset array
+            btnMassStGregory.prayers = btnsPrayers[btns.indexOf(btnMassStGregory)];
+            return;
+        }
+        ;
+        //Setting the standard mass prayers sequence
+        btnMassStGregory.prayers = [...MassPrayers.MassCommonIntro, ...MassPrayers.MassStGregory, ...MassPrayers.MassCallOfHolySpirit, ...MassPrayers.MassLitanies, ...MassPrayers.MassFractions, ...MassPrayers.Communion];
         // adding inline buttons if they were not already set when the user previously clicked the button
         if (!btnMassStGregory.inlineBtns) {
             btnMassStGregory.inlineBtns = [...goToAnotherMass];
             btnMassStGregory.inlineBtns.splice(1, 1); //removing btnGoToStGregoryReconciliation from the inlineBtns
         }
         ;
+        return btnMassStGregory.prayers;
     }
 });
 const btnMassStBasil = new Button({
     btnID: 'btnMassStBasil',
     label: { AR: 'باسيلي', FR: 'Messe Saint Basil', EN: 'St Basil Mass' },
-    prayers: [...MassPrayers.MassCommonIntro, ...MassPrayers.MassStBasil, ...MassPrayers.MassCallOfHolySpirit, ...MassPrayers.MassLitanies, ...MassPrayers.MassFractions, ...MassPrayers.Communion],
     prayersArray: PrayersArray,
     languages: prayersLanguages,
     onClick: () => {
+        if (btnsPrayers[btns.indexOf(btnMassStBasil)]) {
+            //if the prayers array of this button had already been set by the async function setButtonsPrayers(), which is called when the app is loaded, then we will not recalculate the paryers array and will use the preset array 
+            btnMassStBasil.prayers = btnsPrayers[btns.indexOf(btnMassStBasil)];
+            return;
+        }
+        ;
+        //Setting the standard mass prayers sequence
+        btnMassStBasil.prayers = [...MassPrayers.MassCommonIntro, ...MassPrayers.MassStBasil, ...MassPrayers.MassCallOfHolySpirit, ...MassPrayers.MassLitanies, ...MassPrayers.MassFractions, ...MassPrayers.Communion];
         // adding inline buttons if they were not already set when the user previously clicked the button
         if (!btnMassStBasil.inlineBtns) {
             btnMassStBasil.inlineBtns = [...goToAnotherMass];
             btnMassStBasil.inlineBtns.splice(0, 1); //removing btnGoToStBasilReconciliation from the inlineBtns
         }
         ;
+        return btnMassStBasil.prayers;
     }
 });
 const btnMassStJohn = new Button({
@@ -450,7 +479,24 @@ const btnMassReadings = new Button({
 const btnDayReadings = new Button({
     btnID: 'btnDayReadings',
     label: { AR: "قراءات اليوم", FR: "Lectures du jour", EN: 'Day\'s Readings' },
-    onClick: btnIncenseOffice.onClick
+    onClick: () => {
+        btnDayReadings.children = [btnReadingsGospelIncenseVespers, btnReadingsGospelIncenseDawn, btnReadingsStPaul, btnReadingsKatholikon, btnReadingsPraxis, btnReadingsGospelMass];
+        if (Season == Seasons.GreatLent && todayDate.getDay() != 6) {
+            if (btnDayReadings.children.indexOf(btnReadingsGospelIncenseVespers) > -1) {
+                //if we are during the Great Lent and we are not a Saturday, there is no Vespers office: we remove the Vespers Gospel from the list of buttons
+                btnDayReadings.children.splice(btnDayReadings.children.indexOf(btnReadingsGospelIncenseVespers), 1);
+            }
+            ;
+            //If we are not a Sunday (we are during any week day other than Sunday and Saturday), we will  add the Prophecies button to the list of buttons
+            if (todayDate.getDay() != 0) {
+                if (btnDayReadings.children.indexOf(btnReadingsPropheciesDawn) == -1) {
+                    btnDayReadings.children.unshift(btnReadingsPropheciesDawn);
+                }
+            }
+            ;
+        }
+        ;
+    }
 });
 const btnReadingsStPaul = new Button({
     btnID: 'btnReadingsStPaul',
@@ -500,7 +546,7 @@ const btnReadingsGospelMass = new Button({
         FR: 'l\'Evangile',
         EN: 'Gospel'
     },
-    prayers: setGospelPrayers('Mass'),
+    prayers: setGospelPrayers(Readings.GospelMass),
     prayersArray: GospelMassArray,
     languages: readingsLanguages,
 });
@@ -511,7 +557,7 @@ const btnReadingsGospelIncenseVespers = new Button({
         FR: 'Evangile  Vêpres',
         EN: 'Vespers Gospel'
     },
-    prayers: setGospelPrayers('IncenseVespers'),
+    prayers: setGospelPrayers(Readings.GospelVespers),
     prayersArray: GospelVespersArray,
     languages: readingsLanguages,
     onClick: () => {
@@ -534,7 +580,7 @@ const btnReadingsGospelIncenseDawn = new Button({
         FR: 'Evangile Aube',
         EN: 'Gospel Dawn'
     },
-    prayers: setGospelPrayers('IncenseDawn'),
+    prayers: setGospelPrayers(Readings.GospelDawn),
     prayersArray: GospelDawnArray,
     languages: readingsLanguages,
 });
@@ -545,8 +591,7 @@ const btnReadingsGospelNight = new Button({
         FR: 'Evangile Soir',
         EN: 'Vespers Gospel'
     },
-    prayers: setGospelPrayers('Night'),
-    parentBtn: btnIncenseVespers,
+    prayers: setGospelPrayers(Readings.GospelNight),
     prayersArray: GospelNightArray,
     languages: readingsLanguages,
 });
@@ -591,10 +636,7 @@ const btnMassCommunion = new Button({
 btnMain.children = [btnMass, btnIncenseOffice, btnDayReadings];
 btnMass.children = [btnIncenseDawn, btnMassOfferingOfTheLamb, btnMassRoshoumat, btnMassUnBaptised, btnMassBaptised];
 btnMassUnBaptised.children = [btnReadingsStPaul, btnReadingsKatholikon, btnReadingsPraxis, btnReadingsSynaxarium, btnReadingsGospelMass];
-btnIncenseVespers.children = [btnReadingsGospelIncenseVespers];
 btnIncenseDawn.children = [btnReadingsGospelIncenseDawn];
-btnDayReadings.children = [btnReadingsGospelIncenseVespers, btnReadingsGospelIncenseDawn, btnReadingsStPaul, btnReadingsKatholikon, btnReadingsPraxis, btnReadingsGospelMass];
-btnIncenseOffice.children = [btnIncenseDawn, btnIncenseVespers];
 /**
  * takes a liturgie name like "IncenseDawn" or "IncenseVespers" and replaces the word "Mass" in the buttons gospel readings prayers array by the name of the liturgie. It also sets the psalm and the gospel responses according to some sepcific occasions (e.g.: if we are the 29th day of a coptic month, etc.)
  * @param liturgie {string} - expressing the name of the liturigie that will replace the word "Mass" in the original gospel readings prayers array
@@ -606,8 +648,7 @@ function setGospelPrayers(liturgie) {
     let prayers = [...GospelPrayers], date;
     let psalm = prayers.indexOf('PrayerPsalmResponse'), gospel = prayers.indexOf('PrayerGospelResponse');
     //we replace the word 'Mass' in 'ReadingsGospelMass' by the liturige, e.g.: 'IncenseDawn'
-    prayers[psalm + 1] = prayers[psalm + 1].replace('Mass', liturgie);
-    prayers[psalm + 2] = prayers[psalm + 2].replace('Mass', liturgie);
+    prayers[psalm + 1] = prayers[psalm + 1].replace(Readings.GospelMass, liturgie);
     //setting the psalm and gospel responses
     if (Number(copticDay) == 29 && Number(copticMonth) != 4) {
         //we on the 29th of any coptic month except Kiahk (because the 29th of kiahk is the nativity feast)
@@ -644,3 +685,5 @@ function setGospelPrayers(liturgie) {
     return prayers;
 }
 ;
+let btnsPrayers = [];
+let btns = [btnIncenseDawn, btnIncenseVespers, btnMassStCyril, btnMassStBasil, btnMassStGregory];

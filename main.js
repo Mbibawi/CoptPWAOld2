@@ -12,8 +12,8 @@ document
     .getElementById("elID")
     .addEventListener("keypress", (e) => {
     let el = e.target;
-    if (e.key == "Enter" && el.value.startsWith("Date=")) {
-        changeDay(el.value.split("Date=")[1]);
+    if (e.key == "Enter" && el.value.startsWith("&D=")) {
+        changeDay(el.value.split("&D=")[1]);
     }
 }); //this is temporary in order to change the date manually by entering a date in the text box
 document
@@ -103,6 +103,7 @@ function autoRunOnLoad() {
     setCopticDates();
     allDivs = document.querySelectorAll("div");
     //console.log("all nodes count = ", document.querySelectorAll("*").length);
+    setButtonsPrayers();
     DetectFingerSwipe();
     //copticReadingsDate = '0101';
     //registerServiceWorker()
@@ -121,7 +122,7 @@ function getPrayerFromInputBox() {
  * WILL BE DEPRECATED
  * Takes an array of prayers ids, and looks for each of the ids in the array where the text of the prayers is to be found
  * @param prayers {string[]} - an array of ids, each expressing the id by which the text of the prayer is retrieved from teh prayersArray
- * @param {string[][] | string[][][]} prayersArray - an array containing the text of the prayers. Each prayer is an array starting by the id of the prayer, then the text in each language (e.g. ['GospelReadingIDDate=0305, 'text of the gospel reading in Arabic', 'text of the gospel reading in French'], 'text of the gospel reading in Coptic')
+ * @param {string[][] | string[][][]} prayersArray - an array containing the text of the prayers. Each prayer is an array starting by the id of the prayer, then the text in each language (e.g. ['GospelReadingID&D=0305, 'text of the gospel reading in Arabic', 'text of the gospel reading in French'], 'text of the gospel reading in Coptic')
  * @param {string[]} languages - the languages in which the prayers are available. This is usually a property of the Button and depends on whether this language was available in the ppt slides. For example, the readings are available in English, French, Arabic, but not coptic, while the Mass prayers are mostly available in Coptic, French, and Arabic but not English
  */
 function showPrayersOld(btn) {
@@ -162,16 +163,16 @@ function showPrayersOld(btn) {
  */
 function retrieveButtonPrayersFromItsPrayersArray(btn, prayerID, rightTitlesDiv) {
     let date, idsArray = [], retrievedPrayersArray = [];
-    if (prayerID.includes('Date=') || prayerID.includes('Season=')) {
-        //if the id of the prayer include the value 'Date=' this tells us that this prayer is either not linked to a specific day in the coptic calendar (Date=0000), or the date has been set by the button function (e.g.: PrayerGospelResponseDate=GreatLentWeek). In this case, we will not add the copticReadingsDate to the prayerID
+    if (prayerID.includes('&D=') || prayerID.includes('&S=')) {
+        //if the id of the prayer include the value '&D=' this tells us that this prayer is either not linked to a specific day in the coptic calendar (&D=0000), or the date has been set by the button function (e.g.: PrayerGospelResponse&D=GreatLentWeek). In this case, we will not add the copticReadingsDate to the prayerID
         //Similarly, if the id includes 'Season=', it tells us that it is not linked to a specific date but to a given period of the year. We also keep the id as is without adding any date to it
         date = '';
     }
     else {
-        date = 'Date=' + copticReadingsDate; //this is the default case where the date equals the copticReadingsDate. This works for most of the occasions.
+        date = '&D=' + copticReadingsDate; //this is the default case where the date equals the copticReadingsDate. This works for most of the occasions.
     }
     ;
-    idsArray.push(prayerID + date + "Title", prayerID + date); //we add 2 versions of the prayerID to the idsArray: the first version ends with 'Title', the second version does not end with 'Title' (this gives us an ids array like this ['aPrayerIDDate=0101Title', 'aPrayerIDDate=0101']). We will look for each version of the prayer id in the PrayersArray
+    idsArray.push(prayerID + date + "Title", prayerID + date); //we add 2 versions of the prayerID to the idsArray: the first version ends with 'Title', the second version does not end with 'Title' (this gives us an ids array like this ['aPrayerID&D=0101Title', 'aPrayerID&D=0101']). We will look for each version of the prayer id in the PrayersArray
     retrievedPrayersArray = retrievePrayers(idsArray, btn);
     if (rightTitlesDiv) {
         showTitlesInRightSideBar(btn.titlesArray, rightTitlesDiv);
@@ -209,9 +210,9 @@ btn) {
 /**
  * WILL BE DEPRECATED
  * @param {Button | inlineButton} btn
- * @param {string[] | string[][]} prayer - prayer either represents a row of the Word table from which the text was retrieved (i.e., prayer is a string[], where the first element is the title of the table: ['TableTitle', 'TextOfCell1OfTheRow', 'TextOfCell2OfTheRow', etc.]) or, represents the entire table, in such case it is a string[][] where the first [] is the title of th table (it contains only 1 element ['TableTitle']), and each [] element afterwards is one of the table's rows: its first element is a string representing the title of the table (to which the words "Title" or "Class=" are added as the case may be), and the rest of the elements represent the text in each cell of the row. The array is hence structured this way: [["TableTitle"], ["TableTitleAdjustedAsTheCaseMayBe", "TextOfRow1Cell1", "TextOfRow1Cell2", etc.], ["TableTitleAdjustedAsTheCaseMayBe", "TextOfRow2Cell1", "TextOfRow2Cell2", etc.], etc.]
+ * @param {string[] | string[][]} prayer - prayer either represents a row of the Word table from which the text was retrieved (i.e., prayer is a string[], where the first element is the title of the table: ['TableTitle', 'TextOfCell1OfTheRow', 'TextOfCell2OfTheRow', etc.]) or, represents the entire table, in such case it is a string[][] where the first [] is the title of th table (it contains only 1 element ['TableTitle']), and each [] element afterwards is one of the table's rows: its first element is a string representing the title of the table (to which the words "Title" or "&C=" are added as the case may be), and the rest of the elements represent the text in each cell of the row. The array is hence structured this way: [["TableTitle"], ["TableTitleAdjustedAsTheCaseMayBe", "TextOfRow1Cell1", "TextOfRow1Cell2", etc.], ["TableTitleAdjustedAsTheCaseMayBe", "TextOfRow2Cell1", "TextOfRow2Cell2", etc.], etc.]
  * @param {string[][]|string[][][]} retrievedPrayersArray - an array that contains either string[][] where each element represents a table row, either a string[][][], where each element is a string[][] representing an entire table in the Word document from which the text was extracted;  inside each table string[][], the first element is a string[] of only 1 element which is the title of the table (['TableTitle']), then each string[]element represents the text of each row of the table, where the first element represents the table title: ['TableTitleAdjustedAsTheCaseMayBe', 'TextOfCell1', 'TextOfCell2', etc.]
- *@param {string[]} idsArray - is an array containing 2 versions of any prayer id in the btn.prayers array: the first element is the prayer id with the word "Title" added before "Date=" (or at the end if no "Date="), the element is hence like "TheTitleOfTheTableTitleDate=". The second element is the prayer id as is
+ *@param {string[]} idsArray - is an array containing 2 versions of any prayer id in the btn.prayers array: the first element is the prayer id with the word "Title" added before "&D=" (or at the end if no "&D="), the element is hence like "TheTitleOfTheTableTitle&D=". The second element is the prayer id as is
 */
 function processPrayers(btn, prayer, retrievedPrayersArray, idsArray) {
     let prayerID = setActorsClasses(prayer[0][0])[0];
@@ -258,9 +259,9 @@ function setActorsClasses(id) {
     let actorClass;
     let prayerID;
     prayerID = id;
-    if (prayerID.includes('Class=')) {
-        actorClass = prayerID.split('Class=')[1];
-        prayerID = prayerID.split('Class=')[0];
+    if (prayerID.includes('&C=')) {
+        actorClass = prayerID.split('&C=')[1];
+        prayerID = prayerID.split('&C=')[0];
     }
     ;
     return [prayerID, actorClass];
@@ -298,7 +299,7 @@ function createHtmlElementForPrayer(firstElement, prayers, languagesArray, userL
         if (userLanguages.indexOf(lang) > -1) {
             el = document.createElement("p"); //we create a new <p></p> element for the text of each language in the 'prayer' array (the 'prayer' array is constructed like ['prayer id', 'text in AR, 'text in FR', ' text in COP', 'text in Language', etc.])
             if (actorClass == "Title") {
-                //this means that the 'prayer' array includes the titles of the prayer since its first element ends with 'Class=Title'.
+                //this means that the 'prayer' array includes the titles of the prayer since its first element ends with '&C=Title'.
                 row.classList.add("TargetRowTitle");
                 row.tabIndex = 0; //in order to make the div focusable by using the focus() method
             }
@@ -389,11 +390,7 @@ function showTitlesInRightSideBar(titlesArray, rightTitlesDiv) {
  * @returns
  */
 function showChildButtonsOrPrayers(btn, clear = true, click = true, pursue = true) {
-    //if (!leftSideBar) {
-    //	leftSideBar = buildSideBar('leftSideBar')
-    //}
     let btnsDiv = leftSideBar.querySelector('#sideBarBtns');
-    let inlineBtnsDiv = document.getElementById('inlineBtns');
     if (clear) {
         btnsDiv.innerHTML = '';
         inlineBtnsDiv.innerHTML = '';
@@ -440,41 +437,11 @@ function showChildButtonsOrPrayers(btn, clear = true, click = true, pursue = tru
         createBtn(btnMain, btnsDiv, btnMain.cssClass);
     }
     ;
-    if (btn.cssClass == btnMain.cssClass) {
+    if (btn.btnID == btnMain.btnID) {
         //we do this in order to get a variable that tells us which sideBar button has been clicked last and displaying its prayers/children/inlineChildren. We need it to refresh the view when we change the language.
         lastClickedButton = btn;
     }
     ;
-    /**
-     * Creates an html element for the button and shows it in the relevant side bar. It also attaches an 'onclick' event listener to the html element which passes the button it self to showChildButtonsOrPrayers()
-     * @param {Button} btn  - the button that will be displayed as an html element in the side bar
-     * @param {HTMLElement} btnsBar  - the side bar where the button will be displayed
-     * @param {string} btnClass  - the class that will be given to the button (it is usually the cssClass property of the button)
-     * @returns {HTMLElement} - the html element created for the button
-     */
-    function createBtn(btn, btnsBar, btnClass) {
-        let newDiv = document.createElement("div");
-        let newBtn = document.createElement('button');
-        newBtn.classList.add(btnClass);
-        newBtn.id = btn.btnID;
-        for (let lang in btn.label) {
-            //for each language in btn.text, we create a new "p" element
-            if (btn.label[lang]) {
-                let btnLable = document.createElement("p");
-                //we edit the p element by adding its innerText (=btn.text[lang], and its class)
-                editBtnInnerText(btnLable, btn.label[lang], "btnLable" + lang);
-                //we append the "p" element  to the newBtn button
-                newBtn.appendChild(btnLable);
-            }
-        }
-        //newDiv.appendChild(newBtn);
-        btnsBar.appendChild(newBtn);
-        if (btn.children || btn.prayers || btn.onClick) {
-            // if the btn object that we used to create the html button element, has childs, we add an "onclick" event that passes the btn itself to the showChildButtonsOrPrayers. This will create html button elements for each child and show them
-            newBtn.addEventListener('click', () => showChildButtonsOrPrayers(btn, true));
-        }
-        return newBtn;
-    }
     /**
      * Adds an html element (a dive which role = button), with an 'onclick' event listner passing the lastClickedButton to showChildButtonsOrPrayers()
      * @param btn {Button} - the button that was clicked by the user and for which we create an html element that allows to get back to the side bar buttons tree before the button was clicked
@@ -488,15 +455,49 @@ function showChildButtonsOrPrayers(btn, clear = true, click = true, pursue = tru
         else if (btn.cssClass == 'sideBarBtn') {
             btnGoBack.children[0] = btn; // we are adding btn as a child to the btnGoBack;
         }
-        return createBtn(btnGoBack, document.getElementById('sideBarBtns'), btnGoBack.cssClass); // we are creating a new html button element from btnGoBack. Since btnGoBack has as a sole child btn, when clicking on it, it will trigger the showButtons function (see the if(btn.childs) above. When triggered, the showButtons will show btn as a button);
+        return createBtn(btnGoBack, leftSideBar.querySelector('#sideBarBtns'), btnGoBack.cssClass); // we are creating a new html button element from btnGoBack. Since btnGoBack has as a sole child btn, when clicking on it, it will trigger the showButtons function (see the if(btn.childs) above. When triggered, the showButtons will show btn as a button);
     }
+}
+;
+/**
+ * Creates an html element for the button and shows it in the relevant side bar. It also attaches an 'onclick' event listener to the html element which passes the button it self to showChildButtonsOrPrayers()
+ * @param {Button} btn  - the button that will be displayed as an html element in the side bar
+ * @param {HTMLElement} btnsBar  - the side bar where the button will be displayed
+ * @param {string} btnClass  - the class that will be given to the button (it is usually the cssClass property of the button)
+ * @returns {HTMLElement} - the html element created for the button
+ */
+function createBtn(btn, btnsBar, btnClass) {
+    let newDiv = document.createElement("div");
+    let newBtn = document.createElement('button');
+    newBtn.classList.add(btnClass);
+    newBtn.id = btn.btnID;
+    for (let lang in btn.label) {
+        //for each language in btn.text, we create a new "p" element
+        if (btn.label[lang]) {
+            let btnLable = document.createElement("p");
+            //we edit the p element by adding its innerText (=btn.text[lang], and its class)
+            editBtnInnerText(btnLable, btn.label[lang], "btnLable" + lang);
+            //we append the "p" element  to the newBtn button
+            newBtn.appendChild(btnLable);
+        }
+    }
+    //newDiv.appendChild(newBtn);
+    btnsBar.appendChild(newBtn);
+    if (btn.children || btn.prayers || btn.onClick) {
+        // if the btn object that we used to create the html button element, has childs, we add an "onclick" event that passes the btn itself to the showChildButtonsOrPrayers. This will create html button elements for each child and show them
+        newBtn.addEventListener('click', () => showChildButtonsOrPrayers(btn, true));
+    }
+    ;
     function editBtnInnerText(el, text, btnClass) {
         el.innerText = text;
         el.classList.add("btnText");
         if (btnClass) {
             el.classList.add(btnClass);
         }
+        ;
     }
+    ;
+    return newBtn;
 }
 ;
 function PWA() {
@@ -960,6 +961,7 @@ function DetectFingerSwipe() {
         xDown = firstTouch.clientX;
         yDown = firstTouch.clientY;
     }
+    ;
     function handleTouchMove(evt) {
         if (!xDown || !yDown) {
             return;
@@ -1003,6 +1005,7 @@ function DetectFingerSwipe() {
         xDown = null;
         yDown = null;
     }
+    ;
 }
 ;
 function toggleClassListForAllChildrenOFAnElement(ev, myClass) {
@@ -1076,21 +1079,21 @@ function insertPrayerIntoArrayOfPrayers(targetArrayOfPrayers, index, prayersToIn
     ;
 }
 /**
- * This function takes a button having a prayersArray property of type string[][][]. Prayers array is an array of string[][], each string[][] represents a table in the Word document from which the text of the prayers was extracted. each string[][] element, has as its 1st element a string[] with only 1 string, representing the title of the Word table (['TableTitle']). Then each next string[] element represents a row of the table's rows. Each row string[] starts with the title of the table, modified to reflect whether this row contains the titles of the prayers (in such case the word "Title" is added before "Date="), or to determine by whom the prayer is chanted (in such case the word "Class=" + "Priest", "Diacon" or "Assembly" are added at the end of the title). The other elements of the row string[] represent the text of of each cell in the row. The prayersArray is hence structured like this: [[['Table1Title],['Table1TitleWithTitleOrClass=', 'TextOfRow1Cell1', 'TextOfRow1Cell2', 'TextOfRow1Cell3', etc.], ['Table1TitleWithTitleOrClass=', 'TextOfRow2Cell1', 'TextOfRow2Cell2', 'TextOfRow2Cell3', etc.], etc.], [['Table2Title],['Table2TitleWithTitleOrClass=', 'TextOfRow1Cell1', 'TextOfRow1Cell2', 'TextOfRow1Cell3', etc.], ['Table2TitleWithTitleOrClass=', 'TextOfRow2Cell1', 'TextOfRow2Cell2', 'TextOfRow2Cell3', etc.]], etc. etc.]
+ * This function takes a button having a prayersArray property of type string[][][]. Prayers array is an array of string[][], each string[][] represents a table in the Word document from which the text of the prayers was extracted. each string[][] element, has as its 1st element a string[] with only 1 string, representing the title of the Word table (['TableTitle']). Then each next string[] element represents a row of the table's rows. Each row string[] starts with the title of the table, modified to reflect whether this row contains the titles of the prayers (in such case the word "Title" is added before "&D="), or to determine by whom the prayer is chanted (in such case the word "&C=" + "Priest", "Diacon" or "Assembly" are added at the end of the title). The other elements of the row string[] represent the text of of each cell in the row. The prayersArray is hence structured like this: [[['Table1Title],['Table1TitleWithTitleOr&C=', 'TextOfRow1Cell1', 'TextOfRow1Cell2', 'TextOfRow1Cell3', etc.], ['Table1TitleWithTitleOr&C=', 'TextOfRow2Cell1', 'TextOfRow2Cell2', 'TextOfRow2Cell3', etc.], etc.], [['Table2Title],['Table2TitleWithTitleOr&C=', 'TextOfRow1Cell1', 'TextOfRow1Cell2', 'TextOfRow1Cell3', etc.], ['Table2TitleWithTitleOr&C=', 'TextOfRow2Cell1', 'TextOfRow2Cell2', 'TextOfRow2Cell3', etc.]], etc. etc.]
  * @param btn
  */
-function showPrayers(btn) {
+function showPrayers(btn, clearSideBar = true) {
     let titles = [];
     clearDivs();
     btn.prayers.map(p => {
         let date;
-        if (p.includes('Date=') || p.includes('Season=')) {
-            //if the id of the prayer includes the value 'Date=' this tells us that this prayer is either not linked to a specific day in the coptic calendar (Date=0000), or the date has been set by the button function (e.g.: PrayerGospelResponseDate=GreatLentWeek). In this case, we will not add the copticReadingsDate to the prayerID
+        if (p.includes('&D=') || p.includes('&S=')) {
+            //if the id of the prayer includes the value '&D=' this tells us that this prayer is either not linked to a specific day in the coptic calendar (&D=0000), or the date has been set by the button function (e.g.: PrayerGospelResponse&D=GLWeek). In this case, we will not add the copticReadingsDate to the prayerID
             //Similarly, if the id includes 'Season=', it tells us that it is not linked to a specific date but to a given period of the year. We also keep the id as is without adding any date to it
             date = '';
         }
         else {
-            date = 'Date=' + copticReadingsDate; //this is the default case where the date equals the copticReadingsDate. This works for most of the occasions.
+            date = '&D=' + copticReadingsDate; //this is the default case where the date equals the copticReadingsDate. This works for most of the occasions.
         }
         ;
         p += date;
@@ -1109,7 +1112,7 @@ function showPrayers(btn) {
         for (let i = 0; i < btn.prayersArray.length; i++) {
             wordTable = btn.prayersArray[i]; //this represents a table in the Word document from which the prayers text was extracted		
             if (wordTable[0]) {
-                tblTitle = wordTable[0][0].split('Class=')[0]; //the first element in the string[][] representing the Word table is a string[] with only 1 element representing the Title of the Table. We remove "Class=" from the end in order to get the title of the table without any additions indicating the class of the html element that will be created for each row
+                tblTitle = wordTable[0][0].split('&C=')[0]; //the first element in the string[][] representing the Word table is a string[] with only 1 element representing the Title of the Table. We remove "&C=" from the end in order to get the title of the table without any additions indicating the class of the html element that will be created for each row
                 if (p == tblTitle) {
                     if (tblTitle.startsWith("PrayerMassFractionPrayer")) {
                         fractionPrayers.push(wordTable); //We will create and inline button for each fraction instead of showing the text of the fraction prayer directly
@@ -1117,7 +1120,7 @@ function showPrayers(btn) {
                     else {
                         for (let r = 0; r < wordTable.length; r++) {
                             row = wordTable[r]; //each string[] element after the 1st element in the Word table string[][] represents a row in the table. The row string[] starts with the title of the table (modified as the case may be), and continues with the text in each cell of the row
-                            createHtmlElementForPrayer(tblTitle, row, btn.languages, userLanguages, row[0].split('Class=')[1]); //row[0] is the title of the table modified as the case may be to reflect wether the row contains the titles of the prayer, or who chants the prayer (in such case the words 'Title' or 'Class=' + 'Priest', 'Diacon', or 'Assembly' are added to the title)
+                            createHtmlElementForPrayer(tblTitle, row, btn.languages, userLanguages, row[0].split('&C=')[1]); //row[0] is the title of the table modified as the case may be to reflect wether the row contains the titles of the prayer, or who chants the prayer (in such case the words 'Title' or '&C=' + 'Priest', 'Diacon', or 'Assembly' are added to the title)
                             if (tblTitle.includes('Title')) {
                                 titles.push(row);
                             }
@@ -1126,22 +1129,29 @@ function showPrayers(btn) {
                         ;
                     }
                     ;
-                    if (fractionPrayers) {
+                    if (fractionPrayers.length > 0) {
                         let fractionsBtn, //a virutal button to which we will add inlineBtns for each fraction
                         fractionBtn, //an inlineBtn representing a fraction
                         newDiv;
                         newDiv = document.createElement('div');
-                        fractionsBtn = new Button({ btnID: '', label: { AR: '', FR: '' } }); //we don't need to give it a label or or an id since we will pass it directly to showChildButtonsOrPrayers() in order to display its inlineBtns[] as html elements
+                        fractionsBtn = new Button({
+                            btnID: 'fractionsBtn',
+                            label: { AR: '', FR: 'Doesn\'t need to have a label because it will not be displayed, we only need to display its inline buttons' }
+                        }); //we don't need to give it a label or or an id since we will pass it directly to showChildButtonsOrPrayers() in order to display its inlineBtns[] as html elements
                         fractionsBtn.inlineBtns = [];
                         fractionPrayers.map(wdTbl => {
-                            fractionBtn = new inlineButton({ btnID: wdTbl[0][0], label: { AR: wdTbl[1][btn.languages.indexOf['AR'] + 1], FR: wdTbl[1][btn.languages.indexOf['FR'] + 1] } });
+                            fractionBtn = new inlineButton({
+                                btnID: wdTbl[0][0],
+                                label: { AR: wdTbl[1][btn.languages.indexOf['AR'] + 1], FR: wdTbl[1][btn.languages.indexOf['FR'] + 1] }
+                            });
                             fractionsBtn.inlineBtns.push(fractionBtn); //we add the newly created inlineBtn to the fractionsBtn.inlineBtns array
                             fractionBtn.prayersArray = wdTbl;
                             fractionBtn.prayers = [];
                             fractionBtn.prayersArray.map(tblRow => fractionBtn.prayers.push(tblRow[0])); //for each row array in the wdTbl rows, we add the 1st element (which is a string) to the fractionBtn.prayers array
                             fractionBtn.languages = btnMassStBasil.languages; //we need to set the languages otherwise showPrayers() will not be called
                         });
-                        showChildButtonsOrPrayers(fractionsBtn); //This will create html button elements for each fractionPrayer, and will attach to it an "onclick" eventListner that will pass the fractionBtn to showChildButtonsOrPrayers()
+                        fractionBtn.inlineBtns.map(b => createBtn(b, inlineBtnsDiv, fractionBtn.cssClass));
+                        showChildButtonsOrPrayers(fractionsBtn, false); //ATTENTION: the clear paramater must be false, otherwise the inilne buttons create previously will dissapear. We are creating html button elements for each fractionPrayer, and will attach to it an "onclick" eventListner that will pass the fractionBtn to showChildButtonsOrPrayers()
                     }
                     ;
                 }
@@ -1158,8 +1168,23 @@ function showPrayers(btn) {
     function clearDivs() {
         //we empty the subdivs of the containerDiv before populating them with the new text
         containerDiv.innerHTML = "";
-        rightSideBar.querySelector('#sideBarBtns').innerHTML = ''; //this is the right side bar where the titles are displayed for navigation purposes
+        if (clearSideBar) {
+            rightSideBar.querySelector('#sideBarBtns').innerHTML = '';
+        }
+        ; //this is the right side bar where the titles are displayed for navigation purposes
     }
     ;
+}
+;
+function setButtonsPrayers() {
+    return __awaiter(this, void 0, void 0, function* () {
+        for (let i = 0; i < btns.length; i++) {
+            btnsPrayers.push([btns[i].btnID, ...yield btns[i].onClick()]);
+            btns[i].retrieved = true;
+        }
+        ;
+        console.log('Buttons prayers were set');
+        return btnsPrayers;
+    });
 }
 ;
