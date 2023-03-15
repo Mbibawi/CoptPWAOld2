@@ -124,7 +124,7 @@ const btnIncenseOffice = new Button({
             }
             ;
             //removing the vespers prayers if we are not a Saturday, and adding it if we aree
-            if (todayDate.getDay() != 6 && btnDayReadings.children.indexOf(btnIncenseVespers) > -1) {
+            if (btnDayReadings.children && todayDate.getDay() != 6 && btnDayReadings.children.indexOf(btnIncenseVespers) > -1) {
                 //it means we are not a Saturday. we need to remove the btnIncenseVespers because there are not vespers
                 btnDayReadings.children.splice(btnDayReadings.children.indexOf(btnIncenseVespers), 1);
             }
@@ -145,7 +145,9 @@ const btnIncenseDawn = new Button({
     prayersArray: PrayersArray,
     languages: prayersLanguages,
     onClick: () => {
-        //we will first set the prayers of the Incense Dawn button
+        //We will set the children of the button:
+        btnIncenseDawn.children = [btnReadingsGospelIncenseDawn];
+        //we will also set the prayers of the Incense Dawn button
         btnIncenseDawn.prayers = [...IncensePrayers];
         //removing the non-relevant Cymbal prayers according to the day of the week: Wates/Adam
         if (todayDate.getDay() > 2) {
@@ -222,22 +224,29 @@ const btnIncenseDawn = new Button({
         ;
         //We will then add other prayers according to the occasion
         if (Season == Seasons.GreatLent) {
-            //we will add the 'Eklonomin Taghonata' prayer to the Dawn Incense Office prayers, after the 'Efnoti Naynan' prayer
-            index = btnIncenseDawn.prayers.indexOf('PrayerEfnotiNaynanPart4Date=0000') + 2;
-            let temp = [];
-            //we add the comment
-            temp.push('PrayerGodHaveMercyOnUsRefrainCommentDate=GreatLent');
-            let prayer = ['PrayerGodHaveMercyOnUsRefrainSeason=GreatLent', 'PrayerKyrieEliesonDate=0000',
-                'PrayerKyrieEliesonThreeTimesWithoutAmenDate=0000'];
-            let id = ['PrayerGodHaveMercyOnUsPart', 'Season=GreatLent'];
-            let kyrielson = prayer[1], lastKyrie;
-            //then we add the refraint + each set of 3 prayers
-            for (let i = 1; i < 14; i += 3) {
-                i + 2 == 15 ? lastKyrie = prayer[2] : lastKyrie = kyrielson;
-                temp.push(prayer[0], id[0] + i.toString() + id[1], kyrielson, id[0] + (i + 1).toString() + id[1], kyrielson, id[0] + (i + 2).toString() + id[1], lastKyrie);
+            if (todayDate.getDay() != 0 && todayDate.getDay() != 6) {
+                //If we are during any day of the week, we will add the Prophecies readings to the children of the button
+                if (btnIncenseDawn.children.indexOf(btnReadingsPropheciesDawn) == -1) {
+                    btnIncenseDawn.children.unshift(btnReadingsPropheciesDawn);
+                }
+                ;
+                //we will also add the 'Eklonomin Taghonata' prayer to the Dawn Incense Office prayers, after the 'Efnoti Naynan' prayer
+                index = btnIncenseDawn.prayers.indexOf('PrayerEfnotiNaynanPart4Date=0000') + 2;
+                let temp = [];
+                //we add the comment
+                temp.push('PrayerGodHaveMercyOnUsRefrainCommentDate=GreatLent');
+                let prayer = ['PrayerGodHaveMercyOnUsRefrainSeason=GreatLent', 'PrayerKyrieEliesonDate=0000',
+                    'PrayerKyrieEliesonThreeTimesWithoutAmenDate=0000'];
+                let id = ['PrayerGodHaveMercyOnUsPart', 'Season=GreatLent'];
+                let kyrielson = prayer[1], lastKyrie;
+                //then we add the refraint + each set of 3 prayers
+                for (let i = 1; i < 14; i += 3) {
+                    i + 2 == 15 ? lastKyrie = prayer[2] : lastKyrie = kyrielson;
+                    temp.push(prayer[0], id[0] + i.toString() + id[1], kyrielson, id[0] + (i + 1).toString() + id[1], kyrielson, id[0] + (i + 2).toString() + id[1], lastKyrie);
+                }
+                ;
+                insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, temp);
             }
-            ;
-            insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, temp);
             //We will then add the GreatLent Doxologies to the Doxologies before the first Doxology of St. Mary
             index = btnIncenseDawn.prayers.indexOf('PrayerDoxologyArchangelMichaelWatesDate=0000') - 1;
             if (todayDate.getDay() != (0 || 6)) {
@@ -639,7 +648,6 @@ const btnMassCommunion = new Button({
 btnMain.children = [btnMass, btnIncenseOffice, btnDayReadings];
 btnMass.children = [btnIncenseDawn, btnMassOfferingOfTheLamb, btnMassRoshoumat, btnMassUnBaptised, btnMassBaptised];
 btnMassUnBaptised.children = [btnReadingsStPaul, btnReadingsKatholikon, btnReadingsPraxis, btnReadingsSynaxarium, btnReadingsGospelMass];
-btnIncenseDawn.children = [btnReadingsGospelIncenseDawn];
 /**
  * takes a liturgie name like "IncenseDawn" or "IncenseVespers" and replaces the word "Mass" in the buttons gospel readings prayers array by the name of the liturgie. It also sets the psalm and the gospel responses according to some sepcific occasions (e.g.: if we are the 29th day of a coptic month, etc.)
  * @param liturgie {string} - expressing the name of the liturigie that will replace the word "Mass" in the original gospel readings prayers array
