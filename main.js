@@ -98,6 +98,13 @@ autoRunOnLoad();
  * Some functions that we run automatically when loading the app
  */
 function autoRunOnLoad() {
+    let version = 'v0.2';
+    let p = document.createElement('p');
+    p.style.color = 'red';
+    p.style.fontSize = '15pt';
+    p.style.fontWeight = "bold";
+    p.innerText = version;
+    document.getElementById('InstallPWA').appendChild(p);
     showChildButtonsOrPrayers(btnMain);
     //appendRepeatable('Test');
     setCopticDates();
