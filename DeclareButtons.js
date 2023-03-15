@@ -145,128 +145,150 @@ const btnIncenseDawn = new Button({
     prayersArray: PrayersArray,
     languages: prayersLanguages,
     onClick: () => {
-        //We will set the children of the button:
-        btnIncenseDawn.children = [btnReadingsGospelIncenseDawn];
-        //we will also set the prayers of the Incense Dawn button
-        btnIncenseDawn.prayers = [...IncensePrayers];
-        //removing the non-relevant Cymbal prayers according to the day of the week: Wates/Adam
-        if (todayDate.getDay() > 2) {
-            //we are between Wednesday and Saturday, we keep only the "Wates" Cymbal prayers
-            btnIncenseDawn.prayers.splice(btnIncenseDawn.prayers.indexOf("PrayerCymbalVersesAdamDate=0000"), 1);
-        }
-        else {
-            //we are Sunday, Monday, or Tuesday. We keep only the "Adam" Cymbal prayers
-            btnIncenseDawn.prayers.splice(btnIncenseDawn.prayers.indexOf("PrayerCymbalVersesWatesDate=0000"), 1);
-        }
-        ;
-        //removing the Departed Litany from IncenseDawn prayers
-        btnIncenseDawn.prayers.splice(btnIncenseDawn.prayers.indexOf('PrayerDepartedPrayerPart1Date=0000'), 5);
-        //removing the Wates Vespers' Doxology for St. Mary
-        btnIncenseDawn.prayers.splice(btnIncenseDawn.prayers.indexOf('PrayerDoxologyVespersWatesStMary'), 1);
-        //Adding an inline Button for showing the "Adam" Doxologies, and removing the id of the Adam Doxologies from the btn.prayers array
-        if (!btnIncenseDawn.inlineBtns) {
-            btnIncenseDawn.inlineBtns = [];
-        }
-        ;
-        //if btnIncenseDawn has no inlineBtns, we add an inlineBtn for the 'DoxologiesAdam' prayers
-        if (btnIncenseDawn.inlineBtns.length == 0) {
-            let btn = new inlineButton({
-                btnID: 'AdamDoxologies',
-                label: {
-                    AR: 'ذكصولوجيات باكر آدام',
-                    FR: 'Doxologies Adam Aube'
-                },
-            });
-            btnIncenseDawn.inlineBtns.push(btn);
-            //We also add a GoBackButton as an inlineBtn to btn
-            if (!btn.inlineBtns) {
-                btn.inlineBtns = [];
-                btn.inlineBtns.push(new inlineButton({
-                    btnID: btnGoBack.btnID,
-                    label: btnGoBack.label,
-                    onClick: () => showChildButtonsOrPrayers(btnIncenseDawn, true, false)
-                }));
-                //when the GoBack html element will be created, an 'onclick' eventListner will be attached to it (Please NOTE that the eventListner WILL NOT be attached unless the button has either its 'prayers' or 'children' or 'onClick' properties set).This eventListner passes the GoBack button to the showChildButtonsOrPrayers() function. When passed to showChildButtonsOrPrayers(), the onClick function will be called. We set the onClick property of the GoBack Button to a function that, at its turn, passes the btnIncenseDawn button to the showChildButtonsOrPrayers() function. Notice that we set the 'click' parameter to 'false' in order to avoid calling the onClick property of btnIncenseDawn when passing it to the showChildButtonsOrPrayers(), because we just want it to show its 'prayers'  and its 'inlineButton' (i.e. the DoxologiesAdam inlineButton) as those properties were set before clicking the DoxologiesAdam inlineButton.
+        (function setBtnchildrenAndPrayers() {
+            //We will set the children of the button:
+            btnIncenseDawn.children = [btnReadingsGospelIncenseDawn];
+            //we will also set the prayers of the Incense Dawn button
+            btnIncenseDawn.prayers = [...IncensePrayers];
+        })();
+        (function adaptCymbalVerses() {
+            //removing the non-relevant Cymbal prayers according to the day of the week: Wates/Adam
+            if (todayDate.getDay() > 2) {
+                //we are between Wednesday and Saturday, we keep only the "Wates" Cymbal prayers
+                btnIncenseDawn.prayers.splice(btnIncenseDawn.prayers.indexOf("PrayerCymbalVersesAdam&D=0000"), 1);
+            }
+            else {
+                //we are Sunday, Monday, or Tuesday. We keep only the "Adam" Cymbal prayers
+                btnIncenseDawn.prayers.splice(btnIncenseDawn.prayers.indexOf("PrayerCymbalVersesWates&D=0000"), 1);
             }
             ;
-            if (!btn.prayers) {
-                btn.prayers = [];
-                btn.prayersArray = btnIncenseDawn.prayersArray; //we need it because the prayers are not shown unless the button has the prayersArray and the Languages properties set
-                btn.languages = btnIncenseDawn.languages;
-                btnIncenseDawn.prayers.map(prayer => {
-                    if (prayer.includes('DoxologyAdam')) {
-                        //add the id of the prayer to the prayers of the inline button that we created
-                        btn.prayers.push(prayer);
+        })();
+        (function removeDepartedLitany() {
+            //removing the Departed Litany from IncenseDawn prayers
+            btnIncenseDawn.prayers.splice(btnIncenseDawn.prayers.indexOf('PrayerDepartedPrayerPart1&D=0000'), 5);
+        })();
+        (function removeStMaryVespersDoxology() {
+            //removing the Wates Vespers' Doxology for St. Mary
+            btnIncenseDawn.prayers.splice(btnIncenseDawn.prayers.indexOf('PrayerDoxologyVespersWatesStMary'), 1);
+        })();
+        (function addInlineBtnForAdmDoxolgies() {
+            //Adding an inline Button for showing the "Adam" Doxologies, and removing the id of the Adam Doxologies from the btn.prayers array
+            if (!btnIncenseDawn.inlineBtns) {
+                btnIncenseDawn.inlineBtns = [];
+            }
+            ; //if btnIncenseDawn has no inlineBtns, we add an inlineBtn for the 'DoxologiesAdam' prayers
+            if (btnIncenseDawn.inlineBtns.length == 0) {
+                let btn = new inlineButton({
+                    btnID: 'AdamDoxologies',
+                    label: {
+                        AR: 'ذكصولوجيات باكر آدام',
+                        FR: 'Doxologies Adam Aube'
+                    },
+                    onClick: () => {
                     }
                 });
+                btnIncenseDawn.inlineBtns.push(btn);
+                //We also add a GoBackButton as an inlineBtn to btn
+                if (!btn.inlineBtns) {
+                    btn.inlineBtns = [];
+                    btn.inlineBtns.push(new inlineButton({
+                        btnID: btnGoBack.btnID,
+                        label: btnGoBack.label,
+                        onClick: () => showChildButtonsOrPrayers(btnIncenseDawn, true, false)
+                    })); //when the GoBack html element will be created, an 'onclick' eventListner will be attached to it (Please NOTE that the eventListner WILL NOT be attached unless the button has either its 'prayers' or 'children' or 'onClick' properties set).This eventListner passes the GoBack button to the showChildButtonsOrPrayers() function. When passed to showChildButtonsOrPrayers(), the onClick function will be called. We set the onClick property of the GoBack Button to a function that, at its turn, passes the btnIncenseDawn button to the showChildButtonsOrPrayers() function. Notice that we set the 'click' parameter to 'false' in order to avoid calling the onClick property of btnIncenseDawn when passing it to the showChildButtonsOrPrayers(), because we just want it to show its 'prayers'  and its 'inlineButton' (i.e. the DoxologiesAdam inlineButton) as those properties were set before clicking the DoxologiesAdam inlineButton.
+                }
+                ;
+                if (!btn.prayers) {
+                    btn.prayers = [];
+                    btn.prayersArray = btnIncenseDawn.prayersArray; //we need it because the prayers are not shown unless the button has the prayersArray and the Languages properties set
+                    btn.languages = btnIncenseDawn.languages;
+                    btnIncenseDawn.prayers.map(prayer => {
+                        if (prayer.includes('DoxologyAdam')) {
+                            //add the id of the prayer to the prayers of the inline button that we created
+                            btn.prayers.push(prayer);
+                        }
+                    });
+                }
+                ;
+                //then removing the prayer id from the btnIncenseDawn.prayers array in order to exclude them unless requested by the user by clicking on the inline button
+                btn.prayers.map(p => btnIncenseDawn.prayers.splice(btnIncenseDawn.prayers.indexOf(p, 1)));
             }
             ;
-            //then removing the prayer id from the btnIncenseDawn.prayers array in order to exclude them unless requested by the user by clicking on the inline button
-            btn.prayers.map(p => btnIncenseDawn.prayers.splice(btnIncenseDawn.prayers.indexOf(p, 1)));
-        }
-        ;
-        // We will add the Gospel readings to the prayers
+        })();
         let index;
-        index = btnIncenseDawn.prayers.indexOf('PrayerGospelIntroductionPart3Date=0000' + 1);
-        let gospel = setGospelPrayers('IncenseDawn'); //we get the gospel prayers array for the Incense Dawn office
-        insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, gospel.splice(0, 1)); //we remove the 'Psalm response' ;
-        index = btnIncenseDawn.prayers.indexOf('PrayerGospelPrayerPart2Date=0000' + 1); //this is the end of the Gospel Prayer
-        insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, [gospel[0]]); //we insert the 'Psalm response' ;
-        //We remove "Eklonomin Taghonata" from the prayers array
-        btnIncenseDawn.prayers.splice(btnIncenseDawn.prayers.indexOf('PrayerGodHaveMercyOnUsRefrainCommentSeason=GreatLent'), 1); //this is the comment
-        for (let i = 1; i < 6; i++) {
-            btnIncenseDawn.prayers.splice(btnIncenseDawn.prayers.indexOf('PrayerGodHaveMercyOnUsRefrainSeason=GreatLent'), 1);
-        }
-        ;
-        for (let i = 1; i < 16; i++) {
-            btnIncenseDawn.prayers.splice(btnIncenseDawn.prayers.indexOf('PrayerGodHaveMercyOnUsPart' + i.toString() + 'Season=GreatLent'), 2); // we remove 2 because there is Kirielyson after each part
-        }
-        ;
+        (function addGospelReadings() {
+            // We will add the Gospel readings to the prayers
+            index = btnIncenseDawn.prayers.indexOf('PrayerGospelIntroductionPart3&D=0000' + 1);
+            let gospel = setGospelPrayers(Readings.GospelDawn); //we get the gospel prayers array for the Incense Dawn office
+            insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, gospel.splice(0, 1)); //we remove the 'Psalm response' ;
+            index = btnIncenseDawn.prayers.indexOf('PrayerGospelPrayerPart2&D=0000' + 1); //this is the end of the Gospel Prayer
+            insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, [gospel[0]]); //we insert the 'Psalm response'                            
+        })();
+        (function removeEklonominTaghonata() {
+            //We remove "Eklonomin Taghonata" from the prayers array
+            btnIncenseDawn.prayers.splice(btnIncenseDawn.prayers.indexOf('PrayerGodHaveMercyOnUsRefrainComment&S=GL'), 1); //this is the comment
+            for (let i = 1; i < 6; i++) {
+                btnIncenseDawn.prayers.splice(btnIncenseDawn.prayers.indexOf('PrayerGodHaveMercyOnUsRefrain&S=GL'), 1);
+            }
+            ; //We remove the refrain which is included 5 times in the prayers[] array
+            for (let i = 1; i < 16; i++) {
+                btnIncenseDawn.prayers.splice(btnIncenseDawn.prayers.indexOf('PrayerGodHaveMercyOnUsPart' + i.toString() + '&S=GL'), 2); // we remove 2 because there is a "Kyrielison" after each part
+            }
+            ;
+        })();
         //We will then add other prayers according to the occasion
-        if (Season == Seasons.GreatLent) {
-            if (todayDate.getDay() != 0 && todayDate.getDay() != 6) {
+        (function addGreatLentPrayers() {
+            if (Season == Seasons.GreatLent && todayDate.getDay() != 0 && todayDate.getDay() != 6) {
                 //If we are during any day of the week, we will add the Prophecies readings to the children of the button
                 if (btnIncenseDawn.children.indexOf(btnReadingsPropheciesDawn) == -1) {
                     btnIncenseDawn.children.unshift(btnReadingsPropheciesDawn);
                 }
                 ;
                 //we will also add the 'Eklonomin Taghonata' prayer to the Dawn Incense Office prayers, after the 'Efnoti Naynan' prayer
-                index = btnIncenseDawn.prayers.indexOf('PrayerEfnotiNaynanPart4Date=0000') + 2;
-                let temp = [];
-                //we add the comment
-                temp.push('PrayerGodHaveMercyOnUsRefrainCommentDate=GreatLent');
-                let prayer = ['PrayerGodHaveMercyOnUsRefrainSeason=GreatLent', 'PrayerKyrieEliesonDate=0000',
-                    'PrayerKyrieEliesonThreeTimesWithoutAmenDate=0000'];
-                let id = ['PrayerGodHaveMercyOnUsPart', 'Season=GreatLent'];
-                let kyrielson = prayer[1], lastKyrie;
-                //then we add the refraint + each set of 3 prayers
-                for (let i = 1; i < 14; i += 3) {
-                    i + 2 == 15 ? lastKyrie = prayer[2] : lastKyrie = kyrielson;
-                    temp.push(prayer[0], id[0] + i.toString() + id[1], kyrielson, id[0] + (i + 1).toString() + id[1], kyrielson, id[0] + (i + 2).toString() + id[1], lastKyrie);
-                }
-                ;
-                insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, temp);
+                (function addEklonominTaghonata() {
+                    index = btnIncenseDawn.prayers.indexOf('PrayerEfnotiNaynanPart4&D=0000') + 2;
+                    let temp = [];
+                    //we add the comment
+                    temp.push('PrayerGodHaveMercyOnUsRefrainComment&S=GL');
+                    let prayer = ['PrayerGodHaveMercyOnUsRefrain&S=GL', 'PrayerKyrieElieson&D=0000', 'PrayerKyrieEliesonThreeTimesWithoutAmen&D=0000'];
+                    let id = ['PrayerGodHaveMercyOnUsPart', '&S=GL'];
+                    let kyrielson = prayer[1], lastKyrie;
+                    //then we add the refraint + each set of 3 prayers
+                    for (let i = 1; i < 14; i += 3) {
+                        i + 2 == 15 ? lastKyrie = prayer[2] : lastKyrie = kyrielson;
+                        temp.push(prayer[0], id[0] + i.toString() + id[1], kyrielson, id[0] + (i + 1).toString() + id[1], kyrielson, id[0] + (i + 2).toString() + id[1], lastKyrie);
+                    }
+                    ;
+                    insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, temp);
+                })();
+                //We will then add the GreatLent      Doxologies to the Doxologies before the first Doxology of St. Mary
+                (function addGreatLentDoxologies() {
+                    index = btnIncenseDawn.prayers.indexOf('PrayerDoxologyArchangelMichaelWates&D=0000') - 1;
+                    if (todayDate.getDay() != (0 || 6)) {
+                        insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, ['PrayerDoxology1&D=GLWeek', 'PrayerDoxology2&D=GLWeek', 'PrayerDoxology3&D=GLWeek', 'PrayerDoxology4&D=GLWeek', 'PrayerDoxology5&D=GLWeek']);
+                    }
+                    else if (todayDate.getDay() == (0 || 6)) {
+                        insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, ['PrayerDoxology1&D=GLSundays']);
+                    }
+                    ;
+                })();
             }
-            //We will then add the GreatLent Doxologies to the Doxologies before the first Doxology of St. Mary
-            index = btnIncenseDawn.prayers.indexOf('PrayerDoxologyArchangelMichaelWatesDate=0000') - 1;
-            if (todayDate.getDay() != (0 || 6)) {
-                insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, ['PrayerDoxology1Date=GreatLentWeek', 'PrayerDoxology2Date=GreatLentWeek', 'PrayerDoxology3Date=GreatLentWeek', 'PrayerDoxology4Date=GreatLentWeek', 'PrayerDoxology5Date=GreatLentWeek']);
-            }
-            else if (todayDate.getDay() == (0 || 6)) {
-                insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, ['PrayerDoxology1Date=GreatLentSundays']);
+        })();
+        (function addKiahkPrayers() {
+            if (Number(copticMonth) == 4) {
+                index = btnIncenseDawn.prayers.indexOf('PrayerDoxologyStMaryDate=0000') - 1;
+                insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, ['PrayerDoxology1&D=0004', 'PrayerDoxology2&D=0004', 'PrayerDoxology3&D=0004', 'PrayerDoxology4&D=0004',
+                    'PrayerDoxology5&D=0004',
+                    'PrayerDoxology6&D=0004']);
             }
             ;
-        }
-        else if (Number(copticMonth) == 4) {
-            index = btnIncenseDawn.prayers.indexOf('PrayerDoxologyStMaryDate=0000') - 1;
-            insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, ['PrayerDoxology1Date=0004', 'PrayerDoxology2Date=0004', 'PrayerDoxology3Date=0004', 'PrayerDoxology4Date=0004',
-                'PrayerDoxology5Date=0004',
-                'PrayerDoxology6Date=0004']);
-        }
-        else if (Season == Seasons.Resurrection) {
-            insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, ['']);
-        }
-        ;
+        })();
+        (function addResurrectionPrayers() {
+            if (Season == Seasons.Resurrection) {
+                insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, ['']);
+            }
+            ;
+        })();
         return btnIncenseDawn.prayers;
     }
 });
