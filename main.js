@@ -932,7 +932,7 @@ function openSideBar(sideBar) {
     sideBar.style.width = width;
     sideBar.classList.remove('collapsed');
     sideBar.classList.add('extended');
-    contentDiv.style.marginLeft = width;
+    sideBar == leftSideBar ? contentDiv.style.marginLeft = width : contentDiv.style.marginRight = width;
     sideBarBtn.innerText = btnText;
     sideBarBtn.removeEventListener("click", () => openSideBar(sideBar));
     sideBarBtn.addEventListener("click", () => closeSideBar(sideBar));
@@ -948,7 +948,7 @@ function closeSideBar(sideBar) {
     sideBar.style.width = width;
     sideBar.classList.remove('extended');
     sideBar.classList.add('collapsed');
-    contentDiv.style.marginLeft = width;
+    sideBar == leftSideBar ? contentDiv.style.marginLeft = width : contentDiv.style.marginRight = width;
     sideBarBtn.innerText = btnText;
     sideBarBtn.removeEventListener("click", () => closeSideBar(sideBar));
     sideBarBtn.addEventListener("click", () => openSideBar(sideBar));
@@ -973,6 +973,7 @@ function DetectFingerSwipe() {
         if (!xDown || !yDown) {
             return;
         }
+        ;
         let xUp = evt.touches[0].clientX;
         let yUp = evt.touches[0].clientY;
         let xDiff = xDown - xUp;
@@ -1128,7 +1129,7 @@ function showPrayers(btn, clearSideBar = true) {
                         for (let r = 0; r < wordTable.length; r++) {
                             row = wordTable[r]; //each string[] element after the 1st element in the Word table string[][] represents a row in the table. The row string[] starts with the title of the table (modified as the case may be), and continues with the text in each cell of the row
                             createHtmlElementForPrayer(tblTitle, row, btn.languages, userLanguages, row[0].split('&C=')[1]); //row[0] is the title of the table modified as the case may be to reflect wether the row contains the titles of the prayer, or who chants the prayer (in such case the words 'Title' or '&C=' + 'Priest', 'Diacon', or 'Assembly' are added to the title)
-                            if (tblTitle.includes('Title')) {
+                            if (wordTable[r][0].includes('&C=Title')) {
                                 titles.push(row);
                             }
                             ;

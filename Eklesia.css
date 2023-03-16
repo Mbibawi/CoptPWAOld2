@@ -1,10 +1,10 @@
 @font-face {
   font-family: AvaShenouda;
-  src: url(Avva_Shenouda.ttf);
+  src: url(./fonts/Avva_Shenouda.ttf);
 }
 @font-face {
   font-family: ArialCoptic;
-  src: url(ArialCoptic.ttf);
+  src: url(./fonts/ArialCoptic.ttf);
 }
 .Container {
   display: flex;
@@ -65,13 +65,20 @@
 .inlineBtn {
 width: auto !important;
 }
-.inlineBtns {
+.inlineBtnsContainer {
   display:flex !important;
-  flex-direction: row !important;
-  flex-wrap: wrap;
+  position: fixed;
+  top:0px;
+  z-index: 2;
+}
+.inlineBtns{
+  /*this is the sub div to the inlineBtnsContainer*/
+  position: relative;
+  display: flex;
+  flex-wrap: wrap !important;
+  flex-flow: row;
   align-items: center;
   align-content: center;
-  justify-content: center;
 }
 .Repeatable {
   margin-bottom: 50px;
@@ -139,6 +146,7 @@ Title
 
 .btns {
   display: flex;
+  align-items: center;
   flex-direction: row;
   align-items: stretch;
   padding: 3pt;
@@ -163,7 +171,6 @@ Title
   z-index: 1; /* Stay on top */
   top: 0;
   bottom: 0;
-  left: 0;
   background-color: #111; /* Black*/
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 60px; /* Place content 60px from the top */
@@ -171,8 +178,11 @@ Title
 }
 /*the right sidebar*/
 .rightSideBar { 
-  align-self:auto !important;
-  right:0 !important;
+  right: 0px !important;
+}
+/*the left sidebar*/
+.leftSideBar {
+  left: 0px !important;
 }
 /*the text of the titles shown in the right sidebar*/
 .sideTitle{
