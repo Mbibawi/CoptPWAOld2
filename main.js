@@ -98,7 +98,7 @@ autoRunOnLoad();
  * Some functions that we run automatically when loading the app
  */
 function autoRunOnLoad() {
-    let version = 'v0.2';
+    let version = 'v0.3';
     let p = document.createElement('p');
     p.style.color = 'red';
     p.style.fontSize = '15pt';
@@ -123,42 +123,6 @@ function autoRunOnLoad() {
 function getPrayerFromInputBox() {
     let input = document.getElementById("elID");
     showPrayers(new Button({ btnID: '', label: { AR: '', FR: '' }, prayers: [input.value] }));
-}
-;
-/**
- * WILL BE DEPRECATED
- * Takes an array of prayers ids, and looks for each of the ids in the array where the text of the prayers is to be found
- * @param prayers {string[]} - an array of ids, each expressing the id by which the text of the prayer is retrieved from teh prayersArray
- * @param {string[][] | string[][][]} prayersArray - an array containing the text of the prayers. Each prayer is an array starting by the id of the prayer, then the text in each language (e.g. ['GospelReadingID&D=0305, 'text of the gospel reading in Arabic', 'text of the gospel reading in French'], 'text of the gospel reading in Coptic')
- * @param {string[]} languages - the languages in which the prayers are available. This is usually a property of the Button and depends on whether this language was available in the ppt slides. For example, the readings are available in English, French, Arabic, but not coptic, while the Mass prayers are mostly available in Coptic, French, and Arabic but not English
- */
-function showPrayersOld(btn) {
-    if (!btn.prayers) {
-        //getting the selected option in the list if there is no id passed to the function
-        let list = document.getElementById("Menu");
-        btn.prayers.push(list.selectedOptions[0].value);
-    }
-    else if (btn.prayers[0] == "getfromtextbox") {
-        //this will be e, it was just for being able to retrieve a prayer by entering its id in the text box
-        let input = document.getElementById("elID");
-        btn.prayers[0] = input.value;
-    }
-    ;
-    //we empty the subdivs of the containerDiv before populating them with the new text
-    containerDiv.innerHTML = "";
-    let rightTitlesDiv = rightSideBar.querySelector('#sideBarBtns'); //this is the right side bar where the titles are displayed for navigation purposes
-    rightTitlesDiv.innerHTML = ''; //we empty the right side bar from any text
-    if (!btn.retrieved) {
-        //if btn.retrieved is not = true, it means the button has not been clicked before and its prayersArray is not filtered to contain only those prayers that the button needs to show according to its btn.prayers property.
-        //We will hence loop the btn.prayers property of the button(this property is a sequence of prayers ids) and for each prayer id in the btn.prayers array, we will check if there is an identic prayer id in the btn.prayersArray(note that prayersArray is the array of text containing all the text in which the button may find its 'prayers'. For example, there is an array containing all the Praxis readings, another one containing all the Gospel readings, another one containing all the prayers of the Mass, etc.The button specifies in which prayersArray its 'prayers' may be found)	
-        retrieveBtnPrayers(btn);
-    }
-    else {
-        //we will jumb to 
-    }
-    ;
-    btn.prayersArray.map(prayer => displayPrayer(btn, prayer));
-    closeSideBar(leftSideBar);
 }
 ;
 /**
@@ -246,16 +210,6 @@ function processPrayers(btn, prayer, retrievedPrayersArray, idsArray) {
  * @param {Button | inlineButton } btn
  * @param {string[]} retrievedPrayer - an array having as 1st element the title of the Word table (modified as the case may be if it represents the title of the prayer or to indicate the CSS class that needs to be given to it); and the other elements represent each the text of a given prayer in a different languages
  */
-function displayPrayer(btn, retrievedPrayer) {
-    let actorClass;
-    let firstElement = retrievedPrayer[0];
-    let processedID = setActorsClasses(firstElement);
-    firstElement = processedID[0];
-    actorClass = processedID[1];
-    //we will create the html elements showing the text of the prayer in all languages
-    createHtmlElementForPrayer(firstElement, retrievedPrayer, btn.languages, userLanguages, actorClass);
-}
-;
 /**
  * Sets the css class for the each prayer according to who tells the prayer: Priest? Diacon? Assembly?
  * @param {string | string[]} id - represents the title of the Word table form which the text was extracted. If btn.prayersArray is a string[][], id is a string representing the 1st element of each string[] in the btn.prayersArray. If btn.prayersArray is a string[][][], id is a string[] representing the 1st element of each string[][] in btn.prayersArray. This string[] contains only one string element which is the title of the Word table (like [['TitleOfTheTable'],['TitleOfTheTableAdjusted', 'TextRow1Cell1', 'TextRow1Cell2', etc.],['TitleOfTheTableAdjusted', 'TextRow2Cell1', 'TextRow2Cell2', etc.])
@@ -282,14 +236,15 @@ function setActorsClasses(id) {
  * @param {string[]} userLanguages - a globally declared array of the languages that the user wants to show.
  * @param {string} actorClass - a class that will be given to the html element showing the prayer according to who is saying the prayer: is it the Priest, the Diacon, or the Assembly?
  */
-function createHtmlElementForPrayer(firstElement, prayers, languagesArray, userLanguages, actorClass) {
-    let row, el, lang, text;
+function createHtmlElementForPrayer(firstElement, prayers, languagesArray, userLanguages, actorClass, tblDiv) {
+    let row, p, lang, text;
     row = document.createElement("div");
     row.classList.add("TargetRow"); //we add 'TargetRow' class to this div
-    row.id = firstElement; //we give it as id the 'prayer id'
+    row.dataset.root = firstElement.replace(/Part\d+/, '');
     if (actorClass && actorClass !== 'Title') {
         // we don't add the actorClass if it is "Title", because in this case we add a specific class called "TargetRowTitle" (see below)
         row.classList.add(actorClass);
+        row.role = 'tr';
     }
     ;
     //looping the elements containing the text of the prayer in different languages,  starting by 1 since 0 is the id
@@ -304,28 +259,32 @@ function createHtmlElementForPrayer(firstElement, prayers, languagesArray, userL
         }
         ; //we check that the language is included in the allLanguages array, i.e. if it has not been removed by the user, which means that he does not want this language to be displayed. If the language is not removed, we retrieve the text in this language. otherwise we will not retrieve its text.
         if (userLanguages.indexOf(lang) > -1) {
-            el = document.createElement("p"); //we create a new <p></p> element for the text of each language in the 'prayer' array (the 'prayer' array is constructed like ['prayer id', 'text in AR, 'text in FR', ' text in COP', 'text in Language', etc.])
+            p = document.createElement("p"); //we create a new <p></p> element for the text of each language in the 'prayer' array (the 'prayer' array is constructed like ['prayer id', 'text in AR, 'text in FR', ' text in COP', 'text in Language', etc.])
+            p.role = "td";
             if (actorClass == "Title") {
                 //this means that the 'prayer' array includes the titles of the prayer since its first element ends with '&C=Title'.
                 row.classList.add("TargetRowTitle");
+                row.role = 'th';
                 row.tabIndex = 0; //in order to make the div focusable by using the focus() method
             }
             else if (actorClass) {
                 //if the prayer is a comment like the comments in the Mass
-                el.classList.add(actorClass);
+                p.classList.add(actorClass);
             }
             else {
                 //The 'prayer' array includes a paragraph of ordinary core text of the array. We give it 'PrayerText' as class
-                el.classList.add('PrayerText');
+                p.classList.add('PrayerText');
             }
             ;
-            el.dataset.root = firstElement; //we do this in order to be able later to retrieve all the divs containing the text of the prayers with similar id as the title
+            p.dataset.root = firstElement.replace(/Part\d+/, ''); //we do this in order to be able later to retrieve all the divs containing the text of the prayers with similar id as the title
             text = prayers[x];
-            el.classList.add(lang); //we add the language as a class in order to be able to set the font
-            el.dataset.lang = lang; //we are adding this in order to be able to retrieve all the paragraphs in a given language by its data attribute. We need to do this in order for example to amplify the font of a given language when the user double clicks
-            el.textContent = text;
-            el.addEventListener('dblclick', (event) => toggleClassListForAllChildrenOFAnElement(event, 'amplifiedTextSize')); //adding a double click eventListner that amplifies the text size of the chosen language;
-            row.appendChild(el); //the row which is a <div></div>, will encapsulate a <p></p> element for each language in the 'prayer' array (i.e., it will have as many <p></p> elements as the number of elements in the 'prayer' array)
+            p.classList.add(lang); //we add the language as a class in order to be able to set the font
+            p.dataset.lang = lang; //we are adding this in order to be able to retrieve all the paragraphs in a given language by its data attribute. We need to do this in order for example to amplify the font of a given language when the user double clicks
+            p.textContent = text;
+            p.addEventListener('dblclick', (event) => {
+                toggleClassListForAllChildrenOFAnElement(event, 'amplifiedTextSize');
+            }); //adding a double click eventListner that amplifies the text size of the chosen language;
+            row.appendChild(p); //the row which is a <div></div>, will encapsulate a <p></p> element for each language in the 'prayer' array (i.e., it will have as many <p></p> elements as the number of elements in the 'prayer' array)
         }
         else {
         }
@@ -334,8 +293,19 @@ function createHtmlElementForPrayer(firstElement, prayers, languagesArray, userL
             row.style.flexDirection = 'row'; //this is in order to show the Arabic text on the right hand, followed by Coptic text in Arabic characters, etc, ie. [AR, CA, FR, COP]. If we keep their original order as in the languagesArray (which is  [COP, FR, CA, AR]), the arabic paragraph will be displayed in the first column starting from left to right, and the coptic paragraph will be on the last column from left to right
         }
         ;
+        setGridTemplateColumns(row);
+        function setGridTemplateColumns(row) {
+            let width = (100 / row.children.length).toString() + "% ";
+            for (let i = 1; i < row.children.length; i++) {
+                width += (100 / row.children.length).toString() + "% ";
+            }
+            ;
+            row.style.display = 'grid';
+            row.style.gridTemplateColumns = width;
+        }
+        ;
     }
-    containerDiv.appendChild(row);
+    tblDiv.appendChild(row);
 }
 ;
 /**
@@ -412,14 +382,20 @@ function showChildButtonsOrPrayers(btn, clear = true, click = true, pursue = tru
     }
     ;
     if (btn.inlineBtns) {
+        let newDiv = document.createElement("div");
+        newDiv.style.display = 'grid';
         btn.inlineBtns.map((b) => {
             if (btn.btnID != btnGoBack.btnID) {
                 // for each child button that will be created, we set btn as its parent in case we need to use this property on the button
                 b.parentBtn = btn.parentBtn;
             }
             ;
-            createBtn(b, inlineBtnsDiv, b.cssClass);
+            createBtn(b, newDiv, b.cssClass);
         });
+        let s = (100 / newDiv.children.length).toString() + "% ";
+        newDiv.style.gridTemplateColumns = s.repeat(newDiv.children.length);
+        newDiv.classList.add('inlineBtns');
+        inlineBtnsDiv.appendChild(newDiv);
     }
     ;
     if (btn.children) {
@@ -474,7 +450,6 @@ function showChildButtonsOrPrayers(btn, clear = true, click = true, pursue = tru
  * @returns {HTMLElement} - the html element created for the button
  */
 function createBtn(btn, btnsBar, btnClass) {
-    let newDiv = document.createElement("div");
     let newBtn = document.createElement('button');
     newBtn.classList.add(btnClass);
     newBtn.id = btn.btnID;
@@ -488,7 +463,7 @@ function createBtn(btn, btnsBar, btnClass) {
             newBtn.appendChild(btnLable);
         }
     }
-    //newDiv.appendChild(newBtn);
+    ;
     btnsBar.appendChild(newBtn);
     if (btn.children || btn.prayers || btn.onClick) {
         // if the btn object that we used to create the html button element, has childs, we add an "onclick" event that passes the btn itself to the showChildButtonsOrPrayers. This will create html button elements for each child and show them
@@ -1023,6 +998,12 @@ function toggleClassListForAllChildrenOFAnElement(ev, myClass) {
     for (let i = 0; i < hasDataLang.length; i++) {
         if (hasDataLang[i].attributes.getNamedItem('data-lang').value == el.attributes.getNamedItem('data-lang').value) {
             toggleClassList(hasDataLang[i], myClass);
+            /* 			let child: HTMLElement;
+                        for (let c = 1; c > el.parentElement.children.length; c++) {
+                            child = el.children[c] as HTMLElement;
+                            child.style.width = '20%';
+                        };
+                        el.style.width = '50%'*/
         }
         ;
     }
@@ -1116,11 +1097,23 @@ function showPrayers(btn, clearSideBar = true) {
      * @param {string} p - a string representing a prayer in the btn.prayers[]. This string matches the title of one of the tables in the Word document from which the text was extracted. The btn.prayersArray should have one of its elements = to "p"
      */
     function findAndProcessPrayers(p) {
-        let wordTable, row, tblTitle, fractionPrayers = [];
+        let wordTable, row, tblTitle, fractionPrayers = [], wdTableDiv;
         for (let i = 0; i < btn.prayersArray.length; i++) {
-            wordTable = btn.prayersArray[i]; //this represents a table in the Word document from which the prayers text was extracted		
+            wordTable = btn.prayersArray[i]; //this represents a table in the Word document from which the prayers text was extracted*
             if (wordTable[0]) {
                 tblTitle = wordTable[0][0].split('&C=')[0]; //the first element in the string[][] representing the Word table is a string[] with only 1 element representing the Title of the Table. We remove "&C=" from the end in order to get the title of the table without any additions indicating the class of the html element that will be created for each row
+                wdTableDiv = document.createElement('div'); //we create a div element that will contain all the rows of the wordTable
+                wdTableDiv.role = 'Table';
+                wdTableDiv.id = 'Table' + tblTitle; //not sure we need it but will see later whether to keep it or not
+                //wdTableDiv.classList.add('prayerTable');
+                wdTableDiv.style.display = 'grid';
+                let width = '100%';
+                //let width: string = (100 / userLanguages.length).toString() + '% ';
+                //for (let i = 1; i < userLanguages.length; i++){
+                //width += width
+                //};
+                wdTableDiv.style.gridTemplateColumns = width;
+                wdTableDiv.dataset.root = tblTitle.replace(/Part\d+/, ''); //we add a data-root property that will allow us to retrieve any div with the same data-root and hide it (notice that we remove 'Part' + any digit from the data-root, in order to retrieve all the tables with same root)
                 if (p == tblTitle) {
                     if (tblTitle.startsWith("PrayerMassFractionPrayer")) {
                         fractionPrayers.push(wordTable); //We will create and inline button for each fraction instead of showing the text of the fraction prayer directly
@@ -1128,7 +1121,7 @@ function showPrayers(btn, clearSideBar = true) {
                     else {
                         for (let r = 0; r < wordTable.length; r++) {
                             row = wordTable[r]; //each string[] element after the 1st element in the Word table string[][] represents a row in the table. The row string[] starts with the title of the table (modified as the case may be), and continues with the text in each cell of the row
-                            createHtmlElementForPrayer(tblTitle, row, btn.languages, userLanguages, row[0].split('&C=')[1]); //row[0] is the title of the table modified as the case may be to reflect wether the row contains the titles of the prayer, or who chants the prayer (in such case the words 'Title' or '&C=' + 'Priest', 'Diacon', or 'Assembly' are added to the title)
+                            createHtmlElementForPrayer(tblTitle, row, btn.languages, userLanguages, row[0].split('&C=')[1], wdTableDiv); //row[0] is the title of the table modified as the case may be to reflect wether the row contains the titles of the prayer, or who chants the prayer (in such case the words 'Title' or '&C=' + 'Priest', 'Diacon', or 'Assembly' are added to the title)
                             if (wordTable[r][0].includes('&C=Title')) {
                                 titles.push(row);
                             }
@@ -1162,6 +1155,11 @@ function showPrayers(btn, clearSideBar = true) {
                         showChildButtonsOrPrayers(fractionsBtn, false); //ATTENTION: the clear paramater must be false, otherwise the inilne buttons create previously will dissapear. We are creating html button elements for each fractionPrayer, and will attach to it an "onclick" eventListner that will pass the fractionBtn to showChildButtonsOrPrayers()
                     }
                     ;
+                }
+                ;
+                //we finally append the wdTableDiv to the containerDiv
+                if (wdTableDiv.children.length > 0) {
+                    containerDiv.appendChild(wdTableDiv);
                 }
                 ;
             }

@@ -1,17 +1,28 @@
 @font-face {
   font-family: AvaShenouda;
-  src: url(Avva_Shenouda.ttf);
+  src: url(./fonts/Avva_Shenouda.ttf);
 }
 @font-face {
   font-family: ArialCoptic;
-  src: url(ArialCoptic.ttf);
+  src: url(./fonts/ArialCoptic.ttf);
+}
+.root{
+  --column-width: 30%;
 }
 .Container {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  overflow-x: auto;
+  width: 100%;
+  justify-items: stretch;
 }
 .Content {
-  margin: 5px 5px;
+  display: grid;
+  width:100%;
+  justify-items: center;
+}
+.prayerTable {
+  /*overflow-x:auto;*/
+  display: block;
 }
 .Title {
   color: rgb(45, 71, 100) !important;
@@ -27,8 +38,6 @@
 .CA,
 .Title,
 .PrayerText{
-  width: 50%;
-  text-align: justify;
   margin:6px !important;
   word-wrap: break-word;
 }
@@ -65,20 +74,27 @@
 .inlineBtn {
 width: auto !important;
 }
-.inlineBtnsContainer {
-  display:flex !important;
+
+.inlineBtnsContainer{
+  /*this is the sub div to the inlineBtnsContainer*/
   position: fixed;
   top:0px;
+  left:10px;
   z-index: 2;
+  width: 100%;
+  justify-items: center;
+  justify-content: center;
 }
 .inlineBtns{
-  /*this is the sub div to the inlineBtnsContainer*/
-  position: relative;
-  display: flex;
-  flex-wrap: wrap !important;
-  flex-flow: row;
-  align-items: center;
-  align-content: center;
+  display:grid;
+  justify-items: center;
+  width: 90%;
+}
+#main{
+  display: grid;
+  justify-items: center;
+  word-break: break-all;
+  width: 100%
 }
 .Repeatable {
   margin-bottom: 50px;
@@ -97,13 +113,7 @@ width: auto !important;
   padding: 0vw 0vw;
   margin: 1vw 1vw;
 }
-.TargetRow {
-  display: flex;
-  flex-direction: row-reverse;
-  align-items: flex-start;
-  border-radius: 5px;
-  margin-bottom: 1px;
-}
+
 .addLang {
   background-color: rgba(161, 9, 29, 0.705);
   border-radius: 10px;
@@ -112,11 +122,20 @@ width: auto !important;
   padding: 3pt;
   word-wrap:break-word;
 }
+
+.TargetRow {
+  display: grid;
+  text-align: justify;
+  row-gap: 100px;
+  border-radius: 5px;
+  margin-bottom: 1px;
+}
 .TargetRowTitle {
+  display: grid;
+  text-align: center;
   background-color: rgb(228, 229, 145) !important;
   margin-bottom: 1px;
   border-radius: 5px;
-  align-items: center;
 }
 .TargetRowTitle > p{
   font-weight: bold;
@@ -126,8 +145,11 @@ width: auto !important;
 .Priest,
 .Diacon,
 .Assembly,
-Title
+.Title,
+.Comment,
+.CommentText
 {
+  padding: 1px 5px;
   word-wrap: break-word;
   margin:1px;
 }
@@ -143,7 +165,15 @@ Title
 #AssemblyColor {
   background-color: #fdf9e2;
 }
-
+td{
+  display: table-cell;
+}
+tr{
+  display: table-row;
+}
+table{
+  display: table;
+}
 .btns {
   display: flex;
   align-items: center;
@@ -168,7 +198,7 @@ Title
   height: 100%; /* 100% Full-height */
   width: 0px; /* 0 width - change this with JavaScript */
   position: fixed; /* Stay in place */
-  z-index: 1; /* Stay on top */
+  z-index: 3; /* Stay on top */
   top: 0;
   bottom: 0;
   background-color: #111; /* Black*/
@@ -272,10 +302,10 @@ Title
   padding-top: 5vw;
 }
 .amplifiedTextSize{
-  width:180vw !important;
   font-size: x-large;
 }
 .Comment, .CommentText{
+  align-content: stretch;
   background-color: #f0eded;
   color: #2F5496;
   font-size: 10pt;
@@ -287,6 +317,9 @@ Title
 }
 .CommentText {
   color: #C45911 !important;
+}
+.Comment >p{
+  align-content: stretch;
 }
 .settings{
   width:60px;
