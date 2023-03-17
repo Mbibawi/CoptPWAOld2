@@ -67,6 +67,7 @@ function addOrRemoveLanguage(el) {
     //in order to refresh the view after adding or removing a language, we call the showChildButtonsOrPrayers passing to it the lasClickedButton which is a variable storing the last clicked sideBar Button (its class is Button) that is displaying its prayers/children/inlineBtns, etc.,
     showChildButtonsOrPrayers(lastClickedButton);
 }
+;
 /**
  * Changes the current Gregorian date and adjusts the coptic date and the coptic readings date, etc.
  * @param {string} date  - allows the user to pass the Greogrian calendar day to which he wants the date to be set, as a string provided from an input box or by the date picker
@@ -179,12 +180,12 @@ btn) {
 }
 ;
 /**
- * WILL BE DEPRECATED
- * @param {Button | inlineButton} btn
- * @param {string[] | string[][]} prayer - prayer either represents a row of the Word table from which the text was retrieved (i.e., prayer is a string[], where the first element is the title of the table: ['TableTitle', 'TextOfCell1OfTheRow', 'TextOfCell2OfTheRow', etc.]) or, represents the entire table, in such case it is a string[][] where the first [] is the title of th table (it contains only 1 element ['TableTitle']), and each [] element afterwards is one of the table's rows: its first element is a string representing the title of the table (to which the words "Title" or "&C=" are added as the case may be), and the rest of the elements represent the text in each cell of the row. The array is hence structured this way: [["TableTitle"], ["TableTitleAdjustedAsTheCaseMayBe", "TextOfRow1Cell1", "TextOfRow1Cell2", etc.], ["TableTitleAdjustedAsTheCaseMayBe", "TextOfRow2Cell1", "TextOfRow2Cell2", etc.], etc.]
- * @param {string[][]|string[][][]} retrievedPrayersArray - an array that contains either string[][] where each element represents a table row, either a string[][][], where each element is a string[][] representing an entire table in the Word document from which the text was extracted;  inside each table string[][], the first element is a string[] of only 1 element which is the title of the table (['TableTitle']), then each string[]element represents the text of each row of the table, where the first element represents the table title: ['TableTitleAdjustedAsTheCaseMayBe', 'TextOfCell1', 'TextOfCell2', etc.]
- *@param {string[]} idsArray - is an array containing 2 versions of any prayer id in the btn.prayers array: the first element is the prayer id with the word "Title" added before "&D=" (or at the end if no "&D="), the element is hence like "TheTitleOfTheTableTitle&D=". The second element is the prayer id as is
-*/
+         * WILL BE DEPRECATED
+         * @param {Button | inlineButton} btn
+         * @param {string[] | string[][]} prayer - prayer either represents a row of the Word table from which the text was retrieved (i.e., prayer is a string[], where the first element is the title of the table: ['TableTitle', 'TextOfCell1OfTheRow', 'TextOfCell2OfTheRow', etc.]) or, represents the entire table, in such case it is a string[][] where the first [] is the title of th table (it contains only 1 element ['TableTitle']), and each [] element afterwards is one of the table's rows: its first element is a string representing the title of the table (to which the words "Title" or "&C=" are added as the case may be), and the rest of the elements represent the text in each cell of the row. The array is hence structured this way: [["TableTitle"], ["TableTitleAdjustedAsTheCaseMayBe", "TextOfRow1Cell1", "TextOfRow1Cell2", etc.], ["TableTitleAdjustedAsTheCaseMayBe", "TextOfRow2Cell1", "TextOfRow2Cell2", etc.], etc.]
+         * @param {string[][]|string[][][]} retrievedPrayersArray - an array that contains either string[][] where each element represents a table row, either a string[][][], where each element is a string[][] representing an entire table in the Word document from which the text was extracted;  inside each table string[][], the first element is a string[] of only 1 element which is the title of the table (['TableTitle']), then each string[]element represents the text of each row of the table, where the first element represents the table title: ['TableTitleAdjustedAsTheCaseMayBe', 'TextOfCell1', 'TextOfCell2', etc.]
+         *@param {string[]} idsArray - is an array containing 2 versions of any prayer id in the btn.prayers array: the first element is the prayer id with the word "Title" added before "&D=" (or at the end if no "&D="), the element is hence like "TheTitleOfTheTableTitle&D=". The second element is the prayer id as is
+        */
 function processPrayers(btn, prayer, retrievedPrayersArray, idsArray) {
     let prayerID = setActorsClasses(prayer[0][0])[0];
     if (prayerID == idsArray[0] ||
@@ -205,11 +206,6 @@ function processPrayers(btn, prayer, retrievedPrayersArray, idsArray) {
     ;
 }
 ;
-/**
- * WILL BE DEPRECATED
- * @param {Button | inlineButton } btn
- * @param {string[]} retrievedPrayer - an array having as 1st element the title of the Word table (modified as the case may be if it represents the title of the prayer or to indicate the CSS class that needs to be given to it); and the other elements represent each the text of a given prayer in a different languages
- */
 /**
  * Sets the css class for the each prayer according to who tells the prayer: Priest? Diacon? Assembly?
  * @param {string | string[]} id - represents the title of the Word table form which the text was extracted. If btn.prayersArray is a string[][], id is a string representing the 1st element of each string[] in the btn.prayersArray. If btn.prayersArray is a string[][][], id is a string[] representing the 1st element of each string[][] in btn.prayersArray. This string[] contains only one string element which is the title of the Word table (like [['TitleOfTheTable'],['TitleOfTheTableAdjusted', 'TextRow1Cell1', 'TextRow1Cell2', etc.],['TitleOfTheTableAdjusted', 'TextRow2Cell1', 'TextRow2Cell2', etc.])
@@ -276,7 +272,6 @@ function createHtmlElementForPrayer(firstElement, prayers, languagesArray, userL
             ;
             p.dataset.root = dataRoot; //we do this in order to be able later to retrieve all the divs containing the text of the prayers with similar id as the title
             text = prayers[x];
-            p.classList.add(lang); //we add the language as a class in order to be able to set the font
             p.dataset.lang = lang; //we are adding this in order to be able to retrieve all the paragraphs in a given language by its data attribute. We need to do this in order for example to amplify the font of a given language when the user double clicks
             p.textContent = text;
             p.addEventListener('dblclick', (event) => {
@@ -298,48 +293,50 @@ function createHtmlElementForPrayer(firstElement, prayers, languagesArray, userL
  * @param rightTitlesDiv - the right hand side bar div where the titles will be displayed
  */
 function showTitlesInRightSideBar(titlesArray, rightTitlesDiv) {
-    //this function shows the titles in the right side Bar
-    rightTitlesDiv.innerHTML = ''; //we empty the side bar
-    let newDiv, parag, text = '', suffix = 'SideBar', id;
-    titlesArray.map(t => addTitle(t));
-    function addTitle(t) {
-        id = t[0];
-        newDiv = document.createElement('div');
-        newDiv.role = 'button';
-        newDiv.id = id + suffix;
-        newDiv.classList.add(id + suffix);
-        newDiv.addEventListener('click', () => scrollHtmlElementIntoView(id));
-        //newDiv.addEventListener('click',
-        //	() => scrollHtmlElementIntoView(id));
-        for (let i = 1; i < t.length; i++) {
-            if (t[i]) {
-                text = text + ' / ' + t[i];
+    return __awaiter(this, void 0, void 0, function* () {
+        //this function shows the titles in the right side Bar
+        rightTitlesDiv.innerHTML = ''; //we empty the side bar
+        let newDiv, parag, text = '', suffix = 'SideBar', id;
+        titlesArray.map(t => addTitle(t));
+        function addTitle(t) {
+            id = t[0];
+            newDiv = document.createElement('div');
+            newDiv.role = 'button';
+            newDiv.id = id + suffix;
+            newDiv.classList.add(id + suffix);
+            newDiv.addEventListener('click', () => scrollHtmlElementIntoView(id));
+            //newDiv.addEventListener('click',
+            //	() => scrollHtmlElementIntoView(id));
+            for (let i = 1; i < t.length; i++) {
+                if (t[i]) {
+                    text = text + ' / ' + t[i];
+                }
+            }
+            ;
+            parag = document.createElement('p');
+            parag.innerText = text;
+            parag.classList.add('sideTitle');
+            newDiv.appendChild(parag);
+            rightTitlesDiv.appendChild(newDiv);
+            text = '';
+        }
+        ;
+        /**
+         * scrolls down to an html element retrieved by its id, and closes the left side bar
+         * @param {string} id - the id of the html element
+         */
+        function scrollHtmlElementIntoView(id) {
+            for (let i = 1; i < containerDiv.children.length; i++) {
+                if (containerDiv.children[i].id == id) {
+                    let target = containerDiv.children[i];
+                    closeSideBar(rightSideBar);
+                    target.scrollIntoView(true);
+                    return;
+                }
             }
         }
         ;
-        parag = document.createElement('p');
-        parag.innerText = text;
-        parag.classList.add('sideTitle');
-        newDiv.appendChild(parag);
-        rightTitlesDiv.appendChild(newDiv);
-        text = '';
-    }
-    ;
-    /**
-     * scrolls down to an html element retrieved by its id, and closes the left side bar
-     * @param {string} id - the id of the html element
-     */
-    function scrollHtmlElementIntoView(id) {
-        for (let i = 1; i < containerDiv.children.length; i++) {
-            if (containerDiv.children[i].id == id) {
-                let target = containerDiv.children[i];
-                closeSideBar(rightSideBar);
-                target.scrollIntoView(true);
-                return;
-            }
-        }
-    }
-    ;
+    });
 }
 ;
 /**
@@ -1153,8 +1150,8 @@ function showPrayers(btn, clearSideBar = true) {
             let Rows = containerDiv.querySelectorAll('.TargetRow');
             if (Rows) {
                 Rows.forEach((r) => {
-                    r.style.gridTemplateAreas = setGridAreas(r);
-                    r.style.gridTemplateColumns = getColumnsNumberAndWidth(r);
+                    r.style.gridTemplateColumns = getColumnsNumberAndWidth(r); //Setting the number of columns and their width for each element having the 'TargetRow' class
+                    r.style.gridTemplateAreas = setGridAreas(r); //Defining grid areas for each language in order to be able to control the order in which the languages are displayed (Arabic always on the last column from left to right, and Coptic on the first column from left to right)
                 });
             }
             ;
@@ -1181,13 +1178,15 @@ function showPrayers(btn, clearSideBar = true) {
         for (let i = 0; i < row.children.length; i++) {
             child = row.children[i];
             areas.push(child.dataset.lang);
+            child.classList.add(child.dataset.lang); //we profit from the loop to add the language as class to the element (we didn't add it earlier in order to lighten the display of the html element and reduce the delay/latency for the user)
         }
         ;
         if (areas.indexOf('AR') == 0 && !row.classList.contains('Comment') && !row.classList.contains('CommentText')) {
+            //if the 'AR' is the first language, it means it will be displayed in the first column from left to right. We need to reverse the array in order to have the Arabic language on the last column from left to right
             areas.reverse();
         }
         ;
-        return '"' + areas.toString().split(',').join(' ') + '"';
+        return '"' + areas.toString().split(',').join(' ') + '"'; //we should get a string like ' "AR COP FR" ' (notice that the string marks " in the beginning and the end must appear, otherwise the grid-template-areas value will not be valid)
     }
     ;
 }

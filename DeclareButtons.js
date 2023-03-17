@@ -128,10 +128,11 @@ const btnIncenseOffice = new Button({
                 //it means we are not a Saturday. we need to remove the btnIncenseVespers because there are not vespers
                 btnDayReadings.children.splice(btnDayReadings.children.indexOf(btnIncenseVespers), 1);
             }
-            else if (todayDate.getDay() == 6 && btnDayReadings.children.indexOf(btnIncenseVespers) == -1) {
+            else if (btnDayReadings.children && todayDate.getDay() == 6 && btnDayReadings.children.indexOf(btnIncenseVespers) == -1) {
                 //it means we are  a Saturday. we need to add the btnReadingsGospelIncenseVespers if missing
                 btnDayReadings.children.splice(btnDayReadings.children.indexOf(btnReadingsGospelIncenseDawn), 0, btnIncenseVespers);
             }
+            ;
         }
         ;
     }
@@ -171,12 +172,13 @@ const btnIncenseDawn = new Button({
             //removing the Wates Vespers' Doxology for St. Mary
             btnIncenseDawn.prayers.splice(btnIncenseDawn.prayers.indexOf('PrayerDoxologyVespersWatesStMary'), 1);
         })();
-        (function addInlineBtnForAdmDoxolgies() {
+        (function addInlineBtnForAdamDoxolgies() {
             //Adding an inline Button for showing the "Adam" Doxologies, and removing the id of the Adam Doxologies from the btn.prayers array
             if (!btnIncenseDawn.inlineBtns) {
+                //if btnIncenseDawn has no inlineBtns, we add an inlineBtn for the 'DoxologiesAdam' prayers
                 btnIncenseDawn.inlineBtns = [];
             }
-            ; //if btnIncenseDawn has no inlineBtns, we add an inlineBtn for the 'DoxologiesAdam' prayers
+            ;
             if (btnIncenseDawn.inlineBtns.length == 0) {
                 let btn = new inlineButton({
                     btnID: 'AdamDoxologies',
@@ -220,32 +222,29 @@ const btnIncenseDawn = new Button({
             // We will add the Gospel readings to the prayers
             index = btnIncenseDawn.prayers.indexOf('PrayerGospelIntroductionPart3&D=0000' + 1);
             let gospel = setGospelPrayers(Readings.GospelDawn); //we get the gospel prayers array for the Incense Dawn office
-            insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, gospel.splice(0, 1)); //we remove the 'Psalm response' ;
+            btnIncenseDawn.prayers.splice(index, 0, ...gospel.splice(0, 1)); //we remove the 'Psalm response' ;
             index = btnIncenseDawn.prayers.indexOf('PrayerGospelPrayerPart2&D=0000' + 1); //this is the end of the Gospel Prayer
-            insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, [gospel[0]]); //we insert the 'Psalm response'                            
+            btnIncenseDawn.prayers.splice(index, 0, gospel[0]); //we insert the 'Psalm response'                            
         })();
         (function removeEklonominTaghonata() {
             //We remove "Eklonomin Taghonata" from the prayers array
-            btnIncenseDawn.prayers.splice(btnIncenseDawn.prayers.indexOf('PrayerGodHaveMercyOnUsRefrainComment&S=GL'), 1); //this is the comment
-            for (let i = 1; i < 6; i++) {
-                btnIncenseDawn.prayers.splice(btnIncenseDawn.prayers.indexOf('PrayerGodHaveMercyOnUsRefrain&S=GL'), 1);
-            }
-            ; //We remove the refrain which is included 5 times in the prayers[] array
-            for (let i = 1; i < 16; i++) {
-                btnIncenseDawn.prayers.splice(btnIncenseDawn.prayers.indexOf('PrayerGodHaveMercyOnUsPart' + i.toString() + '&S=GL'), 2); // we remove 2 because there is a "Kyrielison" after each part
+            if ((Season != Seasons.GreatLent && Season != Seasons.JonahFast) || (todayDate.getDay() == 0 || todayDate.getDay() == 6)) {
+                btnIncenseDawn.prayers.splice(btnIncenseDawn.prayers.indexOf('PrayerGodHaveMercyOnUsRefrainComment&S=GL'), 36); //this is the comment, we remove 36 prayers including the comment
             }
             ;
         })();
-        //We will then add other prayers according to the occasion
+        //We will then add other prayers according to the season or feast
         (function addGreatLentPrayers() {
             if (Season == Seasons.GreatLent && todayDate.getDay() != 0 && todayDate.getDay() != 6) {
-                //If we are during any day of the week, we will add the Prophecies readings to the children of the button
-                if (btnIncenseDawn.children.indexOf(btnReadingsPropheciesDawn) == -1) {
-                    btnIncenseDawn.children.unshift(btnReadingsPropheciesDawn);
-                }
-                ;
-                //we will also add the 'Eklonomin Taghonata' prayer to the Dawn Incense Office prayers, after the 'Efnoti Naynan' prayer
-                (function addEklonominTaghonata() {
+                (function showPropheciesDawnBtn() {
+                    //If we are during any day of the week, we will add the Prophecies readings to the children of the button
+                    if (btnIncenseDawn.children.indexOf(btnReadingsPropheciesDawn) == -1) {
+                        btnIncenseDawn.children.unshift(btnReadingsPropheciesDawn);
+                    }
+                    ;
+                })();
+                //we will also add the 'Eklonomin Taghonata' prayer to the Dawn Incense Office prayers, after the 'Efnoti Naynan' prayer       
+                function addEklonominTaghonata() {
                     index = btnIncenseDawn.prayers.indexOf('PrayerEfnotiNaynanPart4&D=0000') + 2;
                     let temp = [];
                     //we add the comment
@@ -259,16 +258,17 @@ const btnIncenseDawn = new Button({
                         temp.push(prayer[0], id[0] + i.toString() + id[1], kyrielson, id[0] + (i + 1).toString() + id[1], kyrielson, id[0] + (i + 2).toString() + id[1], lastKyrie);
                     }
                     ;
-                    insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, temp);
-                })();
+                    btnIncenseDawn.prayers.splice(index, 0, ...temp);
+                }
+                ;
                 //We will then add the GreatLent      Doxologies to the Doxologies before the first Doxology of St. Mary
                 (function addGreatLentDoxologies() {
                     index = btnIncenseDawn.prayers.indexOf('PrayerDoxologyArchangelMichaelWates&D=0000') - 1;
-                    if (todayDate.getDay() != (0 || 6)) {
-                        insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, ['PrayerDoxology1&D=GLWeek', 'PrayerDoxology2&D=GLWeek', 'PrayerDoxology3&D=GLWeek', 'PrayerDoxology4&D=GLWeek', 'PrayerDoxology5&D=GLWeek']);
+                    if (todayDate.getDay() != 0 && todayDate.getDay() != 6) {
+                        btnIncenseDawn.prayers.splice(index, 0, ...['PrayerDoxology1&D=GLWeek', 'PrayerDoxology2&D=GLWeek', 'PrayerDoxology3&D=GLWeek', 'PrayerDoxology4&D=GLWeek', 'PrayerDoxology5&D=GLWeek']);
                     }
                     else if (todayDate.getDay() == (0 || 6)) {
-                        insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, ['PrayerDoxology1&D=GLSundays']);
+                        btnIncenseDawn.prayers.splice(index, 0, 'PrayerDoxology1&D=GLSundays');
                     }
                     ;
                 })();
@@ -277,7 +277,7 @@ const btnIncenseDawn = new Button({
         (function addKiahkPrayers() {
             if (Number(copticMonth) == 4) {
                 index = btnIncenseDawn.prayers.indexOf('PrayerDoxologyStMaryDate=0000') - 1;
-                insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, ['PrayerDoxology1&D=0004', 'PrayerDoxology2&D=0004', 'PrayerDoxology3&D=0004', 'PrayerDoxology4&D=0004',
+                btnIncenseDawn.prayers.splice(index, 0, ...['PrayerDoxology1&D=0004', 'PrayerDoxology2&D=0004', 'PrayerDoxology3&D=0004', 'PrayerDoxology4&D=0004',
                     'PrayerDoxology5&D=0004',
                     'PrayerDoxology6&D=0004']);
             }
@@ -285,7 +285,6 @@ const btnIncenseDawn = new Button({
         })();
         (function addResurrectionPrayers() {
             if (Season == Seasons.Resurrection) {
-                insertPrayerIntoArrayOfPrayers(btnIncenseDawn.prayers, index, ['']);
             }
             ;
         })();
