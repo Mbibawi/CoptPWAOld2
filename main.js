@@ -245,7 +245,6 @@ function createHtmlElementForPrayer(firstElement, prayers, languagesArray, userL
     if (actorClass && actorClass !== 'Title') {
         // we don't add the actorClass if it is "Title", because in this case we add a specific class called "TargetRowTitle" (see below)
         row.classList.add(actorClass);
-        //row.role = 'tr';
     }
     ;
     //looping the elements containing the text of the prayer in different languages,  starting by 1 since 0 is the id
@@ -261,11 +260,9 @@ function createHtmlElementForPrayer(firstElement, prayers, languagesArray, userL
         ; //we check that the language is included in the allLanguages array, i.e. if it has not been removed by the user, which means that he does not want this language to be displayed. If the language is not removed, we retrieve the text in this language. otherwise we will not retrieve its text.
         if (userLanguages.indexOf(lang) > -1) {
             p = document.createElement("p"); //we create a new <p></p> element for the text of each language in the 'prayer' array (the 'prayer' array is constructed like ['prayer id', 'text in AR, 'text in FR', ' text in COP', 'text in Language', etc.])
-            //p.role = "td";
             if (actorClass == "Title") {
                 //this means that the 'prayer' array includes the titles of the prayer since its first element ends with '&C=Title'.
                 row.classList.add("TargetRowTitle");
-                //row.role = 'th';
                 row.tabIndex = 0; //in order to make the div focusable by using the focus() method
             }
             else if (actorClass) {
@@ -290,23 +287,9 @@ function createHtmlElementForPrayer(firstElement, prayers, languagesArray, userL
         else {
         }
         ;
-        if (languagesArray[0] == 'AR') {
-            //row.style.flexDirection = 'row'; //this is in order to show the Arabic text on the right hand, followed by Coptic text in Arabic characters, etc, ie. [AR, CA, FR, COP]. If we keep their original order as in the languagesArray (which is  [COP, FR, CA, AR]), the arabic paragraph will be displayed in the first column starting from left to right, and the coptic paragraph will be on the last column from left to right
-        }
-        ;
     }
     ;
     tblDiv ? tblDiv.appendChild(row) : containerDiv.appendChild(row);
-}
-;
-/**
- * Returns a string indicating the number of columns and their widths
- * @param {HTMLElement} row - the html element created to show the text representing a row in the Word table from which the text of the prayer was taken (the text is provided as a string[] where the 1st element is the tabel's id and the other elements represent each the text in a given language)
- * @returns  {string} - a string represneting the value that will be given to the grid-template-columns of the row
- */
-function getColumnsNumberAndWidth(row) {
-    let width = (100 / (row.children.length)).toString() + "% ";
-    return width.repeat(row.children.length);
 }
 ;
 /**
@@ -421,26 +404,25 @@ function showChildButtonsOrPrayers(btn, clear = true, click = true, pursue = tru
         createBtn(btnMain, btnsDiv, btnMain.cssClass);
     }
     ;
-    if (btn.btnID == btnMain.btnID) {
-        //we do this in order to get a variable that tells us which sideBar button has been clicked last and displaying its prayers/children/inlineChildren. We need it to refresh the view when we change the language.
-        lastClickedButton = btn;
-    }
-    ;
     /**
-     * Adds an html element (a dive which role = button), with an 'onclick' event listner passing the lastClickedButton to showChildButtonsOrPrayers()
+     * Adds an html element (a dive which role = button), with an 'onclick' eventListner passing the btn who was clicked to showChildButtonsOrPrayers()
      * @param btn {Button} - the button that was clicked by the user and for which we create an html element that allows to get back to the side bar buttons tree before the button was clicked
      * @returns {HTMLElement} - the html element created for the "go back" button
      */
     function addGoBackButton(btn) {
         btnGoBack.children = []; //we are emptying any childs of the btnGoBack button
         if (btn.cssClass == 'inlineBtn') {
-            btnGoBack.children[0] = btn.parentBtn; // we are adding btn as a child to the btnGoBack;	
+            btnGoBack.children[0] = btn; // we are adding btn as a child to the btnGoBack;	
         }
         else if (btn.cssClass == 'sideBarBtn') {
             btnGoBack.children[0] = btn; // we are adding btn as a child to the btnGoBack;
         }
+        ;
         return createBtn(btnGoBack, leftSideBar.querySelector('#sideBarBtns'), btnGoBack.cssClass); // we are creating a new html button element from btnGoBack. Since btnGoBack has as a sole child btn, when clicking on it, it will trigger the showButtons function (see the if(btn.childs) above. When triggered, the showButtons will show btn as a button);
     }
+    ;
+    //we assign the btn to the global variable lastClickedButton. We do so in order to use the variable to know which sideBar button has been clicked last and displaying its prayers/children/inlineChildren. We need it to refresh the view when we change the language.
+    lastClickedButton = btn;
 }
 ;
 /**
@@ -463,6 +445,7 @@ function createBtn(btn, btnsBar, btnClass) {
             //we append the "p" element  to the newBtn button
             newBtn.appendChild(btnLable);
         }
+        ;
     }
     ;
     btnsBar.appendChild(newBtn);
@@ -1179,24 +1162,32 @@ function showPrayers(btn, clearSideBar = true) {
     }
     ;
     /**
+     * Returns a string indicating the number of columns and their widths
+     * @param {HTMLElement} row - the html element created to show the text representing a row in the Word table from which the text of the prayer was taken (the text is provided as a string[] where the 1st element is the tabel's id and the other elements represent each the text in a given language)
+     * @returns  {string} - a string represneting the value that will be given to the grid-template-columns of the row
+     */
+    function getColumnsNumberAndWidth(row) {
+        let width = (100 / (row.children.length)).toString() + "% ";
+        return width.repeat(row.children.length);
+    }
+    ;
+    /**
      * Returns a string representing the grid areas for an html element with a 'display:grid' property, based on the dataset.lang of its children
      * @param {HTMLElement} row - an html element having children and each child has a dataset.lang
      * @returns {string} representing the grid areas based on the dataset.lang of the html element children
      */
     function setGridAreas(row) {
         let areas = [], child;
-        areas.push('"');
         for (let i = 0; i < row.children.length; i++) {
             child = row.children[i];
             areas.push(child.dataset.lang);
         }
         ;
-        areas.push('"');
-        if (areas.indexOf('AR') == 1) {
+        if (areas.indexOf('AR') == 0 && !row.classList.contains('Comment') && !row.classList.contains('CommentText')) {
             areas.reverse();
         }
         ;
-        return areas.toString().split(',').join(' ');
+        return '"' + areas.toString().split(',').join(' ') + '"';
     }
     ;
 }
