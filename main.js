@@ -236,15 +236,16 @@ function setActorsClasses(id) {
  * @param {string[]} userLanguages - a globally declared array of the languages that the user wants to show.
  * @param {string} actorClass - a class that will be given to the html element showing the prayer according to who is saying the prayer: is it the Priest, the Diacon, or the Assembly?
  */
-function createHtmlElementForPrayer(firstElement, prayers, languagesArray, userLanguages, actorClass, tblDiv) {
+function createHtmlElementForPrayer(firstElement, prayers, languagesArray, userLanguages, actorClass, tblDiv, columnWidth) {
     let row, p, lang, text;
     row = document.createElement("div");
     row.classList.add("TargetRow"); //we add 'TargetRow' class to this div
-    row.dataset.root = firstElement.replace(/Part\d+/, '');
+    let dataRoot = firstElement.replace(/Part\d+/, '');
+    row.dataset.root = dataRoot;
     if (actorClass && actorClass !== 'Title') {
         // we don't add the actorClass if it is "Title", because in this case we add a specific class called "TargetRowTitle" (see below)
         row.classList.add(actorClass);
-        row.role = 'tr';
+        //row.role = 'tr';
     }
     ;
     //looping the elements containing the text of the prayer in different languages,  starting by 1 since 0 is the id
@@ -260,11 +261,11 @@ function createHtmlElementForPrayer(firstElement, prayers, languagesArray, userL
         ; //we check that the language is included in the allLanguages array, i.e. if it has not been removed by the user, which means that he does not want this language to be displayed. If the language is not removed, we retrieve the text in this language. otherwise we will not retrieve its text.
         if (userLanguages.indexOf(lang) > -1) {
             p = document.createElement("p"); //we create a new <p></p> element for the text of each language in the 'prayer' array (the 'prayer' array is constructed like ['prayer id', 'text in AR, 'text in FR', ' text in COP', 'text in Language', etc.])
-            p.role = "td";
+            //p.role = "td";
             if (actorClass == "Title") {
                 //this means that the 'prayer' array includes the titles of the prayer since its first element ends with '&C=Title'.
                 row.classList.add("TargetRowTitle");
-                row.role = 'th';
+                //row.role = 'th';
                 row.tabIndex = 0; //in order to make the div focusable by using the focus() method
             }
             else if (actorClass) {
@@ -276,7 +277,7 @@ function createHtmlElementForPrayer(firstElement, prayers, languagesArray, userL
                 p.classList.add('PrayerText');
             }
             ;
-            p.dataset.root = firstElement.replace(/Part\d+/, ''); //we do this in order to be able later to retrieve all the divs containing the text of the prayers with similar id as the title
+            p.dataset.root = dataRoot; //we do this in order to be able later to retrieve all the divs containing the text of the prayers with similar id as the title
             text = prayers[x];
             p.classList.add(lang); //we add the language as a class in order to be able to set the font
             p.dataset.lang = lang; //we are adding this in order to be able to retrieve all the paragraphs in a given language by its data attribute. We need to do this in order for example to amplify the font of a given language when the user double clicks
@@ -289,23 +290,23 @@ function createHtmlElementForPrayer(firstElement, prayers, languagesArray, userL
         else {
         }
         ;
-        if (languagesArray[0] == 'COP') {
-            row.style.flexDirection = 'row'; //this is in order to show the Arabic text on the right hand, followed by Coptic text in Arabic characters, etc, ie. [AR, CA, FR, COP]. If we keep their original order as in the languagesArray (which is  [COP, FR, CA, AR]), the arabic paragraph will be displayed in the first column starting from left to right, and the coptic paragraph will be on the last column from left to right
-        }
-        ;
-        setGridTemplateColumns(row);
-        function setGridTemplateColumns(row) {
-            let width = (100 / row.children.length).toString() + "% ";
-            for (let i = 1; i < row.children.length; i++) {
-                width += (100 / row.children.length).toString() + "% ";
-            }
-            ;
-            row.style.display = 'grid';
-            row.style.gridTemplateColumns = width;
+        if (languagesArray[0] == 'AR') {
+            //row.style.flexDirection = 'row'; //this is in order to show the Arabic text on the right hand, followed by Coptic text in Arabic characters, etc, ie. [AR, CA, FR, COP]. If we keep their original order as in the languagesArray (which is  [COP, FR, CA, AR]), the arabic paragraph will be displayed in the first column starting from left to right, and the coptic paragraph will be on the last column from left to right
         }
         ;
     }
-    tblDiv.appendChild(row);
+    ;
+    tblDiv ? tblDiv.appendChild(row) : containerDiv.appendChild(row);
+}
+;
+/**
+ * Returns a string indicating the number of columns and their widths
+ * @param {HTMLElement} row - the html element created to show the text representing a row in the Word table from which the text of the prayer was taken (the text is provided as a string[] where the 1st element is the tabel's id and the other elements represent each the text in a given language)
+ * @returns  {string} - a string represneting the value that will be given to the grid-template-columns of the row
+ */
+function getColumnsNumberAndWidth(row) {
+    let width = (100 / (row.children.length)).toString() + "% ";
+    return width.repeat(row.children.length);
 }
 ;
 /**
@@ -1089,6 +1090,7 @@ function showPrayers(btn, clearSideBar = true) {
         findAndProcessPrayers(p);
     });
     closeSideBar(leftSideBar);
+    setCSSStyles(); //setting the number and width of the columns for each html element with class 'TargetRow'
     if (titles) {
         showTitlesInRightSideBar(titles, rightSideBar.querySelector('#sideBarBtns'));
     }
@@ -1102,18 +1104,6 @@ function showPrayers(btn, clearSideBar = true) {
             wordTable = btn.prayersArray[i]; //this represents a table in the Word document from which the prayers text was extracted*
             if (wordTable[0]) {
                 tblTitle = wordTable[0][0].split('&C=')[0]; //the first element in the string[][] representing the Word table is a string[] with only 1 element representing the Title of the Table. We remove "&C=" from the end in order to get the title of the table without any additions indicating the class of the html element that will be created for each row
-                wdTableDiv = document.createElement('div'); //we create a div element that will contain all the rows of the wordTable
-                wdTableDiv.role = 'Table';
-                wdTableDiv.id = 'Table' + tblTitle; //not sure we need it but will see later whether to keep it or not
-                //wdTableDiv.classList.add('prayerTable');
-                wdTableDiv.style.display = 'grid';
-                let width = '100%';
-                //let width: string = (100 / userLanguages.length).toString() + '% ';
-                //for (let i = 1; i < userLanguages.length; i++){
-                //width += width
-                //};
-                wdTableDiv.style.gridTemplateColumns = width;
-                wdTableDiv.dataset.root = tblTitle.replace(/Part\d+/, ''); //we add a data-root property that will allow us to retrieve any div with the same data-root and hide it (notice that we remove 'Part' + any digit from the data-root, in order to retrieve all the tables with same root)
                 if (p == tblTitle) {
                     if (tblTitle.startsWith("PrayerMassFractionPrayer")) {
                         fractionPrayers.push(wordTable); //We will create and inline button for each fraction instead of showing the text of the fraction prayer directly
@@ -1157,11 +1147,6 @@ function showPrayers(btn, clearSideBar = true) {
                     ;
                 }
                 ;
-                //we finally append the wdTableDiv to the containerDiv
-                if (wdTableDiv.children.length > 0) {
-                    containerDiv.appendChild(wdTableDiv);
-                }
-                ;
             }
             ;
         }
@@ -1178,6 +1163,40 @@ function showPrayers(btn, clearSideBar = true) {
             rightSideBar.querySelector('#sideBarBtns').innerHTML = '';
         }
         ; //this is the right side bar where the titles are displayed for navigation purposes
+    }
+    ;
+    function setCSSStyles() {
+        return __awaiter(this, void 0, void 0, function* () {
+            let Rows = containerDiv.querySelectorAll('.TargetRow');
+            if (Rows) {
+                Rows.forEach((r) => {
+                    r.style.gridTemplateAreas = setGridAreas(r);
+                    r.style.gridTemplateColumns = getColumnsNumberAndWidth(r);
+                });
+            }
+            ;
+        });
+    }
+    ;
+    /**
+     * Returns a string representing the grid areas for an html element with a 'display:grid' property, based on the dataset.lang of its children
+     * @param {HTMLElement} row - an html element having children and each child has a dataset.lang
+     * @returns {string} representing the grid areas based on the dataset.lang of the html element children
+     */
+    function setGridAreas(row) {
+        let areas = [], child;
+        areas.push('"');
+        for (let i = 0; i < row.children.length; i++) {
+            child = row.children[i];
+            areas.push(child.dataset.lang);
+        }
+        ;
+        areas.push('"');
+        if (areas.indexOf('AR') == 1) {
+            areas.reverse();
+        }
+        ;
+        return areas.toString().split(',').join(' ');
     }
     ;
 }

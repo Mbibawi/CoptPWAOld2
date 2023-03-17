@@ -1,18 +1,18 @@
 @font-face {
   font-family: AvaShenouda;
-  src: url(Avva_Shenouda.ttf);
+  src: url(./fonts/Avva_Shenouda.ttf);
 }
 @font-face {
   font-family: ArialCoptic;
-  src: url(ArialCoptic.ttf);
+  src: url(./fonts/ArialCoptic.ttf);
 }
 .root{
-  --column-width: 30%;
+  --inline-column-width: 30%;
+  --text-column-width: 30%;
 }
 .Container {
   display: grid;
-  overflow-x: auto;
-  width: 100%;
+  max-width: 100%;
   justify-items: stretch;
 }
 .Content {
@@ -38,8 +38,7 @@
 .CA,
 .Title,
 .PrayerText{
-  margin:6px !important;
-  word-wrap: break-word;
+
 }
 .AR,
 .CA {
@@ -53,7 +52,7 @@
 .COP {
   font-family: ArialCoptic;
   font-weight: 595;
-  font-size: 12;
+  font-size: 14;
 }
 .Menu {
   background-color: #5270a3;
@@ -87,19 +86,19 @@ width: auto !important;
 }
 .inlineBtns{
   display:grid;
+  grid-template-columns: var(--inline-column-width);
   justify-items: center;
-  width: 90%;
+  max-width: 90%;
 }
 #main{
   display: grid;
   justify-items: center;
-  word-break: break-all;
-  width: 100%
+  overflow-x: auto;
+  max-width: 100%;
 }
-.Repeatable {
-  margin-bottom: 50px;
-  padding-left: 1cm;
-  padding-right: 1cm;
+#textDisplayArea{
+  max-width: 100%;
+  justify-items: stretch;
 }
 .btnText, .btnLableAR, .btnLableFR, .btnLableEN {
   font-weight: bold;
@@ -123,19 +122,33 @@ width: auto !important;
   word-wrap:break-word;
 }
 
-.TargetRow {
+.TargetRow, .TargetRowTitle {
   display: grid;
   text-align: justify;
   row-gap: 100px;
   border-radius: 5px;
-  margin-bottom: 1px;
+  margin: 0px 3px;
+  resize: vertical;
+  justify-items: stretch;
+  max-width: 100%;
 }
 .TargetRowTitle {
-  display: grid;
   text-align: center;
   background-color: rgb(228, 229, 145) !important;
-  margin-bottom: 1px;
-  border-radius: 5px;
+}
+.TargetRow > .AR, .TargetRowTitle >.AR{
+  grid-area: AR;
+}
+.TargetRow > .CA, .TargetRowTitle >.CA{
+  grid-area: CA;
+}
+
+.TargetRow > .FR, .TargetRowTitle >.FR{
+ grid-area: FR;
+}
+
+.TargetRow > .COP, .TargetRowTitle >.COP{
+  grid-area: COP;
 }
 .TargetRowTitle > p{
   font-weight: bold;
@@ -149,8 +162,7 @@ width: auto !important;
 .Comment,
 .CommentText
 {
-  padding: 1px 5px;
-  word-wrap: break-word;
+  padding: 5px 3px;
   margin:1px;
 }
 .Priest,
@@ -311,8 +323,8 @@ table{
   font-size: 10pt;
   font-weight: bold;
   text-align: justify;
-  padding: 0.5px;
-  margin: 1px 0.5px;
+  padding: 0px 3px !important;
+  margin: 2px 3px;
   font-style: italic;
 }
 .CommentText {
