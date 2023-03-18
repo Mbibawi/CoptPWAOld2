@@ -99,7 +99,7 @@ autoRunOnLoad();
  * Some functions that we run automatically when loading the app
  */
 function autoRunOnLoad() {
-    let version = 'v0.3';
+    let version = 'v0.4';
     let p = document.createElement('p');
     p.style.color = 'red';
     p.style.fontSize = '15pt';
@@ -110,10 +110,8 @@ function autoRunOnLoad() {
     //appendRepeatable('Test');
     setCopticDates();
     allDivs = document.querySelectorAll("div");
-    //console.log("all nodes count = ", document.querySelectorAll("*").length);
-    setButtonsPrayers();
+    //setButtonsPrayers();
     DetectFingerSwipe();
-    //copticReadingsDate = '0101';
     //registerServiceWorker()
     //PWA();
 }
@@ -356,10 +354,7 @@ function showChildButtonsOrPrayers(btn, clear = true, click = true, pursue = tru
     ;
     if (btn.onClick && click) {
         btn.onClick();
-        if (!pursue) {
-            return;
-        }
-        ;
+        //if (!pursue || !btn.pursue) { return };
     }
     ;
     if (btn.inlineBtns) {
@@ -1035,31 +1030,17 @@ function buildSideBar(id) {
 }
 ;
 /**
- * Insert an array of prayers after the given index into another array of prayers. It takes the elements of the 'insertion' array and inserts them  after the index in the target 'prayers' array.
- * @param {string[]} prayers - the target array of prayers into which an array of prayers will be inserted
- * @param {number} index - the index into which the array of prayers will be inserted
- * @param {string}  insertion - the array of prayers that will be inserted into the target array
- */
-function insertPrayerIntoArrayOfPrayers(targetArrayOfPrayers, index, prayersToInsert) {
-    //This function insert prayers as string elements into an existing array of prayers, after the specified index
-    for (let i = 0; i < prayersToInsert.length; i++) {
-        targetArrayOfPrayers.splice(index, 0, prayersToInsert[i]);
-        index++;
-    }
-    ;
-}
-/**
  * This function takes a button having a prayersArray property of type string[][][]. Prayers array is an array of string[][], each string[][] represents a table in the Word document from which the text of the prayers was extracted. each string[][] element, has as its 1st element a string[] with only 1 string, representing the title of the Word table (['TableTitle']). Then each next string[] element represents a row of the table's rows. Each row string[] starts with the title of the table, modified to reflect whether this row contains the titles of the prayers (in such case the word "Title" is added before "&D="), or to determine by whom the prayer is chanted (in such case the word "&C=" + "Priest", "Diacon" or "Assembly" are added at the end of the title). The other elements of the row string[] represent the text of of each cell in the row. The prayersArray is hence structured like this: [[['Table1Title],['Table1TitleWithTitleOr&C=', 'TextOfRow1Cell1', 'TextOfRow1Cell2', 'TextOfRow1Cell3', etc.], ['Table1TitleWithTitleOr&C=', 'TextOfRow2Cell1', 'TextOfRow2Cell2', 'TextOfRow2Cell3', etc.], etc.], [['Table2Title],['Table2TitleWithTitleOr&C=', 'TextOfRow1Cell1', 'TextOfRow1Cell2', 'TextOfRow1Cell3', etc.], ['Table2TitleWithTitleOr&C=', 'TextOfRow2Cell1', 'TextOfRow2Cell2', 'TextOfRow2Cell3', etc.]], etc. etc.]
  * @param btn
  */
 function showPrayers(btn, clearSideBar = true) {
-    let titles = [];
+    let titles = [], fractions = [];
     clearDivs();
     btn.prayers.map(p => {
         let date;
         if (p.includes('&D=') || p.includes('&S=')) {
-            //if the id of the prayer includes the value '&D=' this tells us that this prayer is either not linked to a specific day in the coptic calendar (&D=0000), or the date has been set by the button function (e.g.: PrayerGospelResponse&D=GLWeek). In this case, we will not add the copticReadingsDate to the prayerID
-            //Similarly, if the id includes 'Season=', it tells us that it is not linked to a specific date but to a given period of the year. We also keep the id as is without adding any date to it
+            //if the id of the prayer includes the value '&D=' this tells us that this prayer is either not linked to a specific day in the coptic calendar (&D=), or the date has been set by the button function (e.g.: PrayerGospelResponse&D=GLWeek). In this case, we will not add the copticReadingsDate to the prayerID
+            //Similarly, if the id includes '&S=', it tells us that it is not linked to a specific date but to a given period of the year. We also keep the id as is without adding any date to it
             date = '';
         }
         else {
@@ -1074,63 +1055,51 @@ function showPrayers(btn, clearSideBar = true) {
     if (titles) {
         showTitlesInRightSideBar(titles, rightSideBar.querySelector('#sideBarBtns'));
     }
+    ;
+    btn.prayersArray.map(wordTable => {
+        if (wordTable[0][0].startsWith('PMFractionPrayer') && wordTable[0][0].split('&C=')[0] != btn.btnID) {
+            //Notice that we are excluding the case where btn.btnID is = to word[0][0] after removing '&C='. This is because in such case btn is an inline button that had been created for the fraction and was passed to showPrayers when the user clicked it. The prayersArray of this inlineBtn contains only 1 table which is the fraction itself. We don't need in such case to show an inline btn at the end of the page for this fraction. Actually, no inline buttons will be created at all since fractions will remain empty
+            fractions.push(wordTable);
+        }
+        ;
+    });
+    if (fractions.length > 0) {
+        let insertion = containerDiv.querySelector('[data-root="PMCTheHolyBodyAndTheHolyBlod&D=0000"]'); //this is the first identifiable element after which we will insert the inline buttons for the fraction prayers
+        for (let i = 1; i < 11; i++) {
+            //we move 10 siblings
+            insertion = insertion.nextElementSibling;
+        }
+        ;
+        let div = document.createElement('div'); //a new element to which the inline buttons elements will be appended
+        showInlineButtonsForFractionPrayers(btn, fractions, div);
+        insertion.insertAdjacentElement('afterend', div); //we insert the div after the insertion position
+    }
+    ;
     /**
      * Takes a prayer string "p" from the btn.prayers[], and looks for an array in the btn.prayersArray with its first element matches "p". When it finds the array (which is a string[][] where each element from the 2nd element represents a row in the Word table), it process the text in the row string[] to createHtmlElementForPrayer() in order to show the prayer in the main page
      * @param {string} p - a string representing a prayer in the btn.prayers[]. This string matches the title of one of the tables in the Word document from which the text was extracted. The btn.prayersArray should have one of its elements = to "p"
      */
     function findAndProcessPrayers(p) {
-        let wordTable, row, tblTitle, fractionPrayers = [], wdTableDiv;
-        for (let i = 0; i < btn.prayersArray.length; i++) {
-            wordTable = btn.prayersArray[i]; //this represents a table in the Word document from which the prayers text was extracted*
+        let tblTitle, wdTableDiv;
+        btn.prayersArray.map(wordTable => {
             if (wordTable[0]) {
+                //i.e., if the wordTable array is not empty (we check because there might be some empty [] generated by the VBA)
                 tblTitle = wordTable[0][0].split('&C=')[0]; //the first element in the string[][] representing the Word table is a string[] with only 1 element representing the Title of the Table. We remove "&C=" from the end in order to get the title of the table without any additions indicating the class of the html element that will be created for each row
                 if (p == tblTitle) {
-                    if (tblTitle.startsWith("PrayerMassFractionPrayer")) {
-                        fractionPrayers.push(wordTable); //We will create and inline button for each fraction instead of showing the text of the fraction prayer directly
-                    }
-                    else {
-                        for (let r = 0; r < wordTable.length; r++) {
-                            row = wordTable[r]; //each string[] element after the 1st element in the Word table string[][] represents a row in the table. The row string[] starts with the title of the table (modified as the case may be), and continues with the text in each cell of the row
-                            createHtmlElementForPrayer(tblTitle, row, btn.languages, userLanguages, row[0].split('&C=')[1], wdTableDiv); //row[0] is the title of the table modified as the case may be to reflect wether the row contains the titles of the prayer, or who chants the prayer (in such case the words 'Title' or '&C=' + 'Priest', 'Diacon', or 'Assembly' are added to the title)
-                            if (wordTable[r][0].includes('&C=Title')) {
-                                titles.push(row);
-                            }
-                            ;
+                    //i.e. if the prayer passed to the function = the first element of the first array in the btn.prayersArray (this element is a string representing the title of the Word table from which the text was extracted)
+                    wordTable.map(row => {
+                        createHtmlElementForPrayer(tblTitle, row, btn.languages, userLanguages, row[0].split('&C=')[1], wdTableDiv); //row[0] is the title of the table modified as the case may be to reflect wether the row contains the titles of the prayer, or who chants the prayer (in such case the words 'Title' or '&C=' + 'Priest', 'Diacon', or 'Assembly' are added to the title)
+                        if (row[0].includes('&C=Title')) {
+                            //if the 1st element of the row includes 'Title' it means that this is a row including the titles of the word table
+                            titles.push(row);
                         }
                         ;
-                    }
-                    ;
-                    if (fractionPrayers.length > 0) {
-                        let fractionsBtn, //a virutal button to which we will add inlineBtns for each fraction
-                        fractionBtn, //an inlineBtn representing a fraction
-                        newDiv;
-                        newDiv = document.createElement('div');
-                        fractionsBtn = new Button({
-                            btnID: 'fractionsBtn',
-                            label: { AR: '', FR: 'Doesn\'t need to have a label because it will not be displayed, we only need to display its inline buttons' }
-                        }); //we don't need to give it a label or or an id since we will pass it directly to showChildButtonsOrPrayers() in order to display its inlineBtns[] as html elements
-                        fractionsBtn.inlineBtns = [];
-                        fractionPrayers.map(wdTbl => {
-                            fractionBtn = new inlineButton({
-                                btnID: wdTbl[0][0],
-                                label: { AR: wdTbl[1][btn.languages.indexOf['AR'] + 1], FR: wdTbl[1][btn.languages.indexOf['FR'] + 1] }
-                            });
-                            fractionsBtn.inlineBtns.push(fractionBtn); //we add the newly created inlineBtn to the fractionsBtn.inlineBtns array
-                            fractionBtn.prayersArray = wdTbl;
-                            fractionBtn.prayers = [];
-                            fractionBtn.prayersArray.map(tblRow => fractionBtn.prayers.push(tblRow[0])); //for each row array in the wdTbl rows, we add the 1st element (which is a string) to the fractionBtn.prayers array
-                            fractionBtn.languages = btnMassStBasil.languages; //we need to set the languages otherwise showPrayers() will not be called
-                        });
-                        fractionBtn.inlineBtns.map(b => createBtn(b, inlineBtnsDiv, fractionBtn.cssClass));
-                        showChildButtonsOrPrayers(fractionsBtn, false); //ATTENTION: the clear paramater must be false, otherwise the inilne buttons create previously will dissapear. We are creating html button elements for each fractionPrayer, and will attach to it an "onclick" eventListner that will pass the fractionBtn to showChildButtonsOrPrayers()
-                    }
-                    ;
+                    });
                 }
                 ;
             }
             ;
-        }
-        ;
+        });
     }
     ;
     /**
@@ -1242,5 +1211,66 @@ function collapseText(element) {
         element.textContent = element.textContent.replace(String.fromCharCode(10134), String.fromCharCode(10133));
     }
     ;
+}
+;
+/**
+ * Creates html button elements, each representing an inlineBtn. Each inlineBtn represents a fraction prayer. The fraction prayers are selected/filtered amongst the available fractions, based on the day (the copticDate) and the Season (is it a feast or does it fall within a season for which there are special fractions?)
+ * @param {Button} btn - the mass button for which we want to show inlineBtns for teh fraction prayers
+ * @param {string[][][]} fractions - an array of string[][], each representing a fraction, each fraction represents a table in the Word document from which the text was extracted. Each element in the string[][] is a row in the Word table. Each string[] row starts with the title of the table (to which the class of the row is added at its end as '&C=[TheNameOfTheClass]'), then each element contains the text in a given language
+ * @param {HTMLElement} btnsDiv - an html element to which the html buttons that will be created will be appended
+ */
+function showInlineButtonsForFractionPrayers(btn, fractions, btnsDiv) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let selected = [], title, inlineBtn;
+        //We select the relevant fractions
+        fractions.map(fraction => {
+            if (fraction[0][0].includes('&D=' + copticDate) || fraction[0][0].includes('&S=' + Season)) {
+                //we start by selecting the fractions who fits the day (if it is a feast for example) or the season
+                selected.push(fraction);
+            }
+            else if (copticDay == '29' && fraction[0][0].includes('&D=2900')) {
+                selected.push(fraction);
+            }
+            ;
+        });
+        //we also add the so called 'annual' fractions, i.e., those that fit for any day of the year
+        fractions.map(fraction => {
+            if (fraction[0][0].includes('&D=0000')) {
+                selected.push(fraction);
+            }
+            ;
+        });
+        if (!btnsDiv) {
+            btnsDiv = document.createElement('div');
+        }
+        ;
+        btnsDiv.classList.add('btnsContainer');
+        selected.map(table => {
+            //for each string[][][] representing a table in the Word document from which the text was extracted, we create an inlineButton to display the text of the table
+            title = setActorsClasses(table[0][0]);
+            inlineBtn = new inlineButton({
+                btnID: title[0],
+                label: {
+                    AR: table[0][btn.languages.indexOf('AR') + 1],
+                    FR: table[0][btn.languages.indexOf('FR') + 1] //we add 1 because table[0] is the table title not the row's text in a given language
+                },
+                prayers: [title[0]],
+                prayersArray: [table],
+                languages: btn.languages,
+                onClick: () => {
+                    let goBak = new inlineButton({
+                        btnID: btn.btnID,
+                        label: btnGoBack.label,
+                        onClick: () => {
+                            showChildButtonsOrPrayers(btn);
+                        }
+                    });
+                    createBtn(goBak, btnsDiv, btnGoBack.cssClass);
+                },
+            });
+            createBtn(inlineBtn, btnsDiv, inlineBtn.cssClass).classList.add('fractionPrayersBtn');
+        });
+        //containerDiv.appendChild(btnsDiv);
+    });
 }
 ;

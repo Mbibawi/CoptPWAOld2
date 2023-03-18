@@ -1,3 +1,12 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 class Button {
     constructor(btn) {
         this._label = { FR: '', AR: '', EN: '' };
@@ -13,6 +22,7 @@ class Button {
         this._titlesArray = btn.titlesArray;
         this._languages = btn.languages;
         this._onClick = btn.onClick;
+        this._pursue = btn.pursue;
         this._value = btn.value;
         btn.cssClass ? this._cssClass = btn.cssClass : this._cssClass = 'sideBarBtn';
         this._inlineBtns = btn.inlineBtns;
@@ -40,6 +50,8 @@ class Button {
     ;
     get onClick() { return this._onClick; }
     ;
+    get pursue() { return this._pursue; }
+    ;
     get value() { return this._value; }
     ;
     get cssClass() { return this._cssClass; }
@@ -63,6 +75,8 @@ class Button {
     set languages(btnLanguages) { this._languages = btnLanguages; }
     ;
     set onClick(fun) { this._onClick = fun; }
+    ;
+    set pursue(pursue) { this._pursue = pursue; }
     ;
     set children(children) { this._children = children; }
     ;
@@ -334,14 +348,15 @@ const btnMassStCyril = new Button({
         }
         ;
         //Setting the standard mass prayers sequence
-        btnMassStCyril.prayers = [...MassPrayers.MassCommonIntro, ...MassPrayers.MassStCyril, ...MassPrayers.MassFractions, ...MassPrayers.Communion];
+        btnMassStCyril.prayers = [...MassPrayers.MassCommonIntro, ...MassPrayers.MassStCyril, ...MassPrayers.Communion];
+        //We will show the prayers directly and will set the btn.pursue property to false
+        // showPrayers(btnMassStCyril);
         // adding inline buttons if they were not already set when the user previously clicked the button
         if (!btnMassStCyril.inlineBtns) {
             btnMassStCyril.inlineBtns = [...goToAnotherMass];
             btnMassStCyril.inlineBtns.splice(2, 1); //removing btnGoToStCyrilReconciliation from the inlineBtns
         }
         ;
-        //we will retrieve the prayers from the prayersArray and set the retrieved property to true
         return btnMassStCyril.prayers;
     }
 });
@@ -358,7 +373,7 @@ const btnMassStGregory = new Button({
         }
         ;
         //Setting the standard mass prayers sequence
-        btnMassStGregory.prayers = [...MassPrayers.MassCommonIntro, ...MassPrayers.MassStGregory, ...MassPrayers.MassCallOfHolySpirit, ...MassPrayers.MassLitanies, ...MassPrayers.MassFractions, ...MassPrayers.Communion];
+        btnMassStGregory.prayers = [...MassPrayers.MassCommonIntro, ...MassPrayers.MassStGregory, ...MassPrayers.MassCallOfHolySpirit, ...MassPrayers.MassLitanies, ...MassPrayers.Communion];
         // adding inline buttons if they were not already set when the user previously clicked the button
         if (!btnMassStGregory.inlineBtns) {
             btnMassStGregory.inlineBtns = [...goToAnotherMass];
@@ -381,13 +396,13 @@ const btnMassStBasil = new Button({
         }
         ;
         //Setting the standard mass prayers sequence
-        btnMassStBasil.prayers = [...MassPrayers.MassCommonIntro, ...MassPrayers.MassStBasil, ...MassPrayers.MassCallOfHolySpirit, ...MassPrayers.MassLitanies, ...MassPrayers.MassFractions, ...MassPrayers.Communion];
-        // adding inline buttons if they were not already set when the user previously clicked the button
-        if (!btnMassStBasil.inlineBtns) {
-            btnMassStBasil.inlineBtns = [...goToAnotherMass];
-            btnMassStBasil.inlineBtns.splice(0, 1); //removing btnGoToStBasilReconciliation from the inlineBtns
-        }
-        ;
+        btnMassStBasil.prayers = [...MassPrayers.MassCommonIntro, ...MassPrayers.MassStBasil, ...MassPrayers.MassCallOfHolySpirit, ...MassPrayers.MassLitanies, ...MassPrayers.Communion];
+        (() => __awaiter(this, void 0, void 0, function* () {
+            if (!btnMassStBasil.inlineBtns) {
+                btnMassStBasil.inlineBtns = [...goToAnotherMass];
+                btnMassStBasil.inlineBtns.splice(0, 1); //removing btnGoToStBasilReconciliation from the inlineBtns
+            }
+        }))();
         return btnMassStBasil.prayers;
     }
 });
