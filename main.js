@@ -1152,6 +1152,14 @@ function showPrayers(btn, clearSideBar = true) {
                 Rows.forEach((r) => {
                     r.style.gridTemplateColumns = getColumnsNumberAndWidth(r); //Setting the number of columns and their width for each element having the 'TargetRow' class
                     r.style.gridTemplateAreas = setGridAreas(r); //Defining grid areas for each language in order to be able to control the order in which the languages are displayed (Arabic always on the last column from left to right, and Coptic on the first column from left to right)
+                    if (r.classList.contains('TargetRowTitle')) {
+                        r.role = 'button';
+                        r.addEventListener('click', () => collapseText(r)); //we also add a 'click' eventListener to the 'TargetRowTitle' elements
+                        let sign = document.createElement('p');
+                        sign.innerText = String.fromCharCode(10134);
+                        r.lastElementChild.textContent = sign.innerText + ' ' + r.lastElementChild.textContent;
+                    }
+                    ;
                 });
             }
             ;
@@ -1201,5 +1209,38 @@ function setButtonsPrayers() {
         console.log('Buttons prayers were set');
         return btnsPrayers;
     });
+}
+;
+/**
+ * Toggles the dipslay property of all the nextElementSiblings of the element, if the nextElementSibling classList does not include 'TargetRowTitle'
+ * @param {HTMLElement} element - the html element which nextElementSiblings display property will be toggled between 'none' and 'grid'
+ */
+function collapseText(element) {
+    let siblings = [], next;
+    next = element.nextElementSibling;
+    while (next && !next.classList.contains('TargetRowTitle')) {
+        siblings.push(next);
+        next = next.nextElementSibling;
+    }
+    ;
+    for (let i = 0; i < siblings.length; i++) {
+        siblings[i].classList.toggle('collapsed');
+        if (siblings[i].classList.contains('collapsed')) {
+            siblings[i].style.display = 'none';
+        }
+        else {
+            siblings[i].style.display = 'grid';
+        }
+        ;
+    }
+    ;
+    element = element.lastChild;
+    if (element.textContent.includes(String.fromCharCode(10133))) {
+        element.textContent = element.textContent.replace(String.fromCharCode(10133), String.fromCharCode(10134));
+    }
+    else if (element.textContent.includes(String.fromCharCode(10134))) {
+        element.textContent = element.textContent.replace(String.fromCharCode(10134), String.fromCharCode(10133));
+    }
+    ;
 }
 ;
