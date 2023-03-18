@@ -1057,7 +1057,7 @@ function showPrayers(btn, clearSideBar = true) {
     }
     ;
     btn.prayersArray.map(wordTable => {
-        if (wordTable[0][0].startsWith('PMFractionPrayer') && wordTable[0][0].split('&C=')[0] != btn.btnID) {
+        if (btn.btnID.startsWith('btnMass') && wordTable[0][0].startsWith('PMFractionPrayer') && wordTable[0][0].split('&C=')[0] != btn.btnID) {
             //Notice that we are excluding the case where btn.btnID is = to word[0][0] after removing '&C='. This is because in such case btn is an inline button that had been created for the fraction and was passed to showPrayers when the user clicked it. The prayersArray of this inlineBtn contains only 1 table which is the fraction itself. We don't need in such case to show an inline btn at the end of the page for this fraction. Actually, no inline buttons will be created at all since fractions will remain empty
             fractions.push(wordTable);
         }
@@ -1067,7 +1067,9 @@ function showPrayers(btn, clearSideBar = true) {
         let insertion = containerDiv.querySelector('[data-root="PMCTheHolyBodyAndTheHolyBlod&D=0000"]'); //this is the first identifiable element after which we will insert the inline buttons for the fraction prayers
         for (let i = 1; i < 11; i++) {
             //we move 10 siblings
-            insertion = insertion.nextElementSibling;
+            if (insertion) {
+                insertion = insertion.nextElementSibling;
+            }
         }
         ;
         let div = document.createElement('div'); //a new element to which the inline buttons elements will be appended
