@@ -88,7 +88,7 @@ class Button {
 class inlineButton extends Button {
     constructor(btn) {
         super(btn);
-        btn.cssClass ? this.cssClass = btn.cssClass : this.cssClass = 'inlineBtn';
+        this.cssClass = 'inlineBtn';
     }
     ;
 }
@@ -96,9 +96,6 @@ class inlineButton extends Button {
 const btnMain = new Button({
     btnID: 'btnMain',
     label: { AR: "العودة إلى القائمة الرئيسية", FR: "Retour au menu principal", EN: "Back to the main menu" },
-    onClick: () => {
-        btnMain.children = [btnMass, btnIncenseOffice, btnDayReadings];
-    }
 });
 const btnGoBack = new Button({
     btnID: 'btnGoBack',
@@ -107,9 +104,6 @@ const btnGoBack = new Button({
 const btnMass = new Button({
     btnID: 'btnMass',
     label: { AR: "القداسات", FR: "Messes" },
-    onClick: () => {
-        btnMass.children = [btnIncenseDawn, btnMassOfferingOfTheLamb, btnMassRoshoumat, btnMassUnBaptised, btnMassBaptised];
-    }
 });
 const btnIncenseOffice = new Button({
     btnID: 'btnIncenseOffice',
@@ -504,6 +498,10 @@ const btnMassBaptised = new Button({
     parentBtn: btnMass,
     children: [btnMassStBasil, btnMassStCyril, btnMassStGregory, btnMassStJohn]
 });
+const btnFractionPrayers = new Button({
+    btnID: 'btnFractionPrayers',
+    label: { AR: 'صلوات القسمة', FR: 'Fraction' }
+});
 const btnMassReadings = new Button({
     btnID: 'btnMassReadings',
     label: {
@@ -686,6 +684,8 @@ const btnMassCommunion = new Button({
     btnID: 'btnMassCommunion',
     label: { AR: 'التوزيع', FR: 'Communion' }
 });
+btnMain.children = [btnMass, btnIncenseOffice, btnDayReadings];
+btnMass.children = [btnIncenseDawn, btnMassOfferingOfTheLamb, btnMassRoshoumat, btnMassUnBaptised, btnMassBaptised];
 btnMassUnBaptised.children = [btnReadingsStPaul, btnReadingsKatholikon, btnReadingsPraxis, btnReadingsSynaxarium, btnReadingsGospelMass];
 /**
  * takes a liturgie name like "IncenseDawn" or "IncenseVespers" and replaces the word "Mass" in the buttons gospel readings prayers array by the name of the liturgie. It also sets the psalm and the gospel responses according to some sepcific occasions (e.g.: if we are the 29th day of a coptic month, etc.)
