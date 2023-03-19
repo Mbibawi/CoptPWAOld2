@@ -1,4 +1,4 @@
-GospelVespersArray = [[
+ReadingsArrays.GospelVespersArray = [[
         ["RGIV&D=0101&C=Title",
             "مزمور ( 96:1-2 )",
             "Psalms 96:1-2",

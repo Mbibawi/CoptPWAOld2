@@ -1,4 +1,4 @@
-StPaulArray = [[
+ReadingsArrays.StPaulArray = [[
         ["RSP&D=0101&C=Title",
             "رسالة بولس الرسول الثانية إلى أهل كورنثوس ( 5 : 11 ـ 6 :1 ـ 13 )",
             "2 Corinthiens 5:11 - 6:13",

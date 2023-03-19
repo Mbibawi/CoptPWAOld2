@@ -109,7 +109,6 @@ function autoRunOnLoad() {
     showChildButtonsOrPrayers(btnMain);
     //appendRepeatable('Test');
     setCopticDates();
-    allDivs = document.querySelectorAll("div");
     //setButtonsPrayers();
     DetectFingerSwipe();
     //registerServiceWorker()
@@ -145,7 +144,7 @@ function retrieveButtonPrayersFromItsPrayersArray(btn, prayerID, rightTitlesDiv)
     idsArray.push(prayerID + date + "Title", prayerID + date); //we add 2 versions of the prayerID to the idsArray: the first version ends with 'Title', the second version does not end with 'Title' (this gives us an ids array like this ['aPrayerID&D=0101Title', 'aPrayerID&D=0101']). We will look for each version of the prayer id in the PrayersArray
     retrievedPrayersArray = retrievePrayers(idsArray, btn);
     if (rightTitlesDiv) {
-        showTitlesInRightSideBar(btn.titlesArray, rightTitlesDiv);
+        showTitlesInRightSideBar(btn.titlesArray, rightTitlesDiv, btn);
     }
     ;
     return retrievedPrayersArray;
@@ -257,6 +256,7 @@ function createHtmlElementForPrayer(firstElement, prayers, languagesArray, userL
             if (actorClass == "Title") {
                 //this means that the 'prayer' array includes the titles of the prayer since its first element ends with '&C=Title'.
                 row.classList.add("TargetRowTitle");
+                row.id = prayers[0];
                 row.tabIndex = 0; //in order to make the div focusable by using the focus() method
             }
             else if (actorClass) {
@@ -290,39 +290,29 @@ function createHtmlElementForPrayer(firstElement, prayers, languagesArray, userL
  * @param titlesArray {string[][]} - an array of titles. each title is an array containing the id of the title as its first element and the text in each language in the following elements (e.g. [id, 'arabic title', 'french title, 'coptic title'])
  * @param rightTitlesDiv - the right hand side bar div where the titles will be displayed
  */
-function showTitlesInRightSideBar(titlesArray, rightTitlesDiv) {
+function showTitlesInRightSideBar(titlesArray, rightTitlesDiv, btn) {
     return __awaiter(this, void 0, void 0, function* () {
         //this function shows the titles in the right side Bar
         rightTitlesDiv.innerHTML = ''; //we empty the side bar
-        let newDiv, parag, text = '', suffix = 'SideBar', id;
+        let bookmark, div, text = '';
         titlesArray.map(t => addTitle(t));
         function addTitle(t) {
-            id = t[0];
-            newDiv = document.createElement('div');
-            newDiv.role = 'button';
-            newDiv.id = id + suffix;
-            newDiv.classList.add(id + suffix);
-            newDiv.addEventListener('click', () => scrollHtmlElementIntoView(id));
-            //newDiv.addEventListener('click',
-            //	() => scrollHtmlElementIntoView(id));
-            for (let i = 1; i < t.length; i++) {
-                if (t[i]) {
-                    text = text + ' / ' + t[i];
-                }
-            }
-            ;
-            parag = document.createElement('p');
-            parag.innerText = text;
-            parag.classList.add('sideTitle');
-            newDiv.appendChild(parag);
-            rightTitlesDiv.appendChild(newDiv);
+            div = document.createElement('div'); //this is just a container
+            bookmark = document.createElement('a');
+            bookmark.href = '#' + t[0]; //we add a link to the element having as id, the id of the prayer
+            div.classList.add('sideTitle');
+            div.addEventListener('click', () => closeSideBar(rightSideBar)); //when the user clicks on the div, the rightSideBar is closed
+            text = t[btn.languages.indexOf('AR') + 1] + '\n' + t[btn.languages.indexOf('FR') + 1]; //we add 1 because t[0] is the id of the prayer
+            bookmark.innerText = text;
+            div.appendChild(bookmark);
+            rightTitlesDiv.appendChild(div);
             text = '';
         }
         ;
         /**
-         * scrolls down to an html element retrieved by its id, and closes the left side bar
-         * @param {string} id - the id of the html element
-         */
+             * scrolls down to an html element retrieved by its id, and closes the left side bar
+             * @param {string} id - the id of the html element
+             */
         function scrollHtmlElementIntoView(id) {
             for (let i = 1; i < containerDiv.children.length; i++) {
                 if (containerDiv.children[i].id == id) {
@@ -354,7 +344,7 @@ function showChildButtonsOrPrayers(btn, clear = true, click = true, pursue = tru
     ;
     if (btn.onClick && click) {
         btn.onClick();
-        //if (!pursue || !btn.pursue) { return };
+        //if (!pursue) { return };
     }
     ;
     if (btn.inlineBtns) {
@@ -406,7 +396,7 @@ function showChildButtonsOrPrayers(btn, clear = true, click = true, pursue = tru
  * @param {HTMLElement} div - the html element to which the html element button created and returned by the function, will be appended
  * @returns {Promise<HTMLElement>} - when resolved, the function returns the html button element it has created and appended to div
  */
-function createGoBackBtn(goTo, div, cssClass) {
+function createGoBackBtn(goTo, div, cssClass, bookmarkID) {
     return __awaiter(this, void 0, void 0, function* () {
         //We will create a 'Go Back' and will append it to newDiv
         let goBak = new inlineButton({
@@ -415,11 +405,23 @@ function createGoBackBtn(goTo, div, cssClass) {
             onClick: () => {
                 //This should get us back to the fraction prayers section of the Mass. We will temporary set the action to re-displaying the mass
                 showChildButtonsOrPrayers(goTo);
+                if (bookmarkID) {
+                    //We will create a fake HTMLAnchorElement, will set its href to the id of the element provided in the bookmark parameter, and will click it
+                    createFakeAnchor(bookmarkID);
+                }
+                ;
             }
         });
         goBak.cssClass = cssClass;
         return createBtn(goBak, div, goBak.cssClass); //notice that we are appending goBak to inlineBtnsDiv (which is the fixed position div), not to the newDiv. We do this in order for the goBack button to appear in a separate div not in the same 'grid' displayed div as the fraction inline buttons
     });
+}
+;
+function createFakeAnchor(id) {
+    let a = document.createElement('a');
+    a.href = '#' + id;
+    a.click();
+    a.remove();
 }
 ;
 /**
@@ -978,31 +980,11 @@ function toggleClassListForAllChildrenOFAnElement(ev, myClass) {
     let hasDataLang = containerDiv.querySelectorAll('[data-lang]');
     for (let i = 0; i < hasDataLang.length; i++) {
         if (hasDataLang[i].attributes.getNamedItem('data-lang').value == el.attributes.getNamedItem('data-lang').value) {
-            toggleClassList(hasDataLang[i], myClass);
-            /* 			let child: HTMLElement;
-                        for (let c = 1; c > el.parentElement.children.length; c++) {
-                            child = el.children[c] as HTMLElement;
-                            child.style.width = '20%';
-                        };
-                        el.style.width = '50%'*/
+            hasDataLang[i].classList.toggle(myClass);
         }
         ;
     }
     ;
-}
-;
-/**
- * Adds or removes a class to and from an html element
- * @param {HTMLElement} el - the html element the class will be toggled (added if missing, or removed if included)
- * @param {string} myClass - the CSS class
- */
-function toggleClassList(el, myClass) {
-    if (!el.classList.contains(myClass)) {
-        el.classList.add(myClass);
-    }
-    else if (el.classList.contains(myClass)) {
-        el.classList.remove(myClass);
-    }
 }
 ;
 /**
@@ -1055,10 +1037,13 @@ function showPrayers(btn, clearSideBar = true) {
         p += date;
         findAndProcessPrayers(p);
     });
-    closeSideBar(leftSideBar);
+    if (btn.btnID != btnGoBack.btnID && btn.btnID != btnMain.btnID) {
+        closeSideBar(leftSideBar);
+    }
+    ;
     setCSSStyles(); //setting the number and width of the columns for each html element with class 'TargetRow'
     if (titles) {
-        showTitlesInRightSideBar(titles, rightSideBar.querySelector('#sideBarBtns'));
+        showTitlesInRightSideBar(titles, rightSideBar.querySelector('#sideBarBtns'), btn);
     }
     ;
     btn.prayersArray.map(wordTable => {
@@ -1258,15 +1243,15 @@ function showInlineButtonsForFractionPrayers(btn, fractions, btnsDiv) {
                 newDiv.tabIndex = 3;
                 newDiv.focus();
                 //we set the focus on inlineBtnsDiv
-                //We create a 'Go Back' html button that simulates clicking on the btn who called the function. We start by creating it in order to show it at the top before the other inline buttons that will be created for each fraction
-                createGoBackBtn(btn, inlineBtnsDiv, btn.cssClass).then((b) => b.classList.add('centeredBtn'));
+                //We create a 'Go Back' html button that simulates clicking on the btn who called the function. We start by creating it in order to show it at the top before the other inline buttons that will be created for each fraction. NOTICE that we provided the bookmark argument to createGoBakBtn. We did his in order for the 'Go Back' button that will be created, when clicked, to scroll back to the fractionBtn in the page
+                createGoBackBtn(btn, inlineBtnsDiv, btn.cssClass, fractionBtn.btnID).then((b) => b.classList.add('centeredBtn'));
                 //creating html button element for each inlineBtn of fractionBtn.inlineBtns[]. Notice that be passing newDiv to createBtn(), the html element that will be created for the inlineBtn will be automatically appended to newDiv
                 fractionBtn.inlineBtns.map(b => {
                     createBtn(b, newDiv, b.cssClass);
                 });
                 //We append newDiv to inlineBtnsDiv, which is a div having a 'fixed' position, a z-index = 2, and remains visible in front of the other page's html element when the user scrolls down
                 inlineBtnsDiv.appendChild(newDiv);
-                //we delete the inlineBtns in order to prevent showChildButtonsOrPrayers() from displaying them again in the inlineBtnsDiv
+                //we delete the inlineBtns[] of fractionBtn in order to prevent showChildButtonsOrPrayers() from displaying them again in the inlineBtnsDiv
                 fractionBtn.inlineBtns = undefined;
             }
         });
@@ -1293,9 +1278,11 @@ function showInlineButtonsForFractionPrayers(btn, fractions, btnsDiv) {
                         languages: btn.languages,
                         cssClass: 'fractionPrayersBtn',
                         onClick: () => {
-                            //in order for the 'Go Back' button to show the fraction prayers list, we need to rebuild the fractionBtn.inlineBtns that we had made 'undefined' when the fractionBtn was clicked
-                            fractionBtn.inlineBtns = [];
-                            createInlineBtns(fractionBtn);
+                            //in order for the 'Go Back' button (which is created when we click on the inline button to display the fraction prayer)  to show again the fraction prayers list as if we had clicked on th the fractionsBtn,  we need to rebuild the fractionBtn.inlineBtns[] that we had destroyed by assigning it to 'undefined' when the fractionBtn was clicked
+                            fractionBtn.inlineBtns = []; //we assign it to an empty [] in order to be able to push to it
+                            createInlineBtns(fractionBtn); //new inlineBtns will be created and pushed to fractionBtn
+                            //We will also scroll to the beginning of the page where the fraction prayer is displayed. In order to do so, we will create a fake HTMLAnchorElement, will give it the id of the containerDiv (because at this btn there is no identifiable html elements in the page yet, since showPrayers() has not been called by showChildButtonsOrPrayers()) , will trigger its click() action, and will remove it 
+                            createFakeAnchor(containerDiv.id);
                             //adding a 'Go Back Button to the inlineBtnsDiv. We also add to it the class 'centeredBtn'
                             createGoBackBtn(fractionBtn, inlineBtnsDiv, btn.cssClass).then(b => b.classList.add('centeredBtn'));
                         },

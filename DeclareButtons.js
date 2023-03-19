@@ -165,7 +165,7 @@ const btnIncenseDawn = new Button({
     },
     children: [],
     prayersArray: PrayersArray,
-    languages: prayersLanguages,
+    languages: [...prayersLanguages],
     onClick: () => {
         (function setBtnchildrenAndPrayers() {
             //We will set the children of the button:
@@ -319,7 +319,7 @@ const btnIncenseVespers = new Button({
         FR: 'Incense Vespers'
     },
     prayersArray: PrayersArray,
-    languages: prayersLanguages,
+    languages: [...prayersLanguages],
     onClick: () => {
         btnIncenseVespers.children = [btnReadingsGospelIncenseVespers];
         btnIncenseVespers.prayers = [...IncensePrayers];
@@ -346,7 +346,7 @@ const btnMassStCyril = new Button({
     btnID: 'btnMassStCyril',
     label: { AR: "كيرلسي", FR: "Messe Saint Cyril", EN: "St Cyril Mass" },
     prayersArray: PrayersArray,
-    languages: prayersLanguages,
+    languages: [...prayersLanguages],
     onClick: () => {
         if (btnsPrayers[btns.indexOf(btnMassStCyril)]) {
             //if the prayers array of this button had already been set by the async function setButtonsPrayers(), which is called when the app is loaded, then we will not recalculate the paryers array and will use the preset array
@@ -371,7 +371,7 @@ const btnMassStGregory = new Button({
     btnID: 'btnMassStGregory',
     label: { AR: "غريغوري", FR: "Saint Gregory" },
     prayersArray: PrayersArray,
-    languages: prayersLanguages,
+    languages: [...prayersLanguages],
     onClick: () => {
         if (btnsPrayers[btns.indexOf(btnMassStGregory)]) {
             //if the prayers array of this button had already been set by the async function setButtonsPrayers(), which is called when the app is loaded, then we will not recalculate the paryers array and will use the preset array
@@ -396,7 +396,7 @@ const btnMassStBasil = new Button({
     btnID: 'btnMassStBasil',
     label: { AR: 'باسيلي', FR: 'Messe Saint Basil', EN: 'St Basil Mass' },
     prayersArray: PrayersArray,
-    languages: prayersLanguages,
+    languages: [...prayersLanguages],
     onClick: () => {
         if (btnsPrayers[btns.indexOf(btnMassStBasil)]) {
             //if the prayers array of this button had already been set by the async function setButtonsPrayers(), which is called when the app is loaded, then we will not recalculate the paryers array and will use the preset array 
@@ -492,7 +492,29 @@ const btnMassRoshoumat = new Button({
 });
 const btnMassUnBaptised = new Button({
     btnID: 'btnMassUnBaptised',
-    label: { AR: 'قداس الموعوظين', FR: 'Messe des non baptisés', EN: 'Unbaptised Mass' }
+    label: { AR: 'قداس الموعوظين', FR: 'Messe des non baptisés', EN: 'Unbaptised Mass' },
+    prayers: MassPrayers.MassUnbaptized,
+    prayersArray: PrayersArray,
+    languages: [...prayersLanguages],
+    onClick: () => {
+        (function replaceAlleluiaFayBabi() {
+            if (isFast) {
+                //Replace Hellelujah Fay Bibi
+                btnMassUnBaptised.prayers.splice(btnMassUnBaptised.prayers.indexOf('PMCHallelujahFayBiBi&D=0000'), 1);
+                if (Season != Seasons.GreatLent && Season != Seasons.JonahFast) {
+                    //Remove TayShouray
+                    btnMassUnBaptised.prayers.splice(btnMassUnBaptised.prayers.indexOf('PMCTayshoury&D=0000'), 1);
+                }
+            }
+            else {
+                //Remove 'Hallelujah Ji Efmefi'
+                btnMassUnBaptised.prayers.splice(btnMassUnBaptised.prayers.indexOf('PMCHallelujahFayBiBiFast&D=0000'), 1);
+                //Remove Tishoury
+                btnMassUnBaptised.prayers.splice(btnMassUnBaptised.prayers.indexOf('PMCTishoury&D=0000'), 1);
+            }
+            ;
+        })();
+    }
 });
 const btnMassBaptised = new Button({
     btnID: 'btnMassBaptised',
@@ -559,8 +581,8 @@ const btnReadingsStPaul = new Button({
         EN: 'Pauline Epistle'
     },
     prayers: [Readings.StPaul],
-    prayersArray: StPaulArray,
-    languages: readingsLanguages
+    prayersArray: ReadingsArrays.StPaulArray,
+    languages: [...readingsLanguages]
 });
 const btnReadingsKatholikon = new Button({
     btnID: 'btnReadingsKatholikon',
@@ -569,8 +591,8 @@ const btnReadingsKatholikon = new Button({
         FR: 'Katholikon'
     },
     prayers: [Readings.Katholikon],
-    prayersArray: KatholikonArray,
-    languages: readingsLanguages
+    prayersArray: ReadingsArrays.KatholikonArray,
+    languages: [...readingsLanguages]
 });
 const btnReadingsPraxis = new Button({
     btnID: 'btnReadingsPraxis',
@@ -579,8 +601,8 @@ const btnReadingsPraxis = new Button({
         FR: 'Praxis'
     },
     prayers: [Readings.Praxis],
-    prayersArray: PraxisArray,
-    languages: readingsLanguages
+    prayersArray: ReadingsArrays.PraxisArray,
+    languages: [...readingsLanguages]
 });
 const btnReadingsSynaxarium = new Button({
     btnID: 'btnReadingsSynaxarium',
@@ -589,8 +611,8 @@ const btnReadingsSynaxarium = new Button({
         FR: 'Synaxarium'
     },
     prayers: [Readings.Synaxarium],
-    prayersArray: SynaxariumArray,
-    languages: readingsLanguages
+    prayersArray: ReadingsArrays.SynaxariumArray,
+    languages: [...readingsLanguages]
 });
 const btnReadingsGospelMass = new Button({
     btnID: 'btnReadingsGospelMass',
@@ -600,8 +622,8 @@ const btnReadingsGospelMass = new Button({
         EN: 'Gospel'
     },
     prayers: setGospelPrayers(Readings.GospelMass),
-    prayersArray: GospelMassArray,
-    languages: readingsLanguages,
+    prayersArray: ReadingsArrays.GospelMassArray,
+    languages: [...readingsLanguages],
 });
 const btnReadingsGospelIncenseVespers = new Button({
     btnID: 'btnReadingsGospelIncenseVespers',
@@ -611,8 +633,8 @@ const btnReadingsGospelIncenseVespers = new Button({
         EN: 'Vespers Gospel'
     },
     prayers: setGospelPrayers(Readings.GospelVespers),
-    prayersArray: GospelVespersArray,
-    languages: readingsLanguages,
+    prayersArray: ReadingsArrays.GospelVespersArray,
+    languages: [...readingsLanguages],
     onClick: () => {
         //we will first store the value of Season because it might be changed during the following process
         let currentSeason = Season;
@@ -634,8 +656,8 @@ const btnReadingsGospelIncenseDawn = new Button({
         EN: 'Gospel Dawn'
     },
     prayers: setGospelPrayers(Readings.GospelDawn),
-    prayersArray: GospelDawnArray,
-    languages: readingsLanguages,
+    prayersArray: ReadingsArrays.GospelDawnArray,
+    languages: [...readingsLanguages],
 });
 const btnReadingsGospelNight = new Button({
     btnID: 'btnReadingsGospelNight',
@@ -645,8 +667,8 @@ const btnReadingsGospelNight = new Button({
         EN: 'Vespers Gospel'
     },
     prayers: setGospelPrayers(Readings.GospelNight),
-    prayersArray: GospelNightArray,
-    languages: readingsLanguages,
+    prayersArray: ReadingsArrays.GospelNightArray,
+    languages: [...readingsLanguages],
 });
 const btnReadingsPropheciesDawn = new Button({
     btnID: 'btnReadingsPropheciesDawn',
@@ -656,8 +678,8 @@ const btnReadingsPropheciesDawn = new Button({
     },
     parentBtn: btnIncenseDawn,
     prayers: [Readings.PropheciesDawn],
-    prayersArray: PropheciesDawnArray,
-    languages: readingsLanguages
+    prayersArray: ReadingsArrays.PropheciesDawnArray,
+    languages: [...readingsLanguages]
 });
 const btnHeteneyat = new Button({
     btnID: 'btnHeteneyat',

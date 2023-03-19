@@ -1,4 +1,4 @@
-KatholikonArray = [[
+ReadingsArrays.KatholikonArray = [[
         ["RK&D=0101&C=Title",
             "الكاثوليكون من رسالة يوحنا الرسول الأولى ( 2 : 7 ـ 17 )",
             "1 Jean 2 : 7-17",

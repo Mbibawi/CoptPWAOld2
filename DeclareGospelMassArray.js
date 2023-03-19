@@ -1,4 +1,4 @@
-GospelMassArray = [[
+ReadingsArrays.GospelMassArray = [[
         ["RGM&D=0101&C=Title",
             "مزمور 65:11, 81:1",
             "Psaume 65:11, 81:1",

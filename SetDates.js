@@ -21,19 +21,23 @@ function setCopticDates(today) {
         copticMonth = copticDate.slice(2, 4);
         copticReadingsDate = setSeasonAndCopticReadingsDate(copticDate);
         copticDay = copticDate.slice(0, 2);
-        todayString =
-            todayDate.getDate() +
-                "-" +
-                todayDate.getMonth() +
-                "-" +
-                todayDate.getFullYear();
+        isFast = (() => {
+            if (copticFasts.indexOf(Season) > -1 || (Season != Seasons.PentecostalDays && weekDay == (3 || 5))) {
+                //i.e. if we are in a fasting day 
+                return true;
+            }
+            else {
+                return false;
+            }
+            ;
+        })();
         showDates();
     });
 }
 ;
 /**
  * Converts the Gregorian date to a string expressing the coptic date (e.g.: "0207")
- * @param {Date} date  - a date expressing any Gregorian calendar date
+ * @param {Date} date  - a date value expressing any Gregorian calendar date
  * @returns {string} - a string expressing the coptic date
  */
 function convertGregorianDateToCopticDate(date) {
@@ -110,6 +114,7 @@ function convertGregorianDateToCopticDate(date) {
             coptMonth = coptMonth - 1;
         }
     }
+    ;
     function getTwoDigitsStringFromNumber(n) {
         if (n < 10) {
             return "0" + n.toString();
@@ -118,6 +123,7 @@ function convertGregorianDateToCopticDate(date) {
             return n.toString();
         }
     }
+    ;
     return (getTwoDigitsStringFromNumber(coptDay) +
         getTwoDigitsStringFromNumber(coptMonth));
 }
@@ -156,7 +162,7 @@ function setSeasonAndCopticReadingsDate(coptDate) {
 }
 ;
 /**
- * Check which Sunday we are in the coptic month (i.e. are we 1st Sunday? 2nd Sunday, etc.)
+ * Checks which Sunday we are in the coptic month (i.e. is it the 1st Sunday? 2nd Sunday, etc.)
  * @param {number} day  - the day of the coptic month or the number of days since the beginning of a season like the Great Lent or the Pentecostal days
  * The function returns a string like "1stSunday", "2nd Sunday", etc.
  */
@@ -235,18 +241,29 @@ function checkForUnfixedEvent(today, resDate, weekDay) {
         Season = Seasons.PentecostalDays;
         return isItSundayOrWeekDay(Seasons.PentecostalDays, Math.abs(difference), weekDay);
     }
-    else if (difference < 0 && Math.abs(difference) > 50) {
+    else if (difference < 0 && Math.abs(difference) > 49) {
         //We are more than 50 days after Resurrection, which means that we are potentially during the Apostles Lent
         if (Number(copticMonth) < 11 ||
             (Number(copticMonth) == 11 && Number(copticDay) < 5)) {
             // We are during the Apostles lent (i.e. the coptic date is before 05/11 which is the date of the Apostles Feast)
             //I didn't find specific readings for this period. I assume there are no specific reading and we follow the ordinary readings. This needs however to be checked that's why I kept this "else if" case
             Season = Seasons.ApostlesFast;
-            return isItSundayOrWeekDay(Seasons.ApostlesFast, Math.abs(difference), weekDay);
+            return Seasons.NoSeason; //My understanding is that the readings during the Apostle fast follow the coptic calendar as any ordinary day. If not, we may activate the return value below
+            return isItSundayOrWeekDay(Seasons.ApostlesFast, Math.abs(difference) - 49, weekDay);
         }
         else {
             return Seasons.NoSeason;
         }
+    }
+    else if (Number(copticMonth) == 12 && Number(copticDay) < 16) {
+        //We are during the St Mary Fast
+        Season = Seasons.StMaryFast;
+        return Seasons.NoSeason;
+    }
+    else if (copticDate == "3004" || (Number(copticMonth) == 5 && Number(copticDay) < 11)) {
+        //We are between the Coptic Nativity feast and the Coptic Epiphany feast
+        Season = Seasons.Nativity;
+        return Seasons.NoSeason;
     }
     else {
         return Seasons.NoSeason;
@@ -282,7 +299,8 @@ function showDates() {
             copticDay +
             "/" +
             copticMonth +
-            ". And the copticReadingsDate =" +
-            copticReadingsDate;
+            ". The copticReadingsDate =" +
+            copticReadingsDate +
+            '. And we ' + `${isFast ? 'are ' : 'are not '}` + 'during a fast period';
 }
 ;

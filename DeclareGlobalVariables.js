@@ -40,23 +40,21 @@ const Readings = {
     SynaxariumEndAR: '',
     PropheciesDawn: "RPD", //Stands for Readings Prophecies Dawn 
 };
-const CommonPrayers = {
-    OurFather: "OurFatherWhoArtInHeaven",
-    ThanksGivingPrayer: "LetUsGiveThanks",
-    WeExaltYou: "WeExaltYouMother",
-    HailToYou: "HailToYou",
-    Creed: "Creed",
-    Kireyelison: "Kireyelison",
-    PieceBeWithAll: "PieceBeWithAll",
-    HolyLordOfSabaoth: "HolyLordOfSabaoth",
-    HolyGod: "HolyGod",
-    LitanyOfPeace: 'LitanyOfPeace',
-    LitanytoTheFathers: 'LitanyToTheFathers',
-    LitanyOfTheAssemblies: 'LitanyOfTheAssemblies',
-    BowYourHeads: "BowYourHeadsToTheLord"
+const ReadingsArrays = {
+    PraxisArray: [],
+    KatholikonArray: [],
+    StPaulArray: [],
+    SynaxariumArray: [],
+    GospelMassArray: [],
+    GospelVespersArray: [],
+    GospelDawnArray: [],
+    GospelNightArray: [],
+    PropheciesDawnArray: [],
 };
 const Seasons = {
     StMaryFast: 'StMFast',
+    NativityFast: 'NF',
+    Nativity: 'Nat',
     GreatLent: 'GL',
     PentecostalDays: 'Pntl',
     JonahFast: 'Jonah',
@@ -91,14 +89,23 @@ const copticFeasts = {
     Ascension: Seasons.PentecostalDays + '7thSunday',
     Apostles: '0511',
 };
+const copticFasts = [
+    Seasons.GreatLent,
+    Seasons.NativityFast,
+    Seasons.ApostlesFast,
+    Seasons.StMaryFast,
+    Seasons.JonahFast,
+];
 const allLanguages = ['AR', 'FR', 'COP', 'CA', 'EN'];
 const userLanguages = ['AR', 'FR', 'COP'];
+const prayersLanguages = ['COP', 'FR', 'CA', 'AR'];
+const readingsLanguages = ['AR', 'FR', 'EN'];
 //VARS
-let prayersLanguages = ['COP', 'FR', 'CA', 'AR'], readingsLanguages = ['AR', 'FR', 'EN'], PrayersArray = [], PraxisArray = [], KatholikonArray = [], StPaulArray = [], SynaxariumArray = [], GospelMassArray = [], GospelVespersArray = [], GospelDawnArray = [], GospelNightArray = [], PropheciesDawnArray = [], lastClickedButton;
+let PrayersArray = [];
+let lastClickedButton;
 let copticDate, copticMonth, copticDay, copticReadingsDate, Season, weekDay;
-if (!todayDate) {
-    var todayDate;
-}
-;
-let todayString;
-let allDivs;
+var todayDate;
+let isFast;
+let lordFeasts = [
+    copticFeasts.Nativity, copticFeasts.Baptism, Seasons.Resurrection, copticFeasts.Ascension, copticFeasts.Epiphany, copticFeasts.Circumcision, copticFeasts.EntryToEgypt, copticFeasts.EntryToTemple
+];

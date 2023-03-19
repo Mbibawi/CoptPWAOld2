@@ -1,4 +1,4 @@
-GospelNightArray = [[
+ReadingsArrays.GospelNightArray = [[
         ["RGN&D=GL1stSunday&C=Title",
             "مزمور 17:14",
             "Psaume 17:14",

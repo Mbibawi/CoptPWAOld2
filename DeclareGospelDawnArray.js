@@ -1,4 +1,4 @@
-GospelDawnArray = [[
+ReadingsArrays.GospelDawnArray = [[
         ["RGID&D=0101&C=Title",
             "مزمور باكر ( 98:1 )",
             "Psaume 98:1",

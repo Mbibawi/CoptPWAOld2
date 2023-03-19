@@ -1,4 +1,4 @@
-PraxisArray = [[
+ReadingsArrays.PraxisArray = [[
         ["RP&D=0101&C=Title",
             "الإبركسيس فصل من أعمال آبائنا الرسل الأطهار (17:16-34)",
             "Actes 17:16-34",

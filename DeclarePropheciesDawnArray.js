@@ -1,4 +1,4 @@
-PropheciesDawnArray = [[
+ReadingsArrays.PropheciesDawnArray = [[
         ["RPD&D=GL10&C=Title",
             "من سفر الخروج لموسى النبي ( 3 : 6 ـ 14 )",
             "Exode 3 : 6 - 14",
