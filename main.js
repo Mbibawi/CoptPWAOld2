@@ -1390,7 +1390,7 @@ function showSettingsPanel() {
 function insertRedirectionButtons(querySelector, btns, position = 'beforebegin') {
     let div = document.createElement('div');
     div.style.display = 'grid';
-    div.style.width = '70%';
+    div.style.width = '90vw';
     div.style.gridTemplateColumns = ((100 / btns.length).toString() + '% ').repeat(btns.length);
     div.style.justifySelf = 'center';
     div.style.justifyItems = 'center';

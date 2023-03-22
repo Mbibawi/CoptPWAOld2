@@ -169,6 +169,7 @@ const btnIncenseDawn = new Button({
         AR: 'بخور باكر',
         FR: 'Encens Aube'
     },
+    showPrayers: true,
     children: [],
     prayersArray: PrayersArray,
     languages: [...prayersLanguages],
@@ -324,6 +325,7 @@ const btnIncenseVespers = new Button({
         AR: "بخور عشية",
         FR: 'Incense Vespers'
     },
+    showPrayers: true,
     prayersArray: PrayersArray,
     languages: [...prayersLanguages],
     onClick: () => {
@@ -611,6 +613,7 @@ const btnReadingsStPaul = new Button({
         FR: 'Epître de Saint Paul',
         EN: 'Pauline Epistle'
     },
+    showPrayers: true,
     prayers: [Readings.StPaul],
     prayersArray: ReadingsArrays.StPaulArray,
     languages: [...readingsLanguages]
@@ -621,6 +624,7 @@ const btnReadingsKatholikon = new Button({
         AR: 'الكاثوليكون',
         FR: 'Katholikon'
     },
+    showPrayers: true,
     prayers: [Readings.Katholikon],
     prayersArray: ReadingsArrays.KatholikonArray,
     languages: [...readingsLanguages]
@@ -631,6 +635,7 @@ const btnReadingsPraxis = new Button({
         AR: 'الإبركسيس',
         FR: 'Praxis'
     },
+    showPrayers: true,
     prayers: [Readings.Praxis],
     prayersArray: ReadingsArrays.PraxisArray,
     languages: [...readingsLanguages]
@@ -641,6 +646,7 @@ const btnReadingsSynaxarium = new Button({
         AR: 'السنكسار',
         FR: 'Synaxarium'
     },
+    showPrayers: true,
     prayers: [Readings.Synaxarium],
     prayersArray: ReadingsArrays.SynaxariumArray,
     languages: [...readingsLanguages]
@@ -652,6 +658,7 @@ const btnReadingsGospelMass = new Button({
         FR: 'l\'Evangile',
         EN: 'Gospel'
     },
+    showPrayers: true,
     prayers: setGospelPrayers(Readings.GospelMass),
     prayersArray: ReadingsArrays.GospelMassArray,
     languages: [...readingsLanguages],
@@ -663,6 +670,7 @@ const btnReadingsGospelIncenseVespers = new Button({
         FR: 'Evangile  Vêpres',
         EN: 'Vespers Gospel'
     },
+    showPrayers: true,
     prayers: setGospelPrayers(Readings.GospelVespers),
     prayersArray: ReadingsArrays.GospelVespersArray,
     languages: [...readingsLanguages],
@@ -686,6 +694,7 @@ const btnReadingsGospelIncenseDawn = new Button({
         FR: 'Evangile Aube',
         EN: 'Gospel Dawn'
     },
+    showPrayers: true,
     prayers: setGospelPrayers(Readings.GospelDawn),
     prayersArray: ReadingsArrays.GospelDawnArray,
     languages: [...readingsLanguages],
@@ -697,6 +706,7 @@ const btnReadingsGospelNight = new Button({
         FR: 'Evangile Soir',
         EN: 'Vespers Gospel'
     },
+    showPrayers: true,
     prayers: setGospelPrayers(Readings.GospelNight),
     prayersArray: ReadingsArrays.GospelNightArray,
     languages: [...readingsLanguages],
@@ -707,6 +717,7 @@ const btnReadingsPropheciesDawn = new Button({
         AR: "نبوات باكر",
         FR: 'Propheties Matin'
     },
+    showPrayers: true,
     parentBtn: btnIncenseDawn,
     prayers: [Readings.PropheciesDawn],
     prayersArray: ReadingsArrays.PropheciesDawnArray,
