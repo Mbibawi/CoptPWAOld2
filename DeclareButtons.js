@@ -109,6 +109,9 @@ const btnMain = new Button({
 const btnGoBack = new Button({
     btnID: 'btnGoBack',
     label: { AR: "السابق", FR: "Retour", EN: "Go Back" },
+    onClick: () => {
+        scrollToTop(); //scrolling to the top of the page
+    }
 });
 const btnMass = new Button({
     btnID: 'btnMass',
@@ -380,8 +383,7 @@ const btnMassStCyril = new Button({
         redirectToAnotherMass('PMCAnaphoraComment1&D=0000', [btnMassStBasil, btnMassStGregory], "beforebegin");
         //Adding 2 buttons to redirect to the St Basil or St Gregory Masses After the Spasmos
         redirectToAnotherMass('PMCSpasmosComment&D=0000', [btnMassStBasil, btnMassStGregory], 'beforebegin');
-        //We scroll to the beginning of the page after the prayers have been displayed
-        createFakeAnchor(containerDiv.id);
+        scrollToTop(); //scrolling to the top of the page
         return btnMassStCyril.prayers;
     }
 });
@@ -411,8 +413,7 @@ const btnMassStGregory = new Button({
         redirectToAnotherMass('PMCAgiosComment1&D=0000', [btnMassStBasil], "beforebegin");
         //We add buttons to redirect to St Basil After the Espasmos
         redirectToAnotherMass('PMCAgiosComment1&D=0000', [btnMassStBasil], "beforebegin");
-        //We scroll to the beginning of the page after the prayers have been displayed
-        createFakeAnchor(containerDiv.id);
+        scrollToTop(); //scrolling to the top of the page
         return btnMassStGregory.prayers;
     }
 });
@@ -432,19 +433,13 @@ const btnMassStBasil = new Button({
         ;
         //Setting the standard mass prayers sequence
         btnMassStBasil.prayers = [...MassPrayers.MassCommonIntro, ...MassPrayers.MassStBasil, ...MassPrayers.MassCallOfHolySpirit, ...MassPrayers.MassLitanies, ...MassPrayers.Communion];
-        /*  (async () => {
-                  if (!btnMassStBasil.inlineBtns) {
-                          btnMassStBasil.inlineBtns = [...goToAnotherMass];
-                          btnMassStBasil.inlineBtns.splice(0, 1);//removing btnGoToStBasilReconciliation from the inlineBtns
-                  }
-          })(); */
         showPrayers(btnMassStBasil);
         //We add buttons to redirect to the other Reconciliation masses
         redirectToAnotherMass(containerDiv.children[4].getAttribute('data-root'), [btnMassStGregory, btnMassStCyril, btnMassStJohn], "beforebegin");
         //We add buttons to redirect to the other Reconciliation masses
         /*redirectToAnotherMass(['PMCAgiosComment1&D=0000'], 'div[data-root=\'', [btnMassStGregory, btnMassStCyril, btnMassStJohn], "beforebegin");*/
         //We scroll to the beginning of the page after the prayers have been displayed
-        createFakeAnchor(containerDiv.id);
+        scrollToTop();
         return btnMassStBasil.prayers;
     }
 });
@@ -463,6 +458,7 @@ const btnMassStJohn = new Button({
             btnMassStJohn.prayersArray = retrieveBtnPrayers(btnMassStJohn);
         }
         ;
+        scrollToTop(); //scrolling to the top of the page
     }
 });
 /**
@@ -616,7 +612,10 @@ const btnReadingsStPaul = new Button({
     showPrayers: true,
     prayers: [Readings.StPaul],
     prayersArray: ReadingsArrays.StPaulArray,
-    languages: [...readingsLanguages]
+    languages: [...readingsLanguages],
+    onClick: () => {
+        scrollToTop(); //scrolling to the top of the page
+    }
 });
 const btnReadingsKatholikon = new Button({
     btnID: 'btnReadingsKatholikon',
@@ -627,7 +626,10 @@ const btnReadingsKatholikon = new Button({
     showPrayers: true,
     prayers: [Readings.Katholikon],
     prayersArray: ReadingsArrays.KatholikonArray,
-    languages: [...readingsLanguages]
+    languages: [...readingsLanguages],
+    onClick: () => {
+        scrollToTop(); //scrolling to the top of the page
+    }
 });
 const btnReadingsPraxis = new Button({
     btnID: 'btnReadingsPraxis',
@@ -638,7 +640,10 @@ const btnReadingsPraxis = new Button({
     showPrayers: true,
     prayers: [Readings.Praxis],
     prayersArray: ReadingsArrays.PraxisArray,
-    languages: [...readingsLanguages]
+    languages: [...readingsLanguages],
+    onClick: () => {
+        scrollToTop(); //scrolling to the top of the page
+    }
 });
 const btnReadingsSynaxarium = new Button({
     btnID: 'btnReadingsSynaxarium',
@@ -649,7 +654,10 @@ const btnReadingsSynaxarium = new Button({
     showPrayers: true,
     prayers: [Readings.Synaxarium],
     prayersArray: ReadingsArrays.SynaxariumArray,
-    languages: [...readingsLanguages]
+    languages: [...readingsLanguages],
+    onClick: () => {
+        scrollToTop(); //scrolling to the top of the page
+    }
 });
 const btnReadingsGospelMass = new Button({
     btnID: 'btnReadingsGospelMass',
@@ -662,6 +670,9 @@ const btnReadingsGospelMass = new Button({
     prayers: setGospelPrayers(Readings.GospelMass),
     prayersArray: ReadingsArrays.GospelMassArray,
     languages: [...readingsLanguages],
+    onClick: () => {
+        scrollToTop(); //scrolling to the top of the page
+    }
 });
 const btnReadingsGospelIncenseVespers = new Button({
     btnID: 'btnReadingsGospelIncenseVespers',
@@ -685,6 +696,7 @@ const btnReadingsGospelIncenseVespers = new Button({
         btnReadingsGospelIncenseVespers.prayers[2] += readingDate;
         //we then reset the Season because it was potentially modified when calling setSeasonAndCopticReadingsDate()
         Season = currentSeason;
+        scrollToTop(); //scrolling to the top of the page
     }
 });
 const btnReadingsGospelIncenseDawn = new Button({
@@ -698,6 +710,9 @@ const btnReadingsGospelIncenseDawn = new Button({
     prayers: setGospelPrayers(Readings.GospelDawn),
     prayersArray: ReadingsArrays.GospelDawnArray,
     languages: [...readingsLanguages],
+    onClick: () => {
+        scrollToTop(); //scrolling to the top of the page
+    }
 });
 const btnReadingsGospelNight = new Button({
     btnID: 'btnReadingsGospelNight',
@@ -710,6 +725,9 @@ const btnReadingsGospelNight = new Button({
     prayers: setGospelPrayers(Readings.GospelNight),
     prayersArray: ReadingsArrays.GospelNightArray,
     languages: [...readingsLanguages],
+    onClick: () => {
+        scrollToTop(); //scrolling to the top of the page
+    }
 });
 const btnReadingsPropheciesDawn = new Button({
     btnID: 'btnReadingsPropheciesDawn',
@@ -721,7 +739,10 @@ const btnReadingsPropheciesDawn = new Button({
     parentBtn: btnIncenseDawn,
     prayers: [Readings.PropheciesDawn],
     prayersArray: ReadingsArrays.PropheciesDawnArray,
-    languages: [...readingsLanguages]
+    languages: [...readingsLanguages],
+    onClick: () => {
+        scrollToTop(); //scrolling to the top of the page
+    }
 });
 const btnHeteneyat = new Button({
     btnID: 'btnHeteneyat',
@@ -823,6 +844,13 @@ function redirectToAnotherMass(id, btns, position) {
             redirectTo.push(newBtn);
         });
         insertRedirectionButtons(dataset, redirectTo, position);
+    });
+}
+;
+function scrollToTop() {
+    return __awaiter(this, void 0, void 0, function* () {
+        //We scroll to the beginning of the page after the prayers have been displayed
+        createFakeAnchor(containerDiv.id);
     });
 }
 ;
