@@ -412,7 +412,7 @@ const btnMassStGregory = new Button({
         //We add buttons to redirect to the other Reconciliation masses
         redirectToAnotherMass('PMCAgiosComment1&D=0000', [btnMassStBasil], "beforebegin");
         //We add buttons to redirect to St Basil After the Espasmos
-        redirectToAnotherMass('PMCAgiosComment1&D=0000', [btnMassStBasil], "beforebegin");
+        redirectToAnotherMass('PMCSpasmosComment&D=0000', [btnMassStBasil], "beforebegin");
         scrollToTop(); //scrolling to the top of the page
         return btnMassStGregory.prayers;
     }
@@ -526,7 +526,10 @@ const btnMassUnBaptised = new Button({
     prayersArray: PrayersArray,
     languages: [...prayersLanguages],
     onClick: () => {
-        (function replaceAlleluiaFayBabi() {
+        //Adding children buttons to btnMassUnBaptised
+        btnMassUnBaptised.children = [btnReadingsStPaul, btnReadingsKatholikon, btnReadingsPraxis, btnReadingsSynaxarium, btnReadingsGospelMass];
+        //Replacing AllelujaFayBabi according to the day
+        (function replaceAllelujahFayBabi() {
             if (isFast) {
                 //Replace Hellelujah Fay Bibi
                 btnMassUnBaptised.prayers.splice(btnMassUnBaptised.prayers.indexOf('PMCHallelujahFayBiBi&D=0000'), 1);
@@ -543,6 +546,8 @@ const btnMassUnBaptised = new Button({
             }
             ;
         })();
+        scrollToTop();
+        return btnMassUnBaptised.prayers;
     }
 });
 const btnMassBaptised = new Button({
@@ -756,22 +761,6 @@ const btnMassGospelResponse = new Button({
     btnID: 'btnMassGospelResponse',
     label: { AR: 'مرد الإنجيل', FR: 'Réponse Evangile' }
 });
-const btnMassReconciliation = new Button({
-    btnID: 'btnMassReconciliation',
-    label: {
-        AR: 'صلاة الصلح',
-        FR: 'Reconcilation'
-    }
-});
-const btnMassAnaphora = new Button({
-    btnID: 'btnMassAnaphora',
-    label: { AR: 'الأنافورة', FR: 'Anaphora' }
-});
-const btnMassCommunion = new Button({
-    btnID: 'btnMassCommunion',
-    label: { AR: 'التوزيع', FR: 'Communion' }
-});
-btnMassUnBaptised.children = [btnReadingsStPaul, btnReadingsKatholikon, btnReadingsPraxis, btnReadingsSynaxarium, btnReadingsGospelMass];
 /**
  * takes a liturgie name like "IncenseDawn" or "IncenseVespers" and replaces the word "Mass" in the buttons gospel readings prayers array by the name of the liturgie. It also sets the psalm and the gospel responses according to some sepcific occasions (e.g.: if we are the 29th day of a coptic month, etc.)
  * @param liturgie {string} - expressing the name of the liturigie that will replace the word "Mass" in the original gospel readings prayers array
