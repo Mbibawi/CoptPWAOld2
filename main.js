@@ -1217,12 +1217,10 @@ function showInlineButtonsForFractionPrayers(btn, fractions, btnsDiv) {
                 newDiv.style.justifyItems = 'center';
                 newDiv.style.overflowY = 'scroll';
                 newDiv.style.overflowX = 'hidden';
-                newDiv.tabIndex = 3;
-                newDiv.focus();
                 //we set the focus on inlineBtnsDiv
                 //We create a 'Go Back' html button that simulates clicking on the btn who called the function. We start by creating it in order to show it at the top before the other inline buttons that will be created for each fraction. NOTICE that we provided the bookmark argument to createGoBakBtn. We did his in order for the 'Go Back' button that will be created, when clicked, to scroll back to the fractionBtn in the page
                 createGoBackBtn(btn, inlineBtnsDiv, btn.cssClass, fractionBtn.btnID).then((b) => b.classList.add('centeredBtn'));
-                //creating html button element for each inlineBtn of fractionBtn.inlineBtns[]. Notice that be passing newDiv to createBtn(), the html element that will be created for the inlineBtn will be automatically appended to newDiv
+                //creating html button element for each inlineBtn of fractionBtn.inlineBtns[]. Notice that by passing newDiv to createBtn(), the html element that will be created for the inlineBtn will be automatically appended to newDiv
                 fractionBtn.inlineBtns.map(b => {
                     createBtn(b, newDiv, b.cssClass);
                 });
@@ -1250,6 +1248,7 @@ function showInlineButtonsForFractionPrayers(btn, fractions, btnsDiv) {
                             AR: table[0][btn.languages.indexOf('AR') + 1],
                             FR: table[0][btn.languages.indexOf('FR') + 1] //we add 1 because table[0] is the table title not the row's text in a given language
                         },
+                        showPrayers: true,
                         prayers: [title[0]],
                         prayersArray: [table],
                         languages: btn.languages,
