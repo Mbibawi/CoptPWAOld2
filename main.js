@@ -8,23 +8,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 const copticReadingsDates = getCopticReadingsDates();
-document
-    .getElementById("elID")
-    .addEventListener("keypress", (e) => {
-    let el = e.target;
-    if (e.key == "Enter" && el.value.startsWith("&D=")) {
-        changeDay(el.value.split("&D=")[1]);
-    }
-}); //this is temporary in order to change the date manually by entering a date in the text box
-document
-    .getElementById("datePicker")
-    .addEventListener("change", (e) => {
-    let el = e.target;
-    console.log("date value = ", el.value.toString());
-    changeDay(el.value.toString());
-});
-toggleDevBtn.addEventListener("click", () => openDev(toggleDevBtn));
-document.getElementById('settings').addEventListener('click', () => openDev(document.getElementById('settings')));
 /**
  * Adds or removes a language to the userLanguages Array
  * @param el {HTMLElement} - the html button on which the user clicked to add or remove the language. The language is retrieved from the element's dataset
@@ -99,13 +82,6 @@ autoRunOnLoad();
  * Some functions that we run automatically when loading the app
  */
 function autoRunOnLoad() {
-    let version = 'v0.4';
-    let p = document.createElement('p');
-    p.style.color = 'red';
-    p.style.fontSize = '15pt';
-    p.style.fontWeight = "bold";
-    p.innerText = version;
-    document.getElementById('InstallPWA').appendChild(p);
     showChildButtonsOrPrayers(btnMain);
     //appendRepeatable('Test');
     setCopticDates();
@@ -344,7 +320,6 @@ function showChildButtonsOrPrayers(btn, clear = true, click = true, pursue = tru
     ;
     if (btn.onClick && click) {
         btn.onClick();
-        //if (!pursue) { return };
     }
     ;
     if (btn.inlineBtns) {
@@ -375,7 +350,7 @@ function showChildButtonsOrPrayers(btn, clear = true, click = true, pursue = tru
         });
     }
     ;
-    if (btn.prayers && btn.prayersArray && btn.languages) {
+    if (btn.prayers && btn.prayersArray && btn.languages && btn.showPrayers) {
         showPrayers(btn);
     }
     ;
@@ -1021,136 +996,138 @@ function buildSideBar(id) {
  * @param btn
  */
 function showPrayers(btn, clearSideBar = true) {
-    let titles = [], fractions = [];
-    clearDivs();
-    btn.prayers.map(p => {
-        let date;
-        if (p.includes('&D=') || p.includes('&S=')) {
-            //if the id of the prayer includes the value '&D=' this tells us that this prayer is either not linked to a specific day in the coptic calendar (&D=), or the date has been set by the button function (e.g.: PrayerGospelResponse&D=GLWeek). In this case, we will not add the copticReadingsDate to the prayerID
-            //Similarly, if the id includes '&S=', it tells us that it is not linked to a specific date but to a given period of the year. We also keep the id as is without adding any date to it
-            date = '';
-        }
-        else {
-            date = '&D=' + copticReadingsDate; //this is the default case where the date equals the copticReadingsDate. This works for most of the occasions.
-        }
-        ;
-        p += date;
-        findAndProcessPrayers(p);
-    });
-    if (btn.btnID != btnGoBack.btnID && btn.btnID != btnMain.btnID) {
-        closeSideBar(leftSideBar);
-    }
-    ;
-    setCSSStyles(); //setting the number and width of the columns for each html element with class 'TargetRow'
-    if (titles) {
-        showTitlesInRightSideBar(titles, rightSideBar.querySelector('#sideBarBtns'), btn);
-    }
-    ;
-    btn.prayersArray.map(wordTable => {
-        if (btn.btnID.startsWith('btnMass') && wordTable[0][0].startsWith('PMFractionPrayer') && wordTable[0][0].split('&C=')[0] != btn.btnID) {
-            //Notice that we are excluding the case where btn.btnID is = to word[0][0] after removing '&C='. This is because in such case btn is an inline button that had been created for the fraction and was passed to showPrayers when the user clicked it. The prayersArray of this inlineBtn contains only 1 table which is the fraction itself. We don't need in such case to show an inline btn at the end of the page for this fraction. Actually, no inline buttons will be created at all since fractions will remain empty
-            fractions.push(wordTable);
+    return __awaiter(this, void 0, void 0, function* () {
+        let titles = [], fractions = [];
+        clearDivs();
+        btn.prayers.map(p => {
+            let date;
+            if (p.includes('&D=') || p.includes('&S=')) {
+                //if the id of the prayer includes the value '&D=' this tells us that this prayer is either not linked to a specific day in the coptic calendar (&D=), or the date has been set by the button function (e.g.: PrayerGospelResponse&D=GLWeek). In this case, we will not add the copticReadingsDate to the prayerID
+                //Similarly, if the id includes '&S=', it tells us that it is not linked to a specific date but to a given period of the year. We also keep the id as is without adding any date to it
+                date = '';
+            }
+            else {
+                date = '&D=' + copticReadingsDate; //this is the default case where the date equals the copticReadingsDate. This works for most of the occasions.
+            }
+            ;
+            p += date;
+            findAndProcessPrayers(p);
+        });
+        if (btn.btnID != btnGoBack.btnID && btn.btnID != btnMain.btnID) {
+            closeSideBar(leftSideBar);
         }
         ;
-    });
-    if (fractions.length > 0) {
-        let insertion = containerDiv.querySelector('[data-root=\"PMCFractionPrayerPlaceholder&D=0000\"]'); //this is the id of the html element after which we will insert the inline buttons for the fraction prayers
-        let div = document.createElement('div'); //a new element to which the inline buttons elements will be appended
-        showInlineButtonsForFractionPrayers(btn, fractions, div);
-        insertion.insertAdjacentElement('afterend', div); //we insert the div after the insertion position
-    }
-    ;
-    /**
-     * Takes a prayer string "p" from the btn.prayers[], and looks for an array in the btn.prayersArray with its first element matches "p". When it finds the array (which is a string[][] where each element from the 2nd element represents a row in the Word table), it process the text in the row string[] to createHtmlElementForPrayer() in order to show the prayer in the main page
-     * @param {string} p - a string representing a prayer in the btn.prayers[]. This string matches the title of one of the tables in the Word document from which the text was extracted. The btn.prayersArray should have one of its elements = to "p"
-     */
-    function findAndProcessPrayers(p) {
-        let tblTitle, wdTableDiv;
+        setCSSStyles(); //setting the number and width of the columns for each html element with class 'TargetRow'
+        if (titles) {
+            showTitlesInRightSideBar(titles, rightSideBar.querySelector('#sideBarBtns'), btn);
+        }
+        ;
         btn.prayersArray.map(wordTable => {
-            if (wordTable[0]) {
-                //i.e., if the wordTable array is not empty (we check because there might be some empty [] generated by the VBA)
-                tblTitle = wordTable[0][0].split('&C=')[0]; //the first element in the string[][] representing the Word table is a string[] with only 1 element representing the Title of the Table. We remove "&C=" from the end in order to get the title of the table without any additions indicating the class of the html element that will be created for each row
-                if (p == tblTitle) {
-                    //i.e. if the prayer passed to the function = the first element of the first array in the btn.prayersArray (this element is a string representing the title of the Word table from which the text was extracted)
-                    wordTable.map(row => {
-                        createHtmlElementForPrayer(tblTitle, row, btn.languages, userLanguages, row[0].split('&C=')[1], wdTableDiv); //row[0] is the title of the table modified as the case may be to reflect wether the row contains the titles of the prayer, or who chants the prayer (in such case the words 'Title' or '&C=' + 'Priest', 'Diacon', or 'Assembly' are added to the title)
-                        if (row[0].includes('&C=Title')) {
-                            //if the 1st element of the row includes 'Title' it means that this is a row including the titles of the word table
-                            titles.push(row);
+            if (btn.btnID.startsWith('btnMass') && wordTable[0][0].startsWith('PMFractionPrayer') && wordTable[0][0].split('&C=')[0] != btn.btnID) {
+                //Notice that we are excluding the case where btn.btnID is = to word[0][0] after removing '&C='. This is because in such case btn is an inline button that had been created for the fraction and was passed to showPrayers when the user clicked it. The prayersArray of this inlineBtn contains only 1 table which is the fraction itself. We don't need in such case to show an inline btn at the end of the page for this fraction. Actually, no inline buttons will be created at all since fractions will remain empty
+                fractions.push(wordTable);
+            }
+            ;
+        });
+        if (fractions.length > 0) {
+            let insertion = containerDiv.querySelector('[data-root=\"PMCFractionPrayerPlaceholder&D=0000\"]'); //this is the id of the html element after which we will insert the inline buttons for the fraction prayers
+            let div = document.createElement('div'); //a new element to which the inline buttons elements will be appended
+            showInlineButtonsForFractionPrayers(btn, fractions, div);
+            insertion.insertAdjacentElement('afterend', div); //we insert the div after the insertion position
+        }
+        ;
+        /**
+         * Takes a prayer string "p" from the btn.prayers[], and looks for an array in the btn.prayersArray with its first element matches "p". When it finds the array (which is a string[][] where each element from the 2nd element represents a row in the Word table), it process the text in the row string[] to createHtmlElementForPrayer() in order to show the prayer in the main page
+         * @param {string} p - a string representing a prayer in the btn.prayers[]. This string matches the title of one of the tables in the Word document from which the text was extracted. The btn.prayersArray should have one of its elements = to "p"
+         */
+        function findAndProcessPrayers(p) {
+            let tblTitle, wdTableDiv;
+            btn.prayersArray.map(wordTable => {
+                if (wordTable[0]) {
+                    //i.e., if the wordTable array is not empty (we check because there might be some empty [] generated by the VBA)
+                    tblTitle = wordTable[0][0].split('&C=')[0]; //the first element in the string[][] representing the Word table is a string[] with only 1 element representing the Title of the Table. We remove "&C=" from the end in order to get the title of the table without any additions indicating the class of the html element that will be created for each row
+                    if (p == tblTitle) {
+                        //i.e. if the prayer passed to the function = the first element of the first array in the btn.prayersArray (this element is a string representing the title of the Word table from which the text was extracted)
+                        wordTable.map(row => {
+                            createHtmlElementForPrayer(tblTitle, row, btn.languages, userLanguages, row[0].split('&C=')[1], wdTableDiv); //row[0] is the title of the table modified as the case may be to reflect wether the row contains the titles of the prayer, or who chants the prayer (in such case the words 'Title' or '&C=' + 'Priest', 'Diacon', or 'Assembly' are added to the title)
+                            if (row[0].includes('&C=Title')) {
+                                //if the 1st element of the row includes 'Title' it means that this is a row including the titles of the word table
+                                titles.push(row);
+                            }
+                            ;
+                        });
+                    }
+                    ;
+                }
+                ;
+            });
+        }
+        ;
+        /**
+     * Clears the containerDiv and the rightSideBar from any text or buttons shown
+     */
+        function clearDivs() {
+            //we empty the subdivs of the containerDiv before populating them with the new text
+            containerDiv.innerHTML = "";
+            if (clearSideBar) {
+                rightSideBar.querySelector('#sideBarBtns').innerHTML = '';
+            }
+            ; //this is the right side bar where the titles are displayed for navigation purposes
+        }
+        ;
+        function setCSSStyles() {
+            return __awaiter(this, void 0, void 0, function* () {
+                let Rows = containerDiv.querySelectorAll('.TargetRow');
+                if (Rows) {
+                    Rows.forEach((r) => {
+                        r.style.gridTemplateColumns = getColumnsNumberAndWidth(r); //Setting the number of columns and their width for each element having the 'TargetRow' class
+                        r.style.gridTemplateAreas = setGridAreas(r); //Defining grid areas for each language in order to be able to control the order in which the languages are displayed (Arabic always on the last column from left to right, and Coptic on the first column from left to right)
+                        if (r.classList.contains('TargetRowTitle')) {
+                            r.role = 'button';
+                            r.addEventListener('click', () => collapseText(r)); //we also add a 'click' eventListener to the 'TargetRowTitle' elements
+                            let sign = document.createElement('p');
+                            sign.innerText = String.fromCharCode(10134);
+                            r.lastElementChild.textContent = sign.innerText + ' ' + r.lastElementChild.textContent;
                         }
                         ;
                     });
                 }
                 ;
-            }
-            ;
-        });
-    }
-    ;
-    /**
- * Clears the containerDiv and the rightSideBar from any text or buttons shown
- */
-    function clearDivs() {
-        //we empty the subdivs of the containerDiv before populating them with the new text
-        containerDiv.innerHTML = "";
-        if (clearSideBar) {
-            rightSideBar.querySelector('#sideBarBtns').innerHTML = '';
-        }
-        ; //this is the right side bar where the titles are displayed for navigation purposes
-    }
-    ;
-    function setCSSStyles() {
-        return __awaiter(this, void 0, void 0, function* () {
-            let Rows = containerDiv.querySelectorAll('.TargetRow');
-            if (Rows) {
-                Rows.forEach((r) => {
-                    r.style.gridTemplateColumns = getColumnsNumberAndWidth(r); //Setting the number of columns and their width for each element having the 'TargetRow' class
-                    r.style.gridTemplateAreas = setGridAreas(r); //Defining grid areas for each language in order to be able to control the order in which the languages are displayed (Arabic always on the last column from left to right, and Coptic on the first column from left to right)
-                    if (r.classList.contains('TargetRowTitle')) {
-                        r.role = 'button';
-                        r.addEventListener('click', () => collapseText(r)); //we also add a 'click' eventListener to the 'TargetRowTitle' elements
-                        let sign = document.createElement('p');
-                        sign.innerText = String.fromCharCode(10134);
-                        r.lastElementChild.textContent = sign.innerText + ' ' + r.lastElementChild.textContent;
-                    }
-                    ;
-                });
-            }
-            ;
-        });
-    }
-    ;
-    /**
-     * Returns a string indicating the number of columns and their widths
-     * @param {HTMLElement} row - the html element created to show the text representing a row in the Word table from which the text of the prayer was taken (the text is provided as a string[] where the 1st element is the tabel's id and the other elements represent each the text in a given language)
-     * @returns  {string} - a string represneting the value that will be given to the grid-template-columns of the row
-     */
-    function getColumnsNumberAndWidth(row) {
-        let width = (100 / (row.children.length)).toString() + "% ";
-        return width.repeat(row.children.length);
-    }
-    ;
-    /**
-     * Returns a string representing the grid areas for an html element with a 'display:grid' property, based on the dataset.lang of its children
-     * @param {HTMLElement} row - an html element having children and each child has a dataset.lang
-     * @returns {string} representing the grid areas based on the dataset.lang of the html element children
-     */
-    function setGridAreas(row) {
-        let areas = [], child;
-        for (let i = 0; i < row.children.length; i++) {
-            child = row.children[i];
-            areas.push(child.dataset.lang);
-            child.classList.add(child.dataset.lang); //we profit from the loop to add the language as class to the element (we didn't add it earlier in order to lighten the display of the html element and reduce the delay/latency for the user)
+            });
         }
         ;
-        if (areas.indexOf('AR') == 0 && !row.classList.contains('Comment') && !row.classList.contains('CommentText')) {
-            //if the 'AR' is the first language, it means it will be displayed in the first column from left to right. We need to reverse the array in order to have the Arabic language on the last column from left to right
-            areas.reverse();
+        /**
+         * Returns a string indicating the number of columns and their widths
+         * @param {HTMLElement} row - the html element created to show the text representing a row in the Word table from which the text of the prayer was taken (the text is provided as a string[] where the 1st element is the tabel's id and the other elements represent each the text in a given language)
+         * @returns  {string} - a string represneting the value that will be given to the grid-template-columns of the row
+         */
+        function getColumnsNumberAndWidth(row) {
+            let width = (100 / (row.children.length)).toString() + "% ";
+            return width.repeat(row.children.length);
         }
         ;
-        return '"' + areas.toString().split(',').join(' ') + '"'; //we should get a string like ' "AR COP FR" ' (notice that the string marks " in the beginning and the end must appear, otherwise the grid-template-areas value will not be valid)
-    }
-    ;
+        /**
+         * Returns a string representing the grid areas for an html element with a 'display:grid' property, based on the dataset.lang of its children
+         * @param {HTMLElement} row - an html element having children and each child has a dataset.lang
+         * @returns {string} representing the grid areas based on the dataset.lang of the html element children
+         */
+        function setGridAreas(row) {
+            let areas = [], child;
+            for (let i = 0; i < row.children.length; i++) {
+                child = row.children[i];
+                areas.push(child.dataset.lang);
+                child.classList.add(child.dataset.lang); //we profit from the loop to add the language as class to the element (we didn't add it earlier in order to lighten the display of the html element and reduce the delay/latency for the user)
+            }
+            ;
+            if (areas.indexOf('AR') == 0 && !row.classList.contains('Comment') && !row.classList.contains('CommentText')) {
+                //if the 'AR' is the first language, it means it will be displayed in the first column from left to right. We need to reverse the array in order to have the Arabic language on the last column from left to right
+                areas.reverse();
+            }
+            ;
+            return '"' + areas.toString().split(',').join(' ') + '"'; //we should get a string like ' "AR COP FR" ' (notice that the string marks " in the beginning and the end must appear, otherwise the grid-template-areas value will not be valid)
+        }
+        ;
+    });
 }
 ;
 function setButtonsPrayers() {
@@ -1296,3 +1273,127 @@ function showInlineButtonsForFractionPrayers(btn, fractions, btnsDiv) {
     });
 }
 ;
+function showSettingsPanel() {
+    inlineBtnsDiv.innerHTML = '';
+    if (inlineBtnsDiv.dataset.status == 'settingsPanel') {
+        inlineBtnsDiv.dataset.status = 'inlineButtons';
+        return;
+    }
+    ;
+    inlineBtnsDiv.dataset.status = 'settingsPanel';
+    //Show current version
+    let version = 'v0.4';
+    let p = document.createElement('p');
+    p.style.color = 'red';
+    p.style.fontSize = '15pt';
+    p.style.fontWeight = "bold";
+    p.innerText = version;
+    inlineBtnsDiv.appendChild(p);
+    let btn;
+    //Show InstallPWA button
+    btn = document.createElement('div');
+    btn.id = 'InstallPWA';
+    btn.classList.add('btnIcon');
+    btn.role = 'button';
+    btn.innerText = 'Install PWA';
+    inlineBtnsDiv.appendChild(btn);
+    //Appending date picker
+    btn = document.createElement('input');
+    btn.type = 'date';
+    btn.id = 'datePicker';
+    btn.addEventListener('change', (e) => {
+        let el = e.target;
+        console.log("date value = ", el.value.toString());
+        changeDay(el.value.toString());
+    });
+    btn.setAttribute('value', todayDate);
+    btn.setAttribute('min', '1900-01-01');
+    inlineBtnsDiv.appendChild(btn);
+    //Appending 'Next Coptic Day' button
+    btn = document.createElement('button');
+    btn.type = 'submit';
+    btn.id = 'nextDay';
+    btn.size = '10';
+    btn.innerText = 'Next Coptic Day';
+    btn.style.backgroundColor = 'rgb(33, 175, 175)';
+    btn.addEventListener('click', () => changeDay(undefined, true, 1));
+    inlineBtnsDiv.appendChild(btn);
+    //Appending 'Previous Coptic Day' button
+    btn = document.createElement('button');
+    btn.type = 'submit';
+    btn.id = 'previousDay';
+    btn.size = '10';
+    btn.innerText = 'Next Coptic Day';
+    btn.style.backgroundColor = 'rgb(33, 175, 175)';
+    btn.addEventListener('click', () => changeDay(undefined, false, 1));
+    inlineBtnsDiv.appendChild(btn);
+    //Appending 'Add Coptic in Arabic Characters' button
+    btn = document.createElement('div');
+    btn.id = 'btns';
+    inlineBtnsDiv.appendChild(btn);
+    btn = document.createElement('button');
+    btn.type = 'submit';
+    btn.id = 'addCA';
+    btn.dataset.lang = 'CA';
+    btn.classList.add('addLang');
+    btn.innerText = 'Add Coptic In Arabic Characters';
+    btn.style.backgroundColor = 'rgb(33, 175, 175)';
+    btn.addEventListener('click', () => addOrRemoveLanguage(btn));
+    inlineBtnsDiv.querySelector('#btns').appendChild(btn);
+    //Appending 'Add English or French' button
+    btn = document.createElement('button');
+    btn.type = 'submit';
+    btn.id = 'addEN';
+    btn.dataset.lang = 'EN';
+    btn.classList.add('addLang');
+    btn.innerText = 'Add English Or French';
+    btn.style.backgroundColor = 'rgb(33, 175, 175)';
+    btn.addEventListener('click', () => addOrRemoveLanguage(btn));
+    inlineBtnsDiv.querySelector('#btns').appendChild(btn);
+    //Appending colors keys for actors
+    btn = document.createElement('div');
+    btn.id = 'actors';
+    inlineBtnsDiv.appendChild(btn);
+    let actors = [
+        {
+            id: 'PriestColor',
+            AR: 'الكاهن',
+            FR: 'Le Prêtre',
+            EN: 'The Priest',
+        },
+        {
+            id: 'AssemblyColor',
+            AR: "الشعب",
+            FR: 'L\'Assemblée',
+            EN: 'The Assembly',
+        },
+        {
+            id: 'DiaconColor',
+            AR: 'الشماس',
+            FR: 'Le Diacre',
+            EN: 'The Diacon',
+        }
+    ];
+    actors.map(b => {
+        btn = document.createElement('button');
+        btn.id = b.id;
+        btn.class = 'colorbtn';
+        for (let i = 1; i < 5; i++) {
+            let p = document.createElement('p');
+            p.innerText = Object.keys(b)[i];
+            btn.appendChild(p);
+        }
+        ;
+        inlineBtnsDiv.querySelector('#actors').appendChild(btn);
+    });
+}
+function insertRedirectionButtons(querySelector, btns, position = 'beforebegin') {
+    let div = document.createElement('div');
+    div.style.display = 'grid';
+    div.style.width = '70%';
+    div.style.gridTemplateColumns = ((100 / btns.length).toString() + '% ').repeat(btns.length);
+    div.style.justifySelf = 'center';
+    div.style.justifyItems = 'center';
+    btns.map(b => div.appendChild(createBtn(b, div, b.cssClass)));
+    containerDiv.querySelector(querySelector).insertAdjacentElement(position, div);
+}

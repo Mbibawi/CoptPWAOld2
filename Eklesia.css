@@ -1,10 +1,10 @@
 @font-face {
   font-family: AvaShenouda;
-  src: url(Avva_Shenouda.ttf);
+  src: url(./fonts/Avva_Shenouda.ttf);
 }
 @font-face {
   font-family: ArialCoptic;
-  src: url(ArialCoptic.ttf);
+  src: url(./fonts/ArialCoptic.ttf);
 }
 .root{
   --inline-column-width: 30%;
@@ -88,8 +88,6 @@ width: auto !important;
   width: 100%;
   justify-items: center;
   justify-content: center;
-  overflow-x: hidden;
-  overflow-y: scroll;
 }
 .inlineBtns{
   display:grid;
@@ -99,7 +97,7 @@ width: auto !important;
 #main{
   display: grid;
   justify-items: center;
-  overflow-x: auto;
+  /*overflow-x: auto;*/
   max-width: 100%;
 }
 #textDisplayArea{

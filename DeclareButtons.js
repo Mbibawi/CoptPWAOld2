@@ -9,7 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 class Button {
     constructor(btn) {
-        this._label = { FR: '', AR: '', EN: '' };
         this._retrieved = false;
         this._btnID = btn.btnID;
         this._label = btn.label;
@@ -22,12 +21,14 @@ class Button {
         this._titlesArray = btn.titlesArray;
         this._languages = btn.languages;
         this._onClick = btn.onClick;
+        this._showPrayers = btn.showPrayers;
         this._pursue = btn.pursue;
         this._value = btn.value;
         btn.cssClass ? this._cssClass = btn.cssClass : this._cssClass = 'sideBarBtn';
         this._inlineBtns = btn.inlineBtns;
     }
     ;
+    //Setters
     get btnID() { return this._btnID; }
     ;
     get children() { return this._children; }
@@ -50,6 +51,8 @@ class Button {
     ;
     get onClick() { return this._onClick; }
     ;
+    get showPrayers() { return this._showPrayers; }
+    ;
     get pursue() { return this._pursue; }
     ;
     get value() { return this._value; }
@@ -58,6 +61,7 @@ class Button {
     ;
     get inlineBtns() { return this._inlineBtns; }
     ;
+    //getters
     set btnID(id) { this._btnID = id; }
     ;
     set label(lbl) { this._label = lbl; }
@@ -75,6 +79,8 @@ class Button {
     set languages(btnLanguages) { this._languages = btnLanguages; }
     ;
     set onClick(fun) { this._onClick = fun; }
+    ;
+    set showPrayers(showPrayers) { this._showPrayers = showPrayers; }
     ;
     set pursue(pursue) { this._pursue = pursue; }
     ;
@@ -133,7 +139,7 @@ const btnIncenseOffice = new Button({
                 && todayDate.getDay() != 6 //i.e., we are not a Saturday
             ) {
                 //it means btnReadingsPropheciesDawn does not appear in the Incense Dawn buttons list (i.e., =-1), and we are neither a Saturday or a Sunday, which means that there are prophecies lectures for these days and we need to add the button in all the Day Readings Menu, and the Incense Dawn
-                btnIncenseDawn.children.unshift(btnReadingsPropheciesDawn); //We add the Prophecies button at the begining of the btnIncenseDawn children[], i.e., we add it as the first button in the list of Incense Dawn buttons, the second one is the Gospel
+                btnIncenseDawn.children.unshift(btnReadingsPropheciesDawn); //We add the Prophecies button at the beginning of the btnIncenseDawn children[], i.e., we add it as the first button in the list of Incense Dawn buttons, the second one is the Gospel
             }
             else if (btnIncenseDawn.children.indexOf(btnReadingsPropheciesDawn) > -1
                 && (todayDate.getDay() == 0 //i.e., we are a Sunday
@@ -344,7 +350,9 @@ const btnIncenseVespers = new Button({
 });
 const btnMassStCyril = new Button({
     btnID: 'btnMassStCyril',
-    label: { AR: "كيرلسي", FR: "Messe Saint Cyril", EN: "St Cyril Mass" },
+    rootID: 'StCyril',
+    label: { AR: "كيرلسي", FR: "Saint Cyril", EN: "St Cyril" },
+    showPrayers: false,
     prayersArray: PrayersArray,
     languages: [...prayersLanguages],
     onClick: () => {
@@ -355,21 +363,31 @@ const btnMassStCyril = new Button({
         }
         ;
         //Setting the standard mass prayers sequence
-        btnMassStCyril.prayers = [...MassPrayers.MassCommonIntro, ...MassPrayers.MassStCyril, ...MassPrayers.Communion];
-        //We will show the prayers directly and will set the btn.pursue property to false
-        // showPrayers(btnMassStCyril);
-        // adding inline buttons if they were not already set when the user previously clicked the button
-        if (!btnMassStCyril.inlineBtns) {
-            btnMassStCyril.inlineBtns = [...goToAnotherMass];
-            btnMassStCyril.inlineBtns.splice(2, 1); //removing btnGoToStCyrilReconciliation from the inlineBtns
-        }
-        ;
+        btnMassStCyril.prayers = [...MassPrayers.MassCommonIntro, ...MassPrayers.MassStCyril, ...["PMCTheHolyBodyAndTheHolyBlodPart3&D=0000",
+                "PrayerKyrieElieson&D=0000",
+                "PrayerBlockIriniPassi&D=0000",
+                "PMCFractionPrayerPlaceholder&D=0000",
+                "PrayerOurFatherWhoArtInHeaven&D=0000",
+                "PMCConfession&D=0000",
+                "PMCConfessionComment&D=0000"], ...MassPrayers.Communion];
+        //We need to show the prayers before adding the buttons that redirect to the St Basil & St Gregory Masses
+        showPrayers(btnMassStCyril);
+        //Adding 2 buttons to redirect to the St Basil or St Gregory Reconciliation prayer
+        redirectToAnotherMass(containerDiv.children[4].getAttribute('data-root'), [btnMassStBasil, btnMassStGregory, btnMassStJohn], "beforebegin");
+        //Adding 2 buttons to redirect to the St Basil or St Gregory Anaphora prayer
+        redirectToAnotherMass('PMCAnaphoraComment1&D=0000', [btnMassStBasil, btnMassStGregory], "beforebegin");
+        //Adding 2 buttons to redirect to the St Basil or St Gregory Masses After the Spasmos
+        redirectToAnotherMass('PMCSpasmosComment&D=0000', [btnMassStBasil, btnMassStGregory], 'beforebegin');
+        //We scroll to the beginning of the page after the prayers have been displayed
+        createFakeAnchor(containerDiv.id);
         return btnMassStCyril.prayers;
     }
 });
 const btnMassStGregory = new Button({
     btnID: 'btnMassStGregory',
+    rootID: 'StGregory',
     label: { AR: "غريغوري", FR: "Saint Gregory" },
+    showPrayers: false,
     prayersArray: PrayersArray,
     languages: [...prayersLanguages],
     onClick: () => {
@@ -383,18 +401,24 @@ const btnMassStGregory = new Button({
         btnMassStGregory.prayers = [...MassPrayers.MassCommonIntro, ...MassPrayers.MassStGregory, ...MassPrayers.MassCallOfHolySpirit, ...MassPrayers.MassLitanies, ...MassPrayers.Communion];
         //removing irrelevant prayers from the array
         btnMassStGregory.prayers.splice(btnMassStGregory.prayers.indexOf('PMCCallOfTheHolySpiritPart1Comment&D=0000'), 10);
-        // adding inline buttons if they were not already set when the user previously clicked the button
-        if (!btnMassStGregory.inlineBtns) {
-            btnMassStGregory.inlineBtns = [...goToAnotherMass];
-            btnMassStGregory.inlineBtns.splice(1, 1); //removing btnGoToStGregoryReconciliation from the inlineBtns
-        }
-        ;
+        showPrayers(btnMassStGregory);
+        btnMassStGregory.showPrayers = false;
+        //Adding 3 buttons to redirect to the St Basil or St Cyril Reconciliation prayer
+        redirectToAnotherMass(containerDiv.children[4].getAttribute('data-root'), [btnMassStBasil, btnMassStCyril, btnMassStJohn], "beforebegin");
+        //We add buttons to redirect to the other Reconciliation masses
+        redirectToAnotherMass('PMCAgiosComment1&D=0000', [btnMassStBasil], "beforebegin");
+        //We add buttons to redirect to St Basil After the Espasmos
+        redirectToAnotherMass('PMCAgiosComment1&D=0000', [btnMassStBasil], "beforebegin");
+        //We scroll to the beginning of the page after the prayers have been displayed
+        createFakeAnchor(containerDiv.id);
         return btnMassStGregory.prayers;
     }
 });
 const btnMassStBasil = new Button({
     btnID: 'btnMassStBasil',
-    label: { AR: 'باسيلي', FR: 'Messe Saint Basil', EN: 'St Basil Mass' },
+    rootID: 'StBasil',
+    label: { AR: 'باسيلي', FR: 'Saint Basil', EN: 'St Basil' },
+    showPrayers: false,
     prayersArray: PrayersArray,
     languages: [...prayersLanguages],
     onClick: () => {
@@ -406,26 +430,33 @@ const btnMassStBasil = new Button({
         ;
         //Setting the standard mass prayers sequence
         btnMassStBasil.prayers = [...MassPrayers.MassCommonIntro, ...MassPrayers.MassStBasil, ...MassPrayers.MassCallOfHolySpirit, ...MassPrayers.MassLitanies, ...MassPrayers.Communion];
-        (() => __awaiter(this, void 0, void 0, function* () {
-            if (!btnMassStBasil.inlineBtns) {
-                btnMassStBasil.inlineBtns = [...goToAnotherMass];
-                btnMassStBasil.inlineBtns.splice(0, 1); //removing btnGoToStBasilReconciliation from the inlineBtns
-            }
-        }))();
+        /*  (async () => {
+                  if (!btnMassStBasil.inlineBtns) {
+                          btnMassStBasil.inlineBtns = [...goToAnotherMass];
+                          btnMassStBasil.inlineBtns.splice(0, 1);//removing btnGoToStBasilReconciliation from the inlineBtns
+                  }
+          })(); */
+        showPrayers(btnMassStBasil);
+        //We add buttons to redirect to the other Reconciliation masses
+        redirectToAnotherMass(containerDiv.children[4].getAttribute('data-root'), [btnMassStGregory, btnMassStCyril, btnMassStJohn], "beforebegin");
+        //We add buttons to redirect to the other Reconciliation masses
+        /*redirectToAnotherMass(['PMCAgiosComment1&D=0000'], 'div[data-root=\'', [btnMassStGregory, btnMassStCyril, btnMassStJohn], "beforebegin");*/
+        //We scroll to the beginning of the page after the prayers have been displayed
+        createFakeAnchor(containerDiv.id);
         return btnMassStBasil.prayers;
     }
 });
 const btnMassStJohn = new Button({
     btnID: 'btnMassStJohn',
     label: { AR: 'القديس يوحنا', FR: 'Saint Jean' },
+    showPrayers: false,
     prayers: [],
     onClick: () => {
         // adding inline buttons if they were not already set when the user previously clicked the button
-        if (!btnMassStJohn.inlineBtns) {
-            btnMassStJohn.inlineBtns = [...goToAnotherMass];
-            btnMassStJohn.inlineBtns.splice(3, 1); //removing btnGoToStJohnReconciliation from the inlineBtns
-        }
-        ;
+        /*if (!btnMassStJohn.inlineBtns) {
+        btnMassStJohn.inlineBtns = [...goToAnotherMass];
+                btnMassStJohn.inlineBtns.splice(3, 1);//removing btnGoToStJohnReconciliation from the inlineBtns
+        };*/
         if (!btnMassStJohn.retrieved) {
             btnMassStJohn.prayersArray = retrieveBtnPrayers(btnMassStJohn);
         }
@@ -454,28 +485,28 @@ function retrieveBtnPrayers(btn) {
 const goToAnotherMass = [
     new inlineButton({
         btnID: 'btnGoToStBasilReconciliation',
-        label: { AR: 'صلاة الصلح الباسيلي', FR: 'Reconciliation Saint Basil' },
+        label: { AR: ' باسيلي', FR: ' Saint Basil' },
         onClick: () => {
             showChildButtonsOrPrayers(btnMassStBasil);
         }
     }),
     new inlineButton({
         btnID: 'btnGoToStGregoryReconciliation',
-        label: { AR: 'صلاة الصلح الغريغوري', FR: 'Reconciliation Saint Gregory' },
+        label: { AR: 'غريغوري', FR: ' Saint Gregory' },
         onClick: () => {
             showChildButtonsOrPrayers(btnMassStGregory);
         }
     }),
     new inlineButton({
         btnID: 'btnGoToStCyrilReconciliation',
-        label: { AR: 'صلاة الصلح الكيرلسي', FR: 'Reconciliation Saint Cyril' },
+        label: { AR: 'كيرلسي', FR: 'Saint Cyril' },
         onClick: () => {
             showChildButtonsOrPrayers(btnMassStCyril);
         }
     }),
     new inlineButton({
         btnID: 'btnGoToStJeanReconciliation',
-        label: { AR: 'صلاة الصلح للقديس يوحنا', FR: 'Reconciliation Saint Jean' }, rootID: 'StJohn',
+        label: { AR: 'القديس يوحنا', FR: 'Saint Jean' }, rootID: 'StJohn',
         parentBtn: btnMass,
         onClick: () => {
             showChildButtonsOrPrayers(btnMassStJohn);
@@ -759,3 +790,28 @@ function setGospelPrayers(liturgie) {
 ;
 let btnsPrayers = [];
 let btns = [btnIncenseDawn, btnIncenseVespers, btnMassStCyril, btnMassStBasil, btnMassStGregory];
+function redirectToAnotherMass(id, btns, position) {
+    return __awaiter(this, void 0, void 0, function* () {
+        let query = 'div[data-root=\'';
+        let dataset = query + id + '\']';
+        let redirectTo = [];
+        btns.map(btn => {
+            let newBtn = new Button({
+                btnID: 'GoTo' + id + btn.rootID,
+                label: {
+                    AR: btn.label.AR,
+                    FR: btn.label.FR,
+                },
+                onClick: () => {
+                    showChildButtonsOrPrayers(btn);
+                    let target = containerDiv.querySelector(dataset);
+                    target.id = id;
+                    createFakeAnchor(target.id);
+                }
+            });
+            redirectTo.push(newBtn);
+        });
+        insertRedirectionButtons(dataset, redirectTo, position);
+    });
+}
+;

@@ -2314,7 +2314,7 @@ PrayersArray = [[
             "أوشية القرابين"],
         ["PMCLitanyOblations&D=0000&C=Priest",
             "Ⲁⲣⲓⲫ̀ⲙⲉⲩⲓ̀ Ⲡϭⲟⲓⲥ ⲛ̀ⲛⲏⲉ̀ⲧⲁⲩⲓ̀ⲛⲓ ⲛⲁⲕ ⲉ̀ϧⲟⲩⲛ ⲛ̀ⲛⲁⲓⲇⲱⲣⲟⲛ: ⲛⲉⲙ ⲛⲏⲉ̀ⲧⲁⲩⲉ̀ⲛⲟⲩ ⲉ̀ϫⲱⲟⲩ: ⲛⲉⲙ ⲛⲏⲉ̀ⲧⲁⲩⲉ̀ⲛⲟⲩ ⲉ̀ⲃⲟⲗϩⲓⲧⲟⲧⲟⲩ: ⲙⲟⲓ ⲛⲱⲟⲩ ⲧⲏⲣⲟⲩ ⲙ̀ⲡⲓⲃⲉⲭⲉ ⲡⲓ ⲉ̀ⲃⲟⲗ ϧⲉⲛ ⲛⲓⲫⲏⲟⲩⲓ̀.",
-            "Prêtre:Souviens Toi Seigneur de tous ceux qui T’ont offert ces oblations, de ceux pour qui elles ont été offertes, et de ceux par qui elles ont été offertes, donne leur à tous la récompense céleste. ",
+            "Souviens Toi Seigneur de tous ceux qui T’ont offert ces oblations, de ceux pour qui elles ont été offertes, et de ceux par qui elles ont été offertes, donne leur à tous la récompense céleste. ",
             "",
             "اذكر يا ربُ الذينَ قدّموا لكَ هذه القرابين والذين قدّمت عنهم والذين قدّمت بواسطتهم اعطِهم كلهم الأجرَ السمائى."],
         ["PMCLitanyOblations&D=0000&C=Diacon",
@@ -2537,6 +2537,13 @@ PrayersArray = [[
             "Fraction",
             "القسمة",
             "القسمة"]
+    ],
+    [
+        ["PrayerAmenWeBelieve&D=0000&C=Assembly",
+            "Ⲁⲙⲏⲛ: ϯⲛⲁϩϯ.",
+            "Amen, nous croyons. ",
+            "",
+            "حقاً نؤمن."]
     ],
     [
         ["PMCConfession&D=0000&C=Priest",
@@ -3228,17 +3235,17 @@ PrayersArray = [[
             "هذا الذى ينبغي له المجد مع ابيه الصالح و الروح القدس الآن و الى الأبد."]
     ],
     [
-        ["PMReconciliationStBasilPart1&D=0000&C=Title",
+        ["PMStBasilReconciliationPart1&D=0000&C=Title",
             "Ⲫⲛⲟⲩϯ ⲡⲓⲛⲓϣϯ ⲡⲓϣⲁⲉ̀ⲛⲉϩ ⲫⲏⲉⲧⲁϥⲕⲱⲧ",
             "Reconciliation",
             "صلاة الصلح",
             "صلاة الصلح"],
-        ["PMReconciliationStBasilPart1&D=0000&C=Priest",
+        ["PMStBasilReconciliationPart1&D=0000&C=Priest",
             "Ⲫⲛⲟⲩϯ ⲡⲓⲛⲓϣϯ ⲡⲓϣⲁⲉ̀ⲛⲉϩ ⲫⲏⲉⲧⲁϥⲕⲱⲧ ⲙ̀ⲡⲓⲣⲱⲙⲓ ⲉ̀ϩⲣϩⲏⲓ ⲉϫⲉⲛ ϯⲙⲉⲧⲁⲧⲧⲁⲕⲟ. Ⲟⲩⲟϩ ⲫ̀ⲙⲟⲩ ⲉⲧⲁϥⲓ̀ ⲉϧⲟⲩⲛ ⲉ̀ⲡⲓⲕⲟⲥⲙⲟⲥ: ϩⲓⲧⲉⲛ ⲡⲓⲫ̀ⲑⲟⲛⲟⲥ ⲛ̀ⲧⲉ ⲡⲓⲇⲓⲁⲃⲟⲗⲟⲥ. Ⲁⲕϣⲉⲣϣⲱⲣϥ ϩⲓⲧⲉⲛ  ⲡⲓⲟⲩⲱⲛϩ ⲉⲃⲟⲗ ⲛ̀ⲣⲉϥⲧⲁⲛϧⲟ ⲛ̀ⲧⲉ ⲡⲉⲕⲙⲟⲛⲟⲅⲉⲛⲏⲥ ⲛ̀Ϣⲏⲣⲓ Ⲡⲉⲛϭⲟⲓⲥ ⲟⲩⲟϩ Ⲡⲉⲛⲛⲟⲩϯ ⲟⲩⲟϩ Ⲡⲉⲛⲥⲱⲧⲏⲣ Ⲓⲏⲥⲟⲩⲥ Ⲡⲓⲭⲣⲓⲥⲧⲟⲥ.",
             "Ô Dieu grand et éternel qui a créé l’homme  sans corruption. Tu as détruit la mort, introduite dans le monde par l’envie du démon par la manifestation vivifiante de Ton Fils Unique Notre Seigneur, Notre Dieu, et Notre Sauveur Jésus Christ. ",
             "إفنوتي بي نشتي بي شا إينيه في إبطاف كوت إمبي رومي إى إهري إيجين تي ميت أتطاكو. أووه إفمو إيطاف إي إيخون إي بي كوزموس هيتين بي إفثونوس إنتي بي ذيافولوس آك شير شورف. هيتين بي أو أونه إيفول إنريف تنخو إنتي بيك مونوجينيس إنشيري بين شويس أووه بين نوتي أووه بين سوتير إيسوس بي إخرستوس. ",
             "يا اللهُ العظيم الأبدي الذى جَبَلَ الإنسان على غير فسادٍ. والموتُ الذى دَخَلَ إلى العالم بحَسَدِ إبليس، هَدَمتهُ بالظهور المحيي الذى لابنك الوحيد الجنس رَبَنا وإلهَنا ومُخلصنا يسوعَ المسيح."],
-        ["PMReconciliationStBasilPart1&D=0000&C=Priest",
+        ["PMStBasilReconciliationPart1&D=0000&C=Priest",
             "Ⲟⲩⲟϩ ⲁⲕⲙⲟϩ ⲙ̀ⲡⲓⲕⲁϩⲓ ⲉⲃⲟⲗϧⲉⲛ ϯϩⲓⲣⲏⲛⲏ ϯⲉⲃⲟⲗϧⲉⲛ ⲛⲓⲫⲏⲟⲩⲓ.  Ⲑⲁⲓ ⲉⲧⲉ̀ⲣⲉ ϯⲥⲧⲣⲁⲧⲓⲁ ⲛ̀ⲧⲉ ⲛⲓⲁⲅⲅⲉⲗⲟⲥ ϯⲱⲟⲩ ⲛⲁⲕ ⲛ̀ϧⲏⲧⲥ ⲉⲩϫⲱ ⲙ̀ⲙⲟⲥ. Ϫⲉ ⲟⲩⲱⲟⲩ ⲙ̀Ⲫⲛⲟⲩϯ ϧⲉⲛ ⲛⲏⲉⲧϭⲟⲥⲓ: ⲛⲉⲙ ⲟⲩϩⲓⲣⲏⲛⲏ ϩⲓϫⲉⲛ ⲡⲓⲕⲁϩⲓ: ⲛⲉⲙ ⲟⲩϯⲙⲁϯ ϧⲉⲛ ⲛⲓⲣⲱⲙⲓ.",
             "Tu as rempli la terre de la paix céleste avec laquelle les armées des anges Te glorifient en disant: “Gloire à Dieu au plus haut des cieux, et paix sur terre et joie aux hommes.”",
             "أووه آك موه إم بي كاهي إيفول خين تي هيريني تي إيفول خين نيفيئووي ثاي إت إيري تي ستراتيا إنتي ني آنجيلوس تي أو اوناك إنخيتس إفجو إمموس جي أوأو أو إم إفنوتي خين ني إتتشوسي نيم أو هيريني هيجين بي كاهي نيم أوتيماتي خين ني رومي.",
@@ -3252,30 +3259,30 @@ PrayersArray = [[
             "صلوا من أجل السلام الكامل والمحبة والقبلة الطاهرة الرسولية. "]
     ],
     [
-        ["PMReconciliationStBasilPart1Comment&D=0000&C=Comment",
+        ["PMStBasilReconciliationPart1Comment&D=0000&C=Comment",
             "",
             "يرفع الكاهن اللفافة الختم أمام وجهه منثنية على شكل مثلث وفي مقابله يرفع الشماس الصليب."]
     ],
     [
-        ["PMReconciliationStBasilPart2&D=0000&C=Priest",
+        ["PMStBasilReconciliationPart2&D=0000&C=Priest",
             "Ϧⲉⲛ ⲡⲉⲕϯⲙⲁϯ Ⲫ̀ⲛⲟⲩϯ ⲙⲟϩ ⲛ̀ⲛⲉⲛϩⲏⲧ ϧⲉⲛ ⲧⲉⲕϩⲓⲣⲏⲛⲏ. Ⲟⲩⲟϩ ⲙⲁⲧⲟⲩⲃⲟⲛ ⲉⲃⲟⲗϩⲁ ⲑⲱⲗⲉⲃ ⲛⲓⲃⲉⲛ: ⲛⲉⲙ ⲭ̀ⲣⲟϥ ⲛⲓⲃⲉⲛ ⲛⲉⲙ ⲙⲉⲧϣⲟⲃⲓ ⲛⲓⲃⲉⲛ. Ⲛⲉⲙ ⲡⲁⲛⲟⲩⲣⲅⲓⲁ ⲛⲓⲃⲉⲛ: ⲛⲉⲙ ϯⲙⲉⲧⲣⲉϥⲉⲣⲫ̀ⲙⲉⲩⲓ ⲛ̀ⲧⲉ ϯⲕⲁⲕⲓⲁ ⲉ̀ⲧⲉⲣⲫⲟⲣⲓⲛ ⲙ̀ⲫ̀ⲙⲟⲩ. ",
             "Dans Ta bienveillance, Ô Dieu, remplis nos cœurs de Ta paix. Purifie-nous de toute souillure, de toute ruse, de toute hypocrisie, de toute malice et de toute pensée mauvaise conduisant à la mort. ",
             "خين بيك تيماتي إفنوتي موه إننهيت خين تيك هيريني. أووه ماطوفون إيقول هاثوليب نيفين نيم إكروف نيفين. نيم ميتشوفي نيقين نيم بان أورجيا نيقين. نيم تي ميت ريف إيبر إفميفئي إنتي تي كاكيا إتئيرفورين إم إفمو. ",
             "بمسرتِكَ يا الله املأ قلوبَنا من سلامِكَ. وطهّرنا من كل دنسٍ ومن كل غشٍ ومن كل رياءٍ ومن كل فعلٍ خبيث ومن تذكارالشر المُلبس المَوت."],
-        ["PMReconciliationStBasilPart2&D=0000&C=Priest",
+        ["PMStBasilReconciliationPart2&D=0000&C=Priest",
             "Ⲟⲩⲟϩ ⲁⲣⲓⲧⲉⲛ ⲛ̀ⲉⲙⲡ̀ϣⲁ ⲧⲏⲣⲉⲛ ⲡⲉⲛⲛⲏⲃ: ⲉ̀ⲑ̀ⲣⲉⲛⲉⲣⲁⲥⲡⲁⲍⲉⲥⲑⲉ ⲛ̀ⲛⲉⲛⲉ̀ⲣⲏⲟⲩ ϧⲉⲛ ⲟⲩⲫⲓ ⲉⲑⲟⲩⲁⲃ.  Ⲉ̀ⲡ̀ϫⲓⲛⲧⲉⲛϭⲓ ϧⲉⲛ ⲟⲩⲙⲉⲧⲁⲧϩⲓⲧⲧⲉⲛ ⲉ̀ⲡ̀ϩⲁⲡ: ⲉⲃⲟⲗϧⲉⲛ ⲧⲉⲕⲇⲱⲣⲉⲁ ⲛ̀ⲁⲑⲙⲟⲩ ⲟⲩⲟϩ ⲛ̀ⲉ̀ⲡⲟⲩⲣⲁⲛⲓⲟⲛ: ϧⲉⲛ Ⲡⲓⲭⲣⲓⲥⲧⲟⲥ Ⲓⲏⲥⲟⲩⲥ Ⲡⲉⲛϭⲟⲓⲥ.",
             "Rends-nous tous digne, Ô Seigneur, d’échanger un saint baiser, afin que, sans encourir la condamnation, nous recevions de Tes dons immortels  et célestes, par Jésus-Christ notre Seigneur.",
             "أووه آريتين إن إم إبشاتيرين بين نيب إيثرين إير أسبازيستي إنين إيريؤخين أوفي إثؤواب. إى إيجين تين تشي خين أو ميت أت هي تتين إي إبهاب إيفول خين تيك ذوريا إن أثمو أووه إن إيبورانيون خين بي إخرستوس إيسوس بين شويس.",
             "واجعَلنا مستحقين كلنا يا سيدنا أن نقبّلَ بعضنا بعضاً بقبلةٍ مقدسة.  لكى نَنَالَ بغير وقوع فى دينونةٍ من مَوهبتِكَ غير المائتة السمائية. بالمَسيح يسوع رَبنا."]
     ],
     [
-        ["PMReconciliationStBasilPart2Comment&D=0000&C=Comment",
+        ["PMStBasilReconciliationPart2Comment&D=0000&C=Comment",
             "",
             "ثم يكمل الكاهن سراً"],
-        ["PMReconciliationStBasilPart2Comment&D=0000&C=CommentText",
+        ["PMStBasilReconciliationPart2Comment&D=0000&C=CommentText",
             "",
             "هذا الذي من قبله المجد والكرامة والعزة والسجود، تليق بك معه ومع الروح القدس المحيي المساوي لك الآن وكل أوان وإلى دهر الدهور كلها آمين."],
-        ["PMReconciliationStBasilPart2Comment&D=0000&C=Comment",
+        ["PMStBasilReconciliationPart2Comment&D=0000&C=Comment",
             "",
             "إذا أرادوا، يقول الشعب الاسبسمس الآدام السنوي، أو غيره من الاسبسمسمات السنوية أو اسبسمسات الآحاد والأعياد السيدية والغير سيدية والأصوام"]
     ],
@@ -3304,71 +3311,63 @@ PrayersArray = [[
             "نسجدُ لك أيها المسيح مع أبيك الصالح والروح القدس لأنكَ " + `${giaki.AR}` + " وخلصتنا. رحمة السلام ذبيحة التسبيح. "]
     ],
     [
-        ["PMCAnaphora1Comment&D=0000&C=Comment",
+        ["PMCAnaphoraComment1&D=0000&C=Comment",
             "",
             "يضع الكاهن اللفافة الختم على يده اليسرى ويأخذ بيده اليمنى اللفافة التي على القربانة ويمسك الصليب ويرشم الشعب ويقول:"]
     ],
     [
-        ["PMCAnaphora2Comment&D=0000&C=Comment",
+        ["PMCAnaphoraPart1&D=0000&C=Title",
+            "",
+            "Anaphore",
+            "الأنافورا",
+            "الأنافورا"]
+    ],
+    [
+        ["PMCAnaphoraComment2&D=0000&C=Comment",
             "",
             "يقول الكاهن وهو يرشم الخدام شرقاً:"]
     ],
     [
-        ["PMCAnaphoraPart1&D=0000&C=Title",
-            "Anaphora",
-            "Anaphore",
-            "الأنافورا",
-            "الأنافورا"],
-        ["PMCAnaphoraPart1&D=0000&C=Priest",
-            "Ⲟ̀ Ⲕⲩⲣⲓⲟⲥ ⲙⲉⲧⲁ ⲡⲁⲛⲧⲱⲛ ⲩ̀ⲙⲱⲛ.",
-            "La paix soit avec vous.",
-            "إيريني باسي",
-            "الرب مع جميعكم. "],
-        ["PMCAnaphoraPart1&D=0000&C=Assembly",
-            "Ⲕⲉ ⲧⲟⲩ ⲡ̀ⲛⲉⲩⲙⲁⲧⲓ ⲥⲟⲩ.",
-            "Et avec vôtre esprit.",
-            "كيطو ابنفماتي سو",
-            "ولروحِكَ أيضاً."],
-        ["PMCAnaphoraPart1&D=0000&C=Priest",
+        ["PMCAnaphoraPart2&D=0000&C=Priest",
             "Ⲁⲛⲱ ⲩ̀ⲙⲱⲛ ⲧⲁⲥ ⲕⲁⲣⲇⲓⲁⲥ.",
             "Élevez vos cœurs.",
             "آنو أومون تاس كارذياس",
             "ارفعوا قلوبكم."],
-        ["PMCAnaphoraPart1&D=0000&C=Assembly",
+        ["PMCAnaphoraPart2&D=0000&C=Assembly",
             "Ⲉⲭⲱⲙⲉⲛ ⲡ̀ⲣⲟⲥ ⲧⲟⲛ Ⲕⲩⲣⲓⲟⲛ.",
             "Nous les tournons vers le Seigneur.",
             "إيخومين إبروس تون كيريون",
             "هى عند الرب."]
     ],
     [
-        ["PMCAnaphora3Comment&D=0000&C=Comment",
+        ["PMCAnaphoraComment3&D=0000&C=Comment",
             "",
             "يقول الكاهن وهو يرشم ذاته:"]
     ],
     [
-        ["PMCAnaphoraPart2&D=0000&C=Priest",
+        ["PMCAnaphoraPart3&D=0000&C=Priest",
             "Ⲉⲩⲭⲁⲣⲓⲥⲧⲏⲥⲱⲙⲉⲛ ⲧⲱ Ⲕⲩⲣⲓⲱ.",
             "Rendons grâce au Seigneur.",
             "افخاريستي سومين كوريو",
             "فلنشكر الرب."],
-        ["PMCAnaphoraPart2&D=0000&C=Assembly",
+        ["PMCAnaphoraPart3&D=0000&C=Assembly",
             "Ⲁⲝⲓⲟⲛ ⲕⲉ ⲇⲓⲕⲉⲟⲛ.",
             "Cela est digne et juste.",
             "اكسيون كي ذيكيؤون",
             "مُستحقٌ وعادلٌ."]
     ],
     [
-        ["PMCAnaphoraPart3&D=0000&C=Priest",
+        ["PMCAnaphoraPart4&D=0000&C=Priest",
             "Ⲁⲝⲓⲟⲛ ⲕⲉ ⲇⲓⲕⲉⲟⲛ: ⲁⲝⲓⲟⲛ ⲕⲉ ⲇⲓⲕⲉⲟⲛ: ⲁ̀ⲗⲏⲑⲱⲥ ⲅⲁⲣ ϧⲉⲛ ⲟⲩⲙⲉⲑⲙⲏⲓ: ⲁⲝⲓⲟⲛ ⲕⲉ ⲇⲓⲕⲉⲟⲛ.",
             "Tu es digne et juste, Tu es digne et juste, en vérité, Tu es digne et juste.",
             "أكسيون كي ذي كيئون أكسيون كي ذي كيئون. آليثوس غارخين اوميثمي أكسيون كي ذي كيئون.",
             "مُستحقٌ وعادلٌ. مُستحقٌ وعادلٌ. لأنه حقاً بالحقيقةِ مُستحقٌ وعادلٌ."],
-        ["PMCAnaphoraPart3&D=0000&C=Priest",
+        ["PMCAnaphoraPart4&D=0000&C=Priest",
             "Ⲫⲏⲉⲧϣⲟⲡ ⲫ̀ⲛⲏⲃ Ⲡϭⲟⲓⲥ Ⲫⲛⲟⲩϯ ⲛ̀ⲧⲉ ϯⲙⲉⲑⲙⲏⲓ. Ⲫⲏⲉⲧϣⲟⲡ ϧⲁϫⲱⲟⲩ ⲛ̀ⲛⲓⲉ̀ⲛⲉϩ: ⲟⲩⲟϩ ⲉⲧⲟⲓ ⲛ̀ⲟⲩⲣⲟ ϣⲁ ⲉ̀ⲛⲉϩ. Ⲫⲏⲉⲧϣⲟⲡ ϧⲉⲛ ⲛⲏⲉⲧϭⲟⲥⲓ: ⲟⲩⲟϩ ⲉⲧϫⲟⲩϣⲧ ⲉ̀ϫⲉⲛ ⲛⲏⲉⲧⲑⲉⲃⲓⲏⲟⲩⲧ.",
             "Toi qui Es, Maître Seigneur, Dieu de vérité. Tu es depuis toujours et Tu règnes pour toute éternité. Tu habites les hauteurs et vois jusqu’au fond des abîmes.",
             "في اتشوب إننيب إبشويس إفنوتي إنتي تي ميثمي. في اتشوب خاجوؤو إن ني إبنيه أووه إت أوى. إن أورو شا إينيه. في اتشوب خين ني إتتشوسي أووه إت جوشت إيجين ني إتثيقيوت.",
             "أيُها الكائنُ السيدُ الربُ إله الحق الكائنُ قبلَ الدهور والمالكُ إلى الأبد، الساكنُ في الأعالي والناظرُ إلى المتواضعات."],
-        ["PMCAnaphoraPart3&D=0000&C=Priest",
+        ["PMCAnaphoraPart4&D=0000&C=Priest",
             "Ⲫⲏⲉ̀ⲧⲁϥⲑⲁⲙⲓⲟ ⲛ̀ⲧ̀ⲫⲉ ⲛⲉⲙ ⲡ̀ⲕⲁϩⲓ ⲛⲉⲙ ⲫ̀ⲓⲟⲙ: ⲛⲉⲙ ⲛⲏⲉ̀ⲧⲉ ⲛ̀ϧⲏⲧⲟⲩ ⲧⲏⲣⲟⲩ. Ⲫⲓⲱⲧ ⲙ̀Ⲡⲉⲛϭⲟⲓⲥ ⲟⲩⲟϩ Ⲡⲉⲛⲛⲟⲩϯ ⲟⲩⲟϩ Ⲡⲉⲛⲥⲱⲧⲏⲣ Ⲓⲏⲥⲟⲩⲥ Ⲡⲓⲭ̀ⲣⲓⲥⲧⲟⲥ.  Ⲫⲁⲓ ⲉ̀ⲧⲁⲕⲑⲁⲙⲓⲟ̀ ⲙ̀ⲡ̀ⲧⲏⲣϥ ⲉ̀ⲃⲟⲗϩⲓⲧⲟⲧϥ: ⲛⲏⲉ̀ⲧⲟⲩⲛⲁⲩ ⲉ̀ⲣⲱⲟⲩ ⲛⲉⲙ ⲛⲏⲉ̀ⲧⲉ ⲛ̀ⲥⲉⲛⲁⲩ ⲉ̀ⲣⲱⲟⲩ ⲁⲛ.  Ⲫⲏⲉⲧϩⲉⲙⲥⲓ ϩⲓϫⲉⲛ ⲡⲓⲑ̀ⲣⲟⲛⲟⲥ ⲛ̀ⲧⲉ ⲡⲉϥⲱ̀ⲟⲩ.  Ⲫⲏⲉ̀ⲧ ⲟⲩⲱϣⲧ ⲙ̀ⲙⲟϥ ϩⲓⲧⲉⲛ ϫⲟⲙ ⲛⲓⲃⲉⲛ ⲉ̀ⲑⲟⲩⲁⲃ. ",
             "Créateur du ciel et de la terre, la mer et tout ce qu’ils renferment. Père de notre Seigneur, Dieu et Sauveur Jésus Christ.  Par qui Tu as créé toutes choses visibles et invisibles. Lui qui est assis sur le trône de Sa gloire et qu’adorent toutes les puissances célestes .",
             "في إيتاف ثاميو إن إتفي نيم إبكاهي نيم إفيوم نيم نيئتي إنخيتو. تيرو. إفيوت إمبين شويس، أووه بيننوتي أووه بين سوتير إيسوس بي إخرستوس فاى إيتاك ثاميو إم إبتيرف إيقول هي ططف ني إيتو ناق إيروؤونيم نيئتي إنسيناق إيروؤو آن. فيئت. هيمسي هيجين بيإثرونوس إنتي بيف أوأو فيئيتو أوأوشت إمموف هيتين جوم نيفين إثؤواب.",
@@ -3382,7 +3381,7 @@ PrayersArray = [[
             "أيها الجلوس  قفوا. "]
     ],
     [
-        ["PMCAnaphoraPart4&D=0000&C=Priest",
+        ["PMCAnaphoraPart5&D=0000&C=Priest",
             "Ⲫⲏⲉ̀ⲧⲟⲩⲟ̀ϩⲓ ⲉ̀ⲣⲁⲧⲟⲩ ⲛⲁϩⲣⲁϥ: ⲛ̀ϫⲉ ⲛⲓⲁⲅⲅⲉⲗⲟⲥ: ⲛⲉⲙ ⲛⲓⲁⲣⲭⲏⲁⲅⲅⲉⲗⲟⲥ: ⲛⲓⲁⲣⲭⲏⲛⲓⲉⲝⲟⲩⲥⲓⲁ̀: ⲛⲓⲑ̀ⲣⲟⲛⲟⲥ: ⲛⲓⲙⲉⲧϭⲟⲓⲥ ⲛⲓϫⲟⲙ.",
             "Toi devant qui se tiennent  les Anges,  les Archanges, les Principautés, les Dominations, les Trônes  les Seigneuries et les puissances.",
             "في إتو أو هي إى راتو ناهراف إنجي ني آنجيلوس، نيم ني أرشي، آنجيلوس نيم أرشي ني إكسوسيا، ني إثرونوس ني ميت شويس ني جوم.",
@@ -3396,7 +3395,7 @@ PrayersArray = [[
             "وإلى الشرق انظروا. "]
     ],
     [
-        ["PMCAnaphoraPart5&D=0000&C=Priest",
+        ["PMCAnaphoraPart6&D=0000&C=Priest",
             "Ⲛⲑⲟⲕ ⲅⲁⲣ ⲡⲉ ⲉ̀ⲧⲟⲩⲟ̀ϩⲓ ⲉ̀ⲣⲁⲧⲟⲩ ⲙ̀ⲡⲉⲕⲕⲱϯ: ⲛ̀ϫⲉ ⲛⲓⲭⲉⲣⲟⲩⲃⲓⲙ ⲉⲑⲙⲉϩ ⲙ̀ⲃⲁⲗ: ⲛⲉⲙ ⲛⲓⲥⲉⲣⲁⲫⲓⲙ ⲛⲁ ⲡⲓⲥⲟⲟⲩ ⲛ̀ⲧⲉⲛϩ: ⲉⲩⲉⲣϩⲩⲙⲛⲟⲥ ϧⲉⲛ ⲟⲩⲙⲟⲩⲛ ⲉ̀ⲃⲟⲗ ⲛ̀ⲁⲧⲭⲁⲣⲱⲟⲩ ⲉⲩϫⲱ ⲙ̀ⲙⲟⲥ: ",
             "Tu es celui autour de qui se tiennent les Chérubins aux yeux multiples  et les Séraphins  aux six ailes, qui chantent sans cesse Ta louange et clament :",
             "إنثوك غار بي إتؤ أو هي إيراتو إم بيك كوتي إنجي ني شيروبيم إثميه إمفال نيم ني سيرافيم نابي سو إن تنه. إيف إير هيمنوس خين أومون إيفول إن أت كارؤو إيفجو إمموس.",
@@ -3432,7 +3431,7 @@ PrayersArray = [[
             "إذا أرادوا، يقو الشعب الاسبسمس الواطس السنوي أو غيره من الاسبسموسات السنوية أو اسبسمسات الآحاد والأعياد السيدية والغير سيدية والأصوام."]
     ],
     [
-        ["PMCAgios1Comment&D=0000&C=Comment",
+        ["PMCAgiosComment1&D=0000&C=Comment",
             "",
             "يضع الكاهن اللفافة التي على يده اليسرى على المذبح ويأخذ اللفافة التي على يده اليمنى ويضعها على يده اليسرى ويأخذ بيده اليمنى اللفافة التي على الكأس ويمسك الصليب ويرشم ذاته ويقول:"]
     ],
@@ -3444,17 +3443,17 @@ PrayersArray = [[
             "قدوسٌ. "]
     ],
     [
-        ["PMCAgios2Comment&D=0000&C=Comment",
+        ["PMCAgiosComment2&D=0000&C=Comment",
             "",
             "ثم يرشم الخدام عن يمينه ويقول:"]
     ],
     [
-        ["PMCAgios3Comment&D=0000&C=Comment",
+        ["PMCAgiosComment3&D=0000&C=Comment",
             "",
             "ثم يرشم الشعب إلى الغرب ويقول:"]
     ],
     [
-        ["PMCAgios4Comment&D=0000&C=Comment",
+        ["PMCAgiosComment4&D=0000&C=Comment",
             "",
             "ثم يقبل الصليب ويضعه على المذبح ويقول:"]
     ],
@@ -3476,10 +3475,10 @@ PrayersArray = [[
             "فلم تتركنا عنكَ أيضاً إلى الانقضاء. بل تعهَّدتنا دائماً بأنبيائِكَ القديسين، وفى آخر الأيام ظهرتَ لنا نحنُ الجُلوس في الظلمةِ وظلال الموت بإبنِكَ الوحيد الجنس، ربَنا وإلهَنا ومُخلّصنا يسوعَ المسيح. هذا الذى من الروح القدس ومن العذراء القديسةِ مريم."]
     ],
     [
-        ["PMCAgios5Comment&D=0000&C=Comment",
+        ["PMCAgiosComment5&D=0000&C=Comment",
             "",
             "يقدم الشماس المجمرة للكاهن"],
-        ["PMCAgios5Comment&D=0000&C=Comment",
+        ["PMCAgiosComment5&D=0000&C=Comment",
             "",
             "يضع الكاهن يد بخور في المجمرة ويقول:"]
     ],
@@ -3498,7 +3497,7 @@ PrayersArray = [[
             "ⲫⲁⲓ ⲉ̀ⲛⲁⲩⲁ̀ⲙⲟⲛⲓ   ⲙ̀ⲙⲟⲛ ⲉ̀ⲃⲟⲗ ϩⲓⲧⲟⲧϥ: ⲉⲛⲧⲟⲓ ⲉ̀ⲃⲟⲗ ϩⲓⲧⲉⲛ ⲛⲉⲛⲛⲟⲃⲓ. Ⲁϥϣⲉⲛⲁϥ ⲉ̀ⲡⲉⲥⲏⲧ  ⲉ̀ⲁ̀ⲙⲉⲛϯ ⲉ̀ⲃⲟⲗ ϩⲓⲧⲉⲛ ⲡⲓⲥ̀ⲧⲁⲩⲣⲟⲥ.",
             "et qui nous tenait enchaînés à cause de nos fautes. Il est descendu aux enfers par la croix.",
             "فاي إناف آموني إممون إيفول هيتوتف إنتوي إيفول هيتين نين نوفي أفشيناف إيبيسيت إى آمنتي إيفول هيتين بي إستافروس.",
-            "هذا الذى كنا مُمسَكينَ به مَبيعين من قبل خطايانا. نزلَ إلى الجحيم من قبل الصليب.."]
+            "هذا الذى كنا مُمسَكينَ به مَبيعين من قبل خطايانا. نزلَ إلى الجحيم من قبل الصليب."]
     ],
     [
         ["PMCAssemblyResponseIndeedWeBelieve&D=0000&C=Assembly",
@@ -3527,10 +3526,10 @@ PrayersArray = [[
             "كرحمَتِكَ يا رب وليسَ كخطايانا."]
     ],
     [
-        ["PMStBasilInstitutionNarrative1Comment&D=0000&C=Comment",
+        ["PMCAgiosComment6&D=0000&C=Comment",
             "",
             "يقدم الشماس المجمرة للكاهن"],
-        ["PMStBasilInstitutionNarrative1Comment&D=0000&C=Comment",
+        ["PMCAgiosComment6&D=0000&C=Comment",
             "",
             "يشير الكاهن بيديه إلى الخبز والخمر، ثم إذ يكون قد قدموا له المجمرة، يترك اللفافتين من يده على المذبح ويبخر يديه على المجمرة ثلاث دفعات استعداداً لإمساك ما هو موضوع قدامه، إذ يفعل ذلك يقول:"]
     ],
@@ -3542,7 +3541,7 @@ PrayersArray = [[
             "وَوَضَعَ لنا هذا السر العظيم الذى للتقوى."]
     ],
     [
-        ["PMStBasilInstitutionNarrative2Comment&D=0000&C=Comment",
+        ["PMCAgiosComment7&D=0000&C=Comment",
             "",
             "ثم يرفع يديه من فوق المجمرة بالبخور ويقول:"]
     ],
@@ -3554,9 +3553,9 @@ PrayersArray = [[
             "لأنهُ فيما هو راسمٌ أن يُسَلمَ نفسه للموتِ عن حياة العَالم"]
     ],
     [
-        ["PMStBasilInstitutionNarrative3Comment&D=0000&C=Comment",
+        ["PMCAgiosComment8&D=0000&C=Comment",
             "",
-            "يأخذ الكاهن الخبز على يديه ويرفع اللفافة الحرير التي في الصينية ويقبلها بفيه ويتركها على المذبح ويقول::"]
+            "يأخذ الكاهن الخبز على يديه ويرفع اللفافة الحرير التي في الصينية ويقبلها بفيه ويتركها على المذبح ويقول:"]
     ],
     [
         ["PMStBasilInstitutionNarrativePart3&D=0000&C=Priest",
@@ -3573,7 +3572,7 @@ PrayersArray = [[
             "نؤمن أن هذا هو بالحقيقة آمين."]
     ],
     [
-        ["PMStBasilInstitutionNarrative4Comment&D=0000&C=Comment",
+        ["PMCAgiosComment9&D=0000&C=Comment",
             "",
             "يضع الكاهن يده اليمنى على الخبز الذي على يده اليسرى ويرفع نظره إلى فوق ويقول:"]
     ],
@@ -3585,7 +3584,7 @@ PrayersArray = [[
             "ونَظَرَ إلى فَوق نَحوَ السماءِ إليكَ يا الله أباهُ وسَيّد كلّ أحَدٍ،."]
     ],
     [
-        ["PMStBasilInstitutionNarrative5Comment&D=0000&C=Comment",
+        ["PMCAgiosComment10&D=0000&C=Comment",
             "",
             "يرشم الكاهن الخبز بأصبعه ثلاث رشومات ويقول:"]
     ],
@@ -3618,7 +3617,7 @@ PrayersArray = [[
             "نؤمِن ونَعترف ونمجّد."]
     ],
     [
-        ["PMStBasilInstitutionNarrative6Comment&D=0000&C=Comment",
+        ["PMCAgiosComment11&D=0000&C=Comment",
             "",
             "ثم يقسم القربانة ثلثين عن يساره وثلثاً عن يمينه بلطف من غير فصل بعضها من بعض ومن غير أن يلمس الإسباديقون الذي في وسطها:"]
     ],
@@ -3630,7 +3629,7 @@ PrayersArray = [[
             "وقسّمَهُ وأعطاهُ لتلاميذِهِ القديسين ورُسُلِهِ الأطهار قائلاً :"]
     ],
     [
-        ["PMStBasilInstitutionNarrative7Comment&D=0000&C=Comment",
+        ["PMCAgiosComment12&D=0000&C=Comment",
             "",
             "هنا يفرق رأس القربانة من فوق قليلاً بأطراف أصابعه من غير فصل ويضعها في الصينية، ثم ينظف يديه داخل الصينية."]
     ],
@@ -3649,7 +3648,7 @@ PrayersArray = [[
             "هذا هو بالحقيقةِ آمين. "]
     ],
     [
-        ["PMStBasilInstitutionNarrative8Comment&D=0000&C=Comment",
+        ["PMCAgiosComment13&D=0000&C=Comment",
             "",
             "يضع الكاهن يده على حافة الكأس ويقول:"]
     ],
@@ -3661,12 +3660,19 @@ PrayersArray = [[
             "وهكذا الكأس أيضاً بعد العشاء مَزَجَها من خمرٍ ومَاءٍ،"]
     ],
     [
-        ["PMStBasilInstitutionNarrative9Comment&D=0000&C=Comment",
+        ["PMCAgiosComment14&D=0000&C=Comment",
             "",
             "يرشم الكاهن ثلاث رشومات ويقول:"]
     ],
     [
-        ["PMStBasilInstitutionNarrative10Comment&D=0000&C=Comment",
+        ["PMCAssemblyResponseWeAlsoBelieveConfesseAndGlorify&D=0000&C=Assembly",
+            "Ⲕⲉ ⲡⲁⲗⲓⲛ Ⲡⲓⲥⲧⲉⲩⲟⲙⲉⲛ ⲕⲉ ⲟ̀ⲙⲟⲗⲟⲅⲟⲩⲙⲉⲛ ⲕⲉ ⲇⲟⲝⲁⲍⲟⲙⲉⲛ.",
+            "De même, nous croyons, nous confessons et nous glorifions.",
+            "آمين كي بالين بيستيف أومين كي أو مولوغومين، كي ذوكسا ذومين.",
+            "وأيضاً نؤمِن ونَعترف ونُمَجِدُ."]
+    ],
+    [
+        ["PMCAgiosComment15&D=0000&C=Comment",
             "",
             "يمسك الكاهن فم الكأس بيده ويقول:"]
     ],
@@ -3690,7 +3696,7 @@ PrayersArray = [[
             "هذا هو أيضاً بالحقيقةِ آمين. "]
     ],
     [
-        ["PMStBasilInstitutionNarrative11Comment&D=0000&C=Comment",
+        ["PMCAgiosComment16&D=0000&C=Comment",
             "",
             "يشير الكاهن بيده إلى الجسد ويقول:"]
     ],
@@ -3702,7 +3708,7 @@ PrayersArray = [[
             "لأنَ كلَّ مرةٍ تأكلونَ من هذا الخبز، "]
     ],
     [
-        ["PMStBasilInstitutionNarrative12Comment&D=0000&C=Comment",
+        ["PMCAgiosComment17&D=0000&C=Comment",
             "",
             "يشير الكاهن بيده إلى الكأس ويقول:"]
     ],
@@ -3823,11 +3829,11 @@ PrayersArray = [[
             "إذا أرادوا، يقول الشعب الاسبسمس الآدام السنوي، أو غيره من الاسبسمسمات السنوية أو اسبسمسات الآحاد والأعياد السيدية والغير سيدية والأصوام"]
     ],
     [
-        ["PMStBasilAnaphoraPart1Comment&D=0000&C=Comment",
+        ["PMStGregoryAnaphoraPart1&D=0000&C=Title",
             "",
-            "يضع الكاهن اللفافة الختم على يده اليسرى ويأخذ بيده اليمنى اللفافة التي على القربانة ويمسك الصليب ويرشم الشعب ويقول:"]
-    ],
-    [
+            "Anaphore",
+            "الأنافورا",
+            "الأنافورا"],
         ["PMStGregoryAnaphoraPart1&D=0000&C=Priest",
             "Ⲑ ⲁ̀ⲅⲁⲡⲑ ⲧⲟⲩ :ⲉⲟⲩ ⲕⲉ Ⲡⲁⲧⲣⲟⲥ: ⲕⲉ ⲑ̀ ⲭⲁⲣⲓⲥ ⲧⲟⲩ ⲙⲟⲛⲟⲅⲉⲛⲟⲩⲥ Ⲩⲓⲟⲩ Ⲕⲩⲣⲓⲟⲩ ⲇⲉ ⲕⲉ :ⲉⲟⲩ ⲕⲉ ⲥⲱⲧⲑⲣⲟⲥ ⲑ̀ⲙⲱⲛ Ⲓⲑⲥⲟⲩ Ⲭⲣⲓⲥⲧⲟⲩ ⲕⲉ ⲑ̀ ⲕⲓⲟⲛⲉⲛⲓⲁ̀ ⲕⲉ ⲑ̀ ⲇⲱⲣⲉⲁ̀ ⲧⲟⲩ ⲁ̀ⲅⲓⲟⲩ Ⲡⲛⲉⲩⲙⲁⲧⲟⲥ ⲓ̀ ⲑ̀ ⲙⲉⲧⲁ ⲡⲁⲛⲧⲱⲛ ⲩ̀ⲙⲱⲛ",
             "Le Seigneur soit avec vous tous.",
@@ -3835,97 +3841,65 @@ PrayersArray = [[
             "محبة الله الآب، ونعمة الابن الوحيد، ربنا وإلهنا ومخلصنا يسوع المسيح، وشركة وموهبة الروح القدس، تكون مع جميعكم."]
     ],
     [
-        ["PMStBasilAnaphoraPart2Comment&D=0000",
-            "",
-            "يقول الكاهن وهو يرشم الخدام شرقاً:"]
-    ],
-    [
-        ["PMStGregoryAnaphoraPart2&D=0000&C=Title",
-            "Anaphora",
-            "Anaphore",
-            "الأنافورا",
-            "الأنافورا"],
-        ["PMStGregoryAnaphoraPart2&D=0000&C=Priest",
-            "Ⲁⲛⲱ ⲩ̀ⲙⲱⲛ ⲧⲁⲥ ⲕⲁⲣⲇⲓⲁⲥ.",
-            "Élevez vos cœurs.",
-            "آنو أومون تاس كارذياس",
-            "ارفعوا قلوبكم."],
-        ["PMStGregoryAnaphoraPart2&D=0000&C=Assembly",
-            "Ⲉⲭⲱⲙⲉⲛ ⲡ̀ⲣⲟⲥ ⲧⲟⲛ Ⲕⲩⲣⲓⲟⲛ.",
-            "Nous les tournons vers le Seigneur.",
-            "إيخومين إبروس تون كيريون",
-            "هى عند الرب."]
-    ],
-    [
-        ["PMStBasilAnaphoraPart3Comment&D=0000",
-            "",
-            "يقول الكاهن وهو يرشم ذاته:"]
-    ],
-    [
-        ["PMStGregoryAnaphoraPart3&D=0000&C=Priest",
+        ["PMStGregoryAnaphoraPart4&D=0000&C=Priest",
             "Ⲁ̀ⲝⲓⲟⲛ ⲕⲉ ⲇⲓⲕⲉⲟⲛ: ⲁ̀ⲝⲓⲟⲛ ⲕⲉ ⲇⲓⲕⲉⲟⲛ: ⲁ̀ⲝⲓⲟⲛ ⲕⲉ ⲇⲓⲕⲉⲟⲛ. Ϥ̀ⲉⲙⲡ̀ϣⲁ ϧⲉⲛ ⲟⲩⲙⲉ ⲑ̀ⲙⲏⲓ ⲟⲩⲟϩ ⲟⲩⲇⲓⲕⲉⲟⲛ ⲡⲉ ⲉ̀ϩⲱⲥ ⲉ̀ⲣⲟⲕ: ⲉ̀ⲥ̀ⲙⲟⲩ ⲉ̀ⲣⲟⲕ: ⲉ̀ϣⲉⲙϣⲓ ⲙ̀ⲙⲟⲕ: ⲉ̀ϯⲱ̀ⲟⲩ ⲛⲁⲕ.",
             "Tu es digne et juste, Tu es digne et juste, Tu es digne et juste. Il est vraiment digne et juste de Te louer, de Te bénir, de Te servir, de nous prosterner devant Toi et de Te glorifier. ",
             "",
             "مستحقٌ وعادل، مستحقٌ وعادل، مستحقٌ وعادل مستحق بالحقيقة وعادل، أن نسبحك ونباركك ونخدمك ونسجد لك ونمجدك."],
-        ["PMStGregoryAnaphoraPart3&D=0000&C=Priest",
+        ["PMStGregoryAnaphoraPart4&D=0000&C=Priest",
             "Ⲡⲓⲟⲩⲁⲓ ⲙ̀ⲙⲁⲩⲁⲧϥ ⲛⲧⲁⲫ̀ⲙⲏⲓ: ⲪϮ ⲡⲓⲙⲁⲓⲣⲱⲙⲓ: ⲡⲓⲁⲧϣ̀ⲥⲁϫⲓ ⲙ̀ⲙⲟϥ: ⲡⲓⲁⲑⲛⲁⲩ ⲉ̀ⲣⲟϥ: ⲡⲓⲁⲧϣⲟⲡϥ: ⲡⲓⲁⲧⲁⲣⲭⲏ: ⲡⲓϣⲁⲉ̀ⲛⲉϩ: ⲡⲓⲁⲧⲥⲏⲟⲩ: ⲡⲓⲁⲧϣ̀ϯϣⲓ ⲉ̀ⲣⲟϥ: ⲡⲓⲁⲧϣ̀ϧⲉⲧϧⲱⲧϥ: ⲡⲓⲁⲧⲫⲟⲛϩ: ⲡⲓⲣⲉϥⲑⲁⲙⲓⲟ̀ ⲛ̀ⲧⲉ ⲡ̀ⲧⲏⲣϥ: ⲡⲓⲣⲉϥⲥⲱϯ ⲛ̀ⲧⲉ ⲟⲩⲟⲛ ⲛⲓⲃⲉⲛ.",
             "Tu es l’unique vrai Dieu, ami du genre  humain, ineffable, invisible, infini, éternel, intemporel, illimité, insondable, inaltérable, créateur de toute chose, sauveur de tous les hommes. ",
             "",
             "أيها الواحد وحده الحقيقي، الله محب البشرْ، الذي لا ينطق به، غير المرئي، غير المحوي غير المبتدئ الأبدي، غير الزمني الذي لا يحد، غير المفحوص، غير المستحيل، خالق الكل، مخلص الجميع."],
-        ["PMStGregoryAnaphoraPart3&D=0000&C=Priest",
+        ["PMStGregoryAnaphoraPart4&D=0000&C=Priest",
             "Ⲫⲏⲉⲧⲭⲱ ⲉ̀ⲃⲟⲗ ⲛ̀ⲛⲉⲛⲛⲟⲃⲓ: ⲫⲏⲉⲧⲥⲱϯ ⲙ̀ⲡⲉⲛⲱⲛϧ ⲉ̀ⲃⲟⲗ ϧⲉⲛ ⲡ̀ⲧⲁⲕⲟ: ⲫⲏⲉⲧϯⲭ̀ⲗⲟⲙ ⲉ̀ϫⲱⲛ ϧⲉⲛ ϩⲁⲛⲛⲁⲓ ⲛⲉⲙ ϩⲁⲛⲙⲉⲧϣⲉⲛϩⲏⲧ. Ⲛ̀ⲑⲟⲕ ⲡⲉ ⲉ̀ⲧⲟⲩϩⲱⲥ ⲉ̀ⲣⲟⲕ ⲛ̀ϫⲉ ⲛⲓⲁⲅⲅⲉⲗⲟⲥ: ⲉⲩⲟⲩⲱ̀ϣⲧ ⲙ̀ⲙⲟⲕ ⲛ̀ϫⲉ ⲛⲓⲁⲣⲭⲏⲁⲅⲅⲉⲗⲟⲥ.",
             "Tu remets nos péchés. Tu sauves notre vie de la corruption. Tu nous couronnes de pitié et de miséricorde. Toi que les anges louent et devant qui les archanges se prosternent.",
             "",
             "غافر خطايانا، منقذ حياتنا من الفساد، مكللنا بالمراحمِ والرآفات. أنت الذي تُسبحكَ الملائكة وتسجد لك رؤساء الملائكة."],
-        ["PMStGregoryAnaphoraPart3&D=0000&C=Priest",
+        ["PMStGregoryAnaphoraPart4&D=0000&C=Priest",
             "Ⲛ̀ⲑⲟⲕ ⲡⲉ ⲉ̀ⲧⲟⲩⲥ̀ⲙⲟⲩ ⲉ̀ⲣⲟⲕ ⲛ̀ϫⲉ ⲛⲓⲁⲣⲭⲏ: ⲉⲩⲱϣ ⲟⲩⲃⲏⲕ ⲛ̀ϫⲉ ⲛⲓⲙⲉⲧⲟ̅ⲥ̅. Ⲛ̀ⲑⲟⲕ ⲡⲉ ⲉ̀ⲧⲉⲣⲉ ⲛⲓⲉ̀ⲝⲟⲩⲥⲓⲁ̀ ϫⲱ ⲙ̀ⲡⲉⲕⲱ̀ⲟⲩ. Ⲛⲑⲟⲕ ⲡⲉ ⲉ̀ⲧⲉⲣⲉ ⲛⲓⲑ̀ⲣⲟⲛⲟⲥ ⲟⲩⲱⲣⲡ ⲛⲁⲕ ⲉ̀ⲡ̀ϣⲱⲓ ⲙ̀ⲡⲓⲧⲁⲓⲟ̀.",
             "Toi que bénissent les dominations, Toi vers qui clament les seigneuries.Toi que glorifient les principautés. Toi que les trônes honorent.",
             "",
             "أنت الذي تُبارككَ الرؤساء، وتصرخ نحوكَ الأرباب، أنتَ الذي تنطق السلاطين بمجدك. أنت الذي ترسل لك إلى فوق الكراسي الكرامة."],
-        ["PMStGregoryAnaphoraPart3&D=0000&C=Priest",
+        ["PMStGregoryAnaphoraPart4&D=0000&C=Priest",
             "Ϩⲁⲛⲁⲛϣⲟ ⲛ̀ϣⲟ ⲥⲉⲟ̀ϩⲓ ⲉ̀ⲣⲁⲧⲟⲩ ⲉ̀ⲣⲟⲕ: ϩⲁⲛⲑ̀ⲃⲁ ⲛ̀ⲑ̀ⲃⲁ ⲥⲉⲓ̀ⲛⲓ ⲛⲁⲕ ⲉ̀ϧⲟⲩⲛ ⲙ̀ⲡⲓϣⲉⲙϣⲓ. Ⲛ̀ⲑⲟⲕ ⲡⲉ ⲉ̀ⲧⲟⲩⲥ̀ⲙⲟⲩ ⲉ̀ⲣⲟⲕ ⲛ̀ϫⲉ ⲛⲓⲁⲑⲛⲁⲩ ⲉ̀ⲣⲱⲟⲩ. Ⲛⲑⲟⲕ ⲡⲉ ⲉ̀ⲧⲟⲩⲟⲩⲱϣⲧ ⲙ̀ⲙⲟⲕ ⲛ̀ϫⲉ ⲛⲏⲉⲑⲟⲩⲱⲛϩ ⲉ̀ⲃⲟⲗ. Ⲉⲩⲓ̀ⲣⲓ ⲧⲏⲣⲟⲩ ⲙ̀ⲡⲉⲕⲥⲁϫⲓ ⲡⲉⲛⲛⲏⲃ.",
             "Des millions se tiennent devant toi et des myriades te servent. Toi qui es béni par les êtres invisibles et devant qui se prosternent ceux qui sont visibles. Tous agissent selon Ta parole, ô notre Maître.",
             "",
             "ألوف ألوف وقوفٌ قدامك، وربوات ربواتٍ يقدمون لكَ الخدمة، انتَ الذي يُبارككَ غيُر المرئيين، وأنتَ الذي يسجُدُ لكَ الظاهرون. ويصنعون كُلَهمْ كَلِمَتُكَ يا سيدنا."]
     ],
     [
-        ["PMStGregoryAnaphoraPart4&D=0000&C=Priest",
+        ["PMStGregoryAnaphoraPart5&D=0000&C=Priest",
             "Ⲫⲏⲉⲧϣⲟⲡ Ⲫ̀ⲛⲏⲃ Ⲡⲟ̅ⲥ̅ ⲪϮ ⲛ̀ⲧⲁⲫ̀ⲙⲏⲓ: ⲉ̀ⲃⲟⲗϧⲉⲛ ⲟⲩⲛⲟⲩϯ ⲛ̀ⲧⲁⲫ̀ⲙⲏⲓ. Ⲫⲏⲉ̀ⲧⲁϥⲟⲩⲱⲛϩ ⲛⲁⲛ ⲉ̀ⲃⲟⲗ ⲙ̀ⲫ̀ⲟⲩⲱⲓⲛⲓ ⲙ̀Ⲫ̀ⲓⲱⲧ. Ⲫⲏⲉ̀ⲧⲁϥⲉⲣϩ̀ⲙⲟⲧ ⲛⲁⲛ ⲙ̀ⲡⲓⲉ̀ⲙⲏⲓ ⲙ̀ⲙⲏⲓ ⲛ̀ⲧⲉ Ⲡⲓⲡ̀ⲛⲉⲩⲙⲁ ⲉ̀ⲑⲟⲩⲁⲃ.",
             "Ô Maître Seigneur qui Es, Vrai Dieu né du Vrai Dieu, qui nous a manifesté la lumière du Père, Tu nous as accordé la véritable connaissance du Saint-Esprit.",
             "",
             "أيُها الكائنُ السيدُ الربُ، الإلهْ الحقْ مِنَ الإلهْ الحقْ، الذي أظهرَ لنا نورَ الآب، الذي أنعمَ علينا بمَعْرفةِ الروح القُدسْ الحقيقة."],
-        ["PMStGregoryAnaphoraPart4&D=0000&C=Priest",
+        ["PMStGregoryAnaphoraPart5&D=0000&C=Priest",
             "Ⲫⲏⲉ̀ⲧⲁϥⲟⲩⲱⲛϩ ⲛⲁⲛ ⲉ̀ⲃⲟⲗ ⲙ̀ⲡⲁⲓⲛⲓϣϯ ⲙ̀ⲙⲩⲥⲧⲏⲣⲓⲟⲛ ⲛ̀ⲧⲉ ⲡ̀ⲱⲛϧ. Ⲫⲏⲉ̀ⲧⲁϥⲧⲁϫⲣⲟ ⲛ̀ϯⲙⲉⲧⲣⲉϥⲟ̀ϩⲓ ⲉ̀ⲣⲁⲧϥ ⲛ̀ⲧⲉ ⲡ̀ⲭⲟⲣⲟⲥ ⲛ̀ⲧⲉ ⲛⲓⲁ̀ⲥⲱⲙⲁⲧⲟⲥ ϧⲉⲛ ⲛⲓⲣⲱⲙⲓ. Ⲫⲏⲉ̀ⲧⲁϥϯ ⲛ̀ⲛⲏⲉⲧϩⲓϫⲉⲛ ⲡⲓⲕⲁϩⲓ ⲛ̀ϯⲙⲉⲧⲣⲉϥϩⲱⲥ ⲛ̀ⲧⲉ ⲛⲓⲥⲉⲣⲁⲫⲓⲙ.",
             "Tu nous as révélé le grand mystère de la Vie. Tu as établi les chœurs des incorporels parmi les hommes. Tu as accordé à ceux qui sont sur terre la louange des séraphins.",
             "",
             "الذي أظهَرَ لنا هذا السِرَ العظِيم الذي للحياة، الذي ثَبَتَ قيامَ صفوفِ غيرِ المُتَجَسِدِينَ في البَشَر، الذي أعطي الذين على الأرضِ تَسبيحَ السيرافيمْ."],
-        ["PMStGregoryAnaphoraPart4&D=0000&C=Priest",
+        ["PMStGregoryAnaphoraPart5&D=0000&C=Priest",
             "Ϭⲓ ⲛ̀ⲧⲟⲧⲉⲛ ϩⲱⲛ ⲛ̀ⲧⲉⲛⲥ̀ⲙⲏ ⲛⲉⲙ ⲛⲓⲁⲑⲛⲁⲩ ⲉ̀ⲣⲱⲟⲩ.Ⲟⲡⲧⲉⲛ ⲛⲉⲙ ⲛⲓⲇⲩⲛⲁⲙⲓⲥ ⲉⲧ ϧⲉⲛ ⲛⲓⲫⲏⲟⲩⲓ̀. ",
             "Reçois nos louanges avec celles des êtres invisibles. Compte-nous parmi les puissances célestes.",
             "",
             "اقبل مِنا نَحنُ أيضاً أصواتنا مع غيرِ المرئيين. احسبنا معَ القواتِ السمائية."],
-        ["PMStGregoryAnaphoraPart4&D=0000&C=Priest",
+        ["PMStGregoryAnaphoraPart5&D=0000&C=Priest",
             "Ⲙⲁⲣⲉⲛϫⲟⲥ ϩⲱⲛ ⲛⲉⲙ ⲛⲏⲉ̀ⲧⲉ ⲙ̀ⲙⲁⲩ: ⲉ̀ⲁⲛϩⲓⲟⲩⲓ̀ ⲥⲁⲃⲟⲗ ⲙ̀ⲙⲟⲛ ⲙ̀ⲙⲉⲩⲓ̀ ⲛⲓⲃⲉⲛ ⲛ̀ⲧⲉ ⲛⲓⲗⲟⲅⲓⲥⲙⲟⲥ ⲛⲁⲧⲟⲡⲟⲛ ⲛⲧⲉⲛⲱϣ ⲉ̀ⲃⲟⲗ ⲛ̀ⲛⲏⲉ̀ⲛⲁⲣⲉ ⲛⲏⲉ̀ⲧⲉⲙ̀ⲙⲁⲩ ⲧⲁⲟⲩⲟ̀ ⲙ̀ⲙⲱⲟⲩ: ϧⲉⲛ ϩⲁⲛⲥ̀ⲙⲏ ⲛ̀ⲁⲧⲭⲁⲣⲱⲟⲩ: ⲛⲉⲙ ϩⲁⲛⲣⲟϥ ⲛ̀ⲁⲑⲙⲟⲩⲛⲕ: ⲟⲩⲟϩ ⲛ̀ⲧⲉⲛⲥ̀ⲙⲟⲩ ⲉ̀ⲧⲉⲕⲙⲉⲧⲛⲓϣϯ.",
             "Qu’ayant rejeté toute pensée mauvaise, nous puissions proclamer Ta louange, avec eux sans cesse et sans tiédeur et bénir Ta grandeur.",
             "",
             "ولنقل نحنُ أيضاً مع أولَئِكَ إذْ قد طرَحْنا عنا كُل أفكارِ الخواطر الشريرة، ونَصرُخُ بما يُرسِلَهُ أولئِكَ بأصواتٍ لا تَسكُت، وأفواهٍ لا تَفتُرْ ونُبَارُكُ عظَمَتُكَ."]
     ],
     [
-        ["PMStGregoryAnaphoraPart5&D=0000&C=Priest",
+        ["PMStGregoryAnaphoraPart6&D=0000&C=Priest",
             "Ⲛ̀ⲑⲟⲕ ⲅⲁⲣ ⲡⲉ ⲉ̀ⲧⲟⲩϩⲓ ⲉ̀ⲣⲁⲧⲟⲩ ⲙ̀ⲡⲉⲕⲕⲱϯ: ⲛ̀ϫⲉ ⲛⲓⲭⲉⲣⲟⲩⲃⲓⲙ ⲛⲉⲙ ⲛⲓⲥⲉⲣⲁⲫⲓⲙ: ⲉ̀ⲣⲉ ⲋ ⲛ̀ⲧⲉⲛϩ ⲙ̀ⲡⲓⲟⲩⲁⲓ: ⲟⲩⲟϩ ⲋ ⲛ̀ⲧⲉⲛϩ ⲙ̀ⲡⲓⲕⲉⲟⲩⲁⲓ. Ϧⲉⲛ ⲃ̅ ⲙⲉⲛ ⲛ̀ⲧⲉⲛϩ ⲉⲩϩⲱⲃⲥ ⲛ̀ⲛⲟⲩϩⲟ: ϧⲉⲛ ⲃ̅ ⲇⲉⲉⲩ ϩⲱⲃⲥ ⲛ̀ⲛⲟⲩϭⲁⲗⲁⲩϫ: ⲉⲩϩⲏⲗⲇⲉ ϧⲉⲛ ⲡⲓⲕⲉⲃ̅: ⲉ̀ⲩⲱϣ ⲉ̀ⲃⲟⲗ ⲟⲩⲁⲓ ⲟⲩⲃⲉ ⲟⲩⲁⲓ ⲙ̀ⲙⲱⲟⲩ.",
             "Toi, autour de qui se tiennent les chérubins et les séraphins. Six ailes pour l’un et six ailes pour l’autre. Avec 2 ailes ils se protègent le visage, avec 2 ailes ils se couvrent les pieds et ils volent avec 2 ailes. Ils s’écrient l’un en face de l’autre d’une voie puissante",
             "",
             "أنتَ هُو القِيَامُ حَولكَ الشاروبيم والسيرافيم، سِتَةُ أجنِحَةٍ للواحدِ، وسِتَةُ أجنِحَةٍ للأخَرِ، فبجِناحَين يُغَطُونَ وجُوهَهُمْ، وبإثنَينِ يَستُرُونَ أرجُلَهُمْ ويَطِيرونَ بإثنينِ، ويَصرُخُونْ واحدٌ قَبَالةَ واحِدٍ مِنهُمْ."],
-        ["PMStGregoryAnaphoraPart5&D=0000&C=Priest",
+        ["PMStGregoryAnaphoraPart6&D=0000&C=Priest",
             "Ⲉⲩⲧⲁⲟⲩⲟ̀ ⲙ̀ⲡⲓϩⲩⲙⲛⲟⲥ ⲛ̀ⲧⲉ ⲡⲓϭ̀ⲣⲟ ⲟⲩⲟϩ ⲛ̀ⲟⲩϫⲁⲓ ⲛ̀ⲧⲁⲛ: ϧⲉⲛ ⲟⲩⲥ̀ⲙⲏ ⲉⲥⲙⲉϩ ⲛ̀ⲱ̀ⲟⲩ. Ⲉⲩϩⲱⲥ ⲉⲩϫⲱ: ⲉⲩⲱϣ ⲉ̀ⲃⲟⲗ ⲉⲩϯ ϧ̀ⲣⲱⲟⲩ ⲉⲩϫⲱ ⲙ̀ⲙⲟⲥ.",
             "en disant la louange de la victoire et du salut qui nous sont donnés. Ils louent, ils chantent, ils s'écrient et ils proclament en disant :",
             "",
             "يُرسِلونَ تَسبيحَ الغَلبَة والخلاصِ الذي لنا بِصَوتٍ مُمتَلئٍ مَجداً، يُسَبِحونَ ويَنشِدونَ ويصرُخون ويَهتِفونَ قائلين:"]
-    ],
-    [
-        ["PMStBasilAnaphoraPart4Comment&D=0000",
-            "",
-            "يضع الكاهن اللفافة التي على يده اليسرى على المذبح ويأخذ اللفافة التي على يده اليمنى ويضعها على يده اليسرى ويأخذ بيده اليمنى اللفافة التي على الكأس ويمسك الصليب ويرشم ذاته ويقول:"]
     ],
     [
         ["PMStGregoryAgiosPart1&D=0000&C=Priest",
@@ -4024,8 +3998,10 @@ PrayersArray = [[
             "Ⲁⲕⲥⲟⲙⲥ ⲉ̀ⲡ̀ϣⲱⲓ ⲉ̀ⲧ̀ⲫⲉ ϩⲁⲣⲟⲕ: ⲫⲏⲉ̀ⲧⲉ ⲫⲱϥ ⲛ̀Ⲓⲱⲧ ⲫⲛⲟⲩϯ ⲟⲩⲟϩ ⲫ̀ⲛⲏⲃ ⲛ̀ⲧⲉ ⲟⲩⲟⲛ ⲛⲓⲃⲉⲛ. Ⲉ̀ⲧⲁⲕϣⲉⲡⲉϩ̀ⲙⲟⲧ.",
             "cieux vers Dieu Ton Père et Maître de chacun, Tu rendis grâce.",
             "",
-            "ونَظَرْتَ إلي فَوقْ، نَحوَ السماء، إلي الله أبيكَ وسَيدْ كُلِ أحَدٍ،"],
-        ["PMStGregoryAgiosPart7&D=0000&C=Priest",
+            "ونَظَرْتَ إلي فَوقْ، نَحوَ السماء، إلي الله أبيكَ وسَيدْ كُلِ أحَدٍ،"]
+    ],
+    [
+        ["PMStGregoryAgiosPart7.1&D=0000&C=Priest",
             "Ⲉⲧⲁϥϣⲉⲡϩ̀ⲙⲟⲧ",
             "Tu rendis grâce",
             "إيتاف شي بيهموت",
@@ -4050,8 +4026,10 @@ PrayersArray = [[
             "Ⲁⲕⲫⲁϣϥ  ⲁⲕⲧⲏⲓϥ ⲛ̀ⲛⲏⲉ̀ⲧⲉ ⲛⲟⲩⲕ ⲛ̀ⲁ̀ⲅⲓⲟⲥ ⲉⲧⲧⲁⲓⲏⲟⲩⲧ ⲛ̀ⲁ̀ⲅⲓⲟⲥ ⲙ̀ⲙⲁⲑⲏⲧⲏⲥ ⲟⲩⲟϩ ⲛ̀ⲁ̀ⲡⲟⲥⲧⲟⲗⲟⲥ ⲉ̅ⲑ̅ⲩ̅ ⲉⲕϫⲱ ⲙ̀ⲙⲟⲥ",
             "Tu l’as rompu et Tu le donna à Tes saints et honorables disciples et purs apôtres en disant:",
             "",
-            "وقَسَّمْتَهُ وأعطَيتَهُ لتَلاميذَكَ المُكَرَّمينْ القديسينْ ورُسُلِكَ الأطُهارْ قائلاً:"],
-        ["PMStGregoryAgiosPart10&D=0000&C=Priest",
+            "وقَسَّمْتَهُ وأعطَيتَهُ لتَلاميذَكَ المُكَرَّمينْ القديسينْ ورُسُلِكَ الأطُهارْ قائلاً:"]
+    ],
+    [
+        ["PMStGregoryAgiosPart10.1&D=0000&C=Priest",
             "Ϫⲉ ϭⲓ  ⲟⲩⲱⲙ ⲉ̀ⲃⲟⲗ ⲛ̀ϧⲏⲧϥ ⲧⲏⲣⲟⲩ: ⲫⲁⲓ ⲅⲁⲣ ⲡⲉ ⲡⲁⲥⲱⲙⲁ Ⲉ̀ⲧⲟⲩⲛⲁⲫⲁϣϥ ⲉ̀ϫⲉⲛ ⲑⲏⲛⲟⲩ ⲛⲉⲙ ϩⲁⲛⲕⲉⲙⲏϣ: ⲛ̀ⲥⲉⲧⲏⲓϥ ⲉ̀ⲡ̀ⲭⲱ ⲉ̀ⲃⲟⲗ ⲛ̀ⲧⲉ ⲛⲓⲛⲟⲃⲓ: ⲫⲁⲓ ⲁ̀ⲣⲓⲧϥ ⲉ̀ⲡⲁⲉⲣⲫ̀ⲙⲉⲩⲓ̀",
             "Prenez et mangez en tous, car ceci est Mon corps, qui est rompu pour vous et pour plusieurs, donné pour la rémission des péchés. Faites cela en mémoire de Moi.",
             "",
@@ -4238,59 +4216,59 @@ PrayersArray = [[
     [
         ["PMStCyrilPart1&D=0000&C=Priest",
             "Ⲡ̀ⲁⲣⲭⲏⲅⲟⲥ ⲛ̀ⲧⲉ ⲡ̀ⲱⲛϧ ⲟⲩⲟϩ ⲡ̀Ⲟⲩⲣⲟ ⲛ̀ⲧⲉ ⲛⲓⲉ̀ⲛⲉϩ. Ⲫ̀ϯ ⲫⲏⲉⲧⲉ̀ⲣⲉ ⲕⲉⲗⲓ ⲛⲓⲃⲉⲛ ⲕⲱⲗϫ ⲛⲁϥ: ⲛⲏⲉⲧϧⲉⲛ ⲛⲓⲫⲏⲟⲩⲓ̀: ⲛⲉⲙ ⲛⲏⲉⲧϩⲓϫⲉⲛ ⲡⲓⲕⲁϩⲓ: ⲛⲉⲙ ⲛⲏⲉⲧⲥⲁⲡⲉⲥⲏⲧ ⲙ̀ⲡ̀ⲕⲁϩⲓ.",
-            "",
+            "Ô Prince de la vie et Roi des siècles, Dieu devant Qui s’agenouillent tous ceux qui sont dans les cieux, sur la terre ou sous la terre. ",
             "",
             "يا رئيس الحياة وملك الدهور. أللهم يا مَنْ تجثو له كل ركبة، ما في السموات وما على الأرض وما تحت الأرض."],
         ["PMStCyrilPart1&D=0000&C=Priest",
             "Ⲫⲏⲉⲧⲉⲣⲉ ⲡ̀ⲧⲏⲣϥ ⲑⲉⲃⲓⲏⲟⲩⲧ: ⲟⲩⲟϩ ϥ̀ϣⲟⲡ ϧⲉⲛ ⲟⲩⲙⲟϯ ⲙ̀ⲙⲉⲧⲃⲱⲕ: ϧⲁ ⲡ̀ϭⲛⲉϫⲱϥ ⲙ̀ⲡ̀ϣ̀ⲃⲱⲧ ⲛ̀ⲧⲉ ⲧⲉϥⲙⲉⲧⲟⲩⲣⲟ.",
-            "",
+            "Celui devant qui tous s’humilient et à qui ils sont soumis par l’esclavage sous le pouvoir du sceptre de son règne.",
             "",
             "الذي الكل مذلول وخاضع بعُنق العبودية تحت خضوع قضيب ملكه."],
         ["PMStCyrilPart1&D=0000&C=Priest",
             "Ⲫⲏⲉ̀ⲧⲟⲩϯⲱ̀ⲟⲩ ⲛⲁϥ ⲛ̀ϫⲉ ⲛⲓⲥ̀ⲧⲣⲁⲧⲓⲁ ⲛ̀ⲁⲅⲅⲉⲗⲓⲕⲟⲛ: ⲛⲉⲙ ⲛⲓⲧⲁⲅⲙⲁ ⲛ̀ⲉ̀ⲡⲟⲩⲣⲁⲛⲓⲟⲛ: ⲛⲉⲙ ⲛⲓⲫⲩⲥⲓⲥ ⲛ̀ⲛⲟⲏ̀ⲣⲟⲛ: ϧⲉⲛ ⲟⲩⲥ̀ⲙⲏ ⲛ̀ⲁⲧⲭⲣⲱⲥ ⲛ̀ⲑⲉⲟ̀ⲗⲓⲅⲓⲕⲟⲛ.",
-            "",
+            "C’est Toi que glorifient les armées des anges, les chœurs célestes et les êtres raisonnables  d’une seule voix en proclamant sans cesse Ta divinité. ",
             "",
             "الذي تمجده الأجناد الملائكية، والطغمات السمائية، والطبائع العقلية، بصوت لا يسكت ناطق بألوهيته."],
         ["PMStCyrilPart1&D=0000&C=Priest",
             "Ⲟⲩⲟϩ ⲉ̀ⲁⲕϯⲙⲁϯ ⲉ̀ϫⲱⲛ ϩⲱⲛ ϧⲁ ⲛⲓϫⲱⲃ ⲛ̀ⲣⲉⲙⲛ̀ⲕⲁϩⲓ ⲉⲑⲣⲉⲛϣⲉⲙϣⲓ ⲛⲁⲕ: ⲉⲑⲃⲉ ⲡ̀ⲧⲟⲩⲃⲟ ⲁⲛ ⲛ̀ⲧⲉ ⲛⲉⲛϫⲓϫ: ⲟⲩ ⲅⲁⲣ ⲙ̀ⲡⲉⲛⲓ̀ⲣⲓ ⲙ̀ⲡⲓⲁ̀ⲅⲁⲑⲟⲛ ϩⲓϫⲉⲛ ⲡⲓⲕⲁϩⲓ.",
-            "",
+            "Comme il t’a plu que nous, faibles terrestres, Te servions, non pas à cause de la pureté de nos mains, car nous n’avons pas fait le bien sur la terre ; ",
             "",
             "وإذ سُررت بنا نحن أيضاً الضعفاء الأرضيين أن نخدمك، لا من أجل نقاوة أيدينا، لأننا لم نفعل الصلاح على الأرض."],
         ["PMStCyrilPart1&D=0000&C=Priest",
             "Ⲁⲗⲗⲁ ⲁⲕⲟⲩⲱϣ ⲉ̀ϯ ⲛⲁⲛ ⲁ̀ⲛⲟⲛ ϧⲁ ⲛⲓⲉ̀ⲃⲓⲏⲛ ⲟⲩⲟϩ ⲉⲧⲟⲓ ⲛ̀ⲁⲧⲙ̀ⲡ̀ϣⲁ ⲉ̀ⲃⲟⲗϧⲉⲛ ⲡⲉⲕⲧⲟⲩⲃⲟ. Ϣⲟⲡⲧⲉⲛ ⲉ̀ⲣⲟⲕ ⲡⲓⲀ̀ⲅⲁⲑⲟⲥ ⲟⲩⲟϩ ⲙ̀Ⲙⲁⲓⲣⲱⲙⲓ : ⲉⲛϧⲱⲛⲧ ⲙ̀ⲙⲟⲛ ⲉ̀ⲡⲉⲕⲑⲩⲥⲓⲁⲥⲧⲏⲣⲓⲟⲛ ⲉ̅ⲑ̅ⲩ̅ : ⲕⲁⲧⲁ ⲡ̀ⲁ̀ϣⲁⲓ ⲛ̀ⲧⲉ ⲡⲉⲕⲛⲁⲓ.",
+            "mais par Ta volonté de nous donner une part de Ta pureté, malgré notre indignité et notre misère. Reçois-nous, ô très bon et Ami du genre humain, quand nous nous approchons de Ton saint Autel, selon Ta grande miséricorde. ",
             "",
-            "",
-            "بل مريداً أن تعطينا نحن البائسين غير المستحقين من طهرك. إقبلنا إليك أيها الصالح محب البشر، إذ ندنو من مذبحك المقدس ككثرة رحمتك."],
+            "بل مريداً أن تعطينا نحن البائسين غير المستحقين من طهرك. اقبلنا إليك أيها الصالح محب البشر، إذ ندنو من مذبحك المقدس ككثرة رحمتك."],
         ["PMStCyrilPart1&D=0000&C=Priest",
             "Ⲟⲩⲟϩ ⲁ̀ⲣⲓⲧⲉⲛ ⲛ̀ⲉⲙⲡ̀ϣⲁ ⲛ̀ϯϩⲓⲣⲏⲛⲏ ⲛ̀ⲧⲉ ⲧ̀ⲫⲉ : ⲉⲧⲉⲣⲡ̀ⲣⲉⲡⲓ ⲛ̀ⲧⲉⲕⲙⲉⲑⲛⲟⲩϯ ⲟⲩⲟϩ ⲉⲑⲙⲉϩ ⲛ̀ⲟⲩϫⲁⲓ : ⲉⲑⲣⲉⲛⲧⲏⲓⲥ ⲛ̀ⲛⲉⲛⲉ̀ⲣⲏⲟⲩ ϧⲉⲛ ⲟⲩⲁ̀ⲅⲁⲡⲏ ⲉⲥϫⲏⲕ ⲉ̀ⲃⲟⲗ. Ⲟⲩⲟϩ ⲛ̀ⲧⲉⲛⲉⲣⲁⲥⲡⲁⲍⲉⲑⲥⲉ ⲛ̀ⲛⲉⲛⲉ̀ⲣⲏⲟⲩ ϧⲉⲛ ⲟⲩⲫⲓ ⲉⲥⲟⲩⲁⲃ.",
-            "",
+            "Rends-nous dignes de la paix céleste qui convient à Ta divinité, et qui est pleine de salut, afin que nous nous la transmettions l’un à l’autre dans un amour parfait, et que nous nous donnions un saint baiser",
             "",
             "وإجعلنا أهلاً للسلام السمائي اللائق بلاهوتك والمملوء خلاصاً، لنعطيه بعضنا لبعض بمحبة كاملة. ونقبل بعضنا بعضاً بقبلة مقدسة."]
     ],
     [
         ["PMStCyrilPart2&D=0000&C=Priest",
             "Ϧⲉⲛ ⲟⲩⲗⲟⲅⲓⲥⲙⲟⲥ ⲁⲛ ⲉϥϣⲟϣϥ ⲟⲩⲟϩ ⲉϥⲉⲣⲕⲁⲧⲁⲫ̀ⲣⲟⲛⲓⲛ ⲛ̀ⲧⲉⲕϩⲟϯ: ϧⲉⲛ ⲟⲩⲙⲉⲩⲓ̀ ⲁⲛ ⲛ̀ⲭ̀ⲣⲟϥ ⲟⲩⲟϩ ⲉϥⲙⲉϩ ⲉ̀ⲃⲟⲗϧⲉⲛ ϯⲙⲉⲧⲡⲉⲧϩⲱⲟⲩ ⲛ̀ⲧⲉ ⲡⲓⲡ̀ⲟⲇⲟⲧⲏⲥ.",
-            "",
+            "Loin de toute sensation rejetée qui refuse Ta crainte, et de toute pensée trompeuse mue par la traîtrise ;",
             "",
             "لا بحاسة مرذولة رافضة لمخافتك، ولا بفكر غاش مملوء من شر الخائن."],
         ["PMStCyrilPart2&D=0000&C=Priest",
             "Ⲉⲥϩⲱⲧⲡ ⲁⲛ ⲛ̀ϫⲉ ⲧⲉⲛⲥⲩⲛⲓⲇⲏⲥⲓⲥ ϧⲉⲛ ϯⲡⲟⲛⲏⲣⲓⲁ. Ⲁⲗⲗⲁ ϧⲉⲛ ⲟⲩⲣⲱⲟⲩⲧϥ ⲛ̀ⲧⲉ ⲛⲉⲛⲯⲩⲭⲏ: ⲛⲉⲙ ⲟⲩⲑⲉⲗⲏⲗ ⲛ̀ⲧⲉ ⲛⲉⲛϩⲏⲧ. Ⲉ̀ϥⲉⲛⲧⲟⲧⲉⲛ ⲛ̀ϫⲉ ⲡⲓⲙⲏⲓⲛⲓ ⲉⲧⲟⲓ ⲛ̀ⲛⲓϣϯ ⲟⲩⲟϩ ⲉⲧϫⲏⲕ ⲉ̀ⲃⲟⲗ: ⲛ̀ⲧⲉ ⲧ̀ⲁ̀ⲅⲁⲡⲏ ⲙ̀ⲡⲉⲕⲙⲟⲛⲟⲅⲉⲛⲏⲥ ⲛ̀Ϣⲏⲣⲓ.",
+            "et sans que nos intentions ne soient unies dans la malice, mais motivés par le désir de nos âmes et la joie de nos cœurs. Puisque nous avons le signe grand et parfait de l’amour de Ton Fils Unique.",
             "",
-            "",
-            "غير متفقة نياتنا في الخبث. بل برغبة نفوسنا وتهليل قلوبنا. إذ لنا العلامة العظيمة الكاملة التي لمحبة إبنك الوحيد."],
+            "غير متفقة نياتنا في الخبث. بل برغبة نفوسنا وتهليل قلوبنا. إذ لنا العلامة العظيمة الكاملة التي لمحبة ابنك الوحيد."],
         ["PMStCyrilPart2&D=0000&C=Priest",
             "Ⲟⲩⲟϩ ⲙ̀ⲡⲉⲣϩⲓⲧⲧⲉⲛ ⲉ̀ⲃⲟⲗ ϧⲁ ⲛⲉⲕⲉ̀ⲃⲓⲁⲓⲕ: ⲉⲑⲃⲉ ⲡ̀ⲑⲱⲗⲉⲃ ⲛ̀ⲧⲉ ⲛⲉⲛⲛⲟⲃⲓ. Ⲛ̀ⲑⲟⲕ ⲅⲁⲣ ⲉⲧⲥⲱⲟⲩⲛ ϩⲱⲥ ⲣⲉϥⲥⲱⲛⲧ: ⲙ̀ⲡⲉⲛⲡ̀ⲗⲁⲥⲙⲁ: ϫⲉ ⲙ̀ⲙⲟⲛ ϫ̀ⲫⲟ ⲛ̀ⲥ̀ϩⲓⲙ ⲛⲁⲙⲁⲓ ⲙ̀ⲡⲉⲕⲙ̀ⲑⲟ.",
+            "Ne nous rejette pas, nous, Tes serviteurs, à cause de la souillure de nos péchés, car Tu as créé la nature humaine et tu sais qu’aucune personne née d’une femme ne peut être pure devant Toi.",
             "",
-            "",
-            "ولا تطرحنا نحن عبيدك من أجل دنس خطايانا. لأنك أنت العارف كخالق جبلتنا، انه ليس مولود إمرأة يتزكي أمامك."],
+            "ولا تطرحنا نحن عبيدك من أجل دنس خطايانا. لأنك أنت العارف كخالق جبلتنا، انه ليس مولود امرأة يتزكى أمامك."],
         ["PMStCyrilPart2&D=0000&C=Priest",
             "Ⲁ̀ⲣⲓⲧⲉⲛ ⲟⲩⲛ ⲛ̀ⲉⲙⲡ̀ϣⲁ ⲡⲉⲛⲚⲏⲃ: ϧⲉⲛ ⲟⲩϩⲏⲧ ⲉϥⲟⲩⲁⲃ: ⲛⲉⲙ ⲟⲩⲯⲩⲭⲏ ⲉⲥⲙⲉϩ ⲉ̀ⲃⲟⲗϧⲉⲛ ⲡⲉⲕϩ̀ⲙⲟⲧ: ⲉⲑⲣⲉⲛⲟ̀ϩⲓ ⲉ̀ⲣⲁⲧⲉⲛ ⲙ̀ⲡⲉⲕⲙ̀ⲑⲟ. Ⲟⲩⲟϩ ⲛ̀ⲧⲉⲛⲓ̀ⲛⲓ ⲛⲁⲕ ⲉ̀ϧⲟⲩⲛ ⲛ̀ⲧⲁⲓⲑⲩⲥⲓⲁ ⲉ̅ⲑ̅ⲩ̅ ⲛ̀ⲗⲟⲅⲓⲕⲏ ⲟⲩⲟϩ ⲙ̀ⲡ̀ⲛⲉⲩⲙⲁⲧⲓⲕⲏ ⲟⲩⲟϩ ⲛ̀ⲁⲧⲥ̀ⲛⲟϥ.",
+            "Rends-nous donc dignes ô Maître, d’avoir un cœur pur et une âme remplie de Ta grâce et de nous tenir devant Toi, pour T’offrir cette offrande sainte, vivante, spirituelle et non sanglante;",
             "",
-            "",
-            "فإجعلنا إذاً أهلاً يا سيدنا بقلب طاهر ونفس مملوءة من نعمتك، أن نقف أمامك. ونقدم لك هذه الصعيدة المقدسة الناطقة الروحانية غير الدموية."],
+            "فاجعلنا إذاً أهلاً يا سيدنا بقلب طاهر ونفس مملوءة من نعمتك، أن نقف أمامك. ونقدم لك هذه الصعيدة المقدسة الناطقة الروحانية غير الدموية."],
         ["PMStCyrilPart2&D=0000&C=Priest",
             "Ⲉ̀ⲟⲩⲥⲩⲛⲭⲱⲣⲏⲥⲓⲥ ⲛ̀ⲧⲉ ⲛⲉⲛⲡⲁⲣⲁⲡⲧⲱⲙⲁ: ⲛⲉⲙ ⲟⲩⲭⲱ ⲉ̀ⲃⲟⲗ ⲛ̀ⲛⲓⲙⲉⲧⲁⲧⲉ̀ⲙⲓ ⲛ̀ⲧⲉ ⲡⲉⲕⲗⲁⲟⲥ. Ϫⲉ ⲛ̀ⲑⲟⲕ ⲟⲩⲚⲟⲩϯ ⲛ̀ⲣⲉϥϣⲉⲛϩⲏⲧ ⲟⲩⲟϩ ⲛ̀ⲛⲁⲏⲧ.",
-            "",
+            "pour la rémission de nos péchés et le pardon des ignorances de Ton peuple, car Tu es un Dieu tendre et compatissant.",
             "",
             "صفحاً لزلاتنا، وغفراناً لجهالات شعبك. لأنك أنت إله رؤوف متحنن."],
         ["PMStCyrilPart2&D=0000&C=Priest",
@@ -4301,37 +4279,17 @@ PrayersArray = [[
     ],
     [
         ["PMStBasilAnaphoraPart1&D=0000&C=Title",
-            "Anaphora",
+            "",
             "Anaphore",
             "الأنافورا",
-            "الأنافورا"],
-        ["PMStBasilAnaphoraPart1&D=0000&C=Priest",
-            "Ⲟ̀ Ⲕⲩⲣⲓⲟⲥ ⲙⲉⲧⲁ ⲡⲁⲛⲧⲱⲛ ⲩ̀ⲙⲱⲛ.",
-            "La paix soit avec vous.",
-            "إيريني باسي",
-            "الرب مع جميعكم. "],
-        ["PMStBasilAnaphoraPart1&D=0000&C=Assembly",
-            "Ⲕⲉ ⲧⲟⲩ ⲡ̀ⲛⲉⲩⲙⲁⲧⲓ ⲥⲟⲩ.",
-            "Et avec vôtre esprit.",
-            "كيطو ابنفماتي سو",
-            "ولروحِكَ أيضاً."],
-        ["PMStBasilAnaphoraPart1&D=0000&C=Priest",
-            "Ⲁⲛⲱ ⲩ̀ⲙⲱⲛ ⲧⲁⲥ ⲕⲁⲣⲇⲓⲁⲥ.",
-            "Élevez vos cœurs.",
-            "آنو أومون تاس كارذياس",
-            "ارفعوا قلوبكم."],
-        ["PMStBasilAnaphoraPart1&D=0000&C=Assembly",
-            "Ⲉⲭⲱⲙⲉⲛ ⲡ̀ⲣⲟⲥ ⲧⲟⲛ Ⲕⲩⲣⲓⲟⲛ.",
-            "Nous les tournons vers le Seigneur.",
-            "إيخومين إبروس تون كيريون",
-            "هى عند الرب."]
+            "الأنافورا"]
     ],
     [
         ["PMStCyrilPart3&D=0000&C=Priest",
             "Ⲛⲑⲟⲕ ⲅⲁⲣ ⲉ̀ⲧⲟⲩⲟ̀ϩⲓ ⲉ̀ⲣⲁⲧⲟⲩ ⲛⲁϩⲣⲁⲕ ⲛ̀ϫⲉ ⲛⲓⲁ̀ⲛⲁⲛ̀ϣⲟ ⲛ̀ϣⲟ ⲛⲉⲙ ⲛⲓⲁ̀ⲛⲁⲛ̀ⲑⲃⲁ ⲛ̀ⲑⲃⲁ: ⲛ̀ⲧⲉ ⲛⲓⲁⲅⲅⲉⲗⲟⲥ ⲛⲉⲙ ⲛⲓⲁⲣⲭⲏⲁⲅⲅⲉⲗⲟⲥ ⲉ̅ⲑ̅ⲩ̅ ⲉⲩϣⲉⲙϣⲓ ⲛⲁⲕ.",
             "C’est Toi devant qui se tiennent mille milliers et myriade de myriades des anges et des saints archanges Te servent.",
             "",
-            "أنتَ الذى يقومُ أمامك ألوف ألوف وربوات ربوات الملائكة ورؤساء الملائكة المقدسين يَخدمُونك."],
+            "أنتَ الذى يقومُ أمامك ألوف الوف وربوات ربوات الملائكة ورؤساء الملائكة المقدسين يَخدمُونك."],
         ["PMStCyrilPart3&D=0000&C=Priest",
             "Ⲛⲑⲟⲕ ⲅⲁⲣ ⲡⲉ ⲉ̀ⲧⲟⲩⲟ̀ϩⲓ ⲉ̀ⲣⲁⲧⲟⲩ ⲛⲁϩⲣⲁⲕ ⲛ̀ϫⲉ ⲡⲉⲍⲱⲟⲛ ⲥ̀ⲛⲁⲩ (ⲃ̅) ⲉⲧⲧⲁⲓⲏⲟⲩⲧ ⲉ̀ⲙⲁϣⲱ: ⲛⲁ ⲡⲓⲥⲟⲟⲩ (ⲋ) ⲛ̀ⲧⲉⲛϩ ⲟⲩⲟϩ ⲉⲧⲟϣ ⲙ̀ⲃⲁⲗ: ⲛ̀Ⲥⲉⲣⲁⲫⲓⲙ ⲟⲩⲟϩ ⲛ̀Ⲭⲉⲣⲟⲩⲃⲓⲙ.",
             " C’est Toi devant qui se tiennent les deux créatures très honorables aux six ailes et aux yeux nombreux, les Séraphins et les Chérubins.  ",
@@ -4346,7 +4304,17 @@ PrayersArray = [[
             "Ⲛⲥⲏⲟⲩ ⲙⲉⲛ ⲅⲁⲣ ⲛⲓⲃⲉⲛ ⲥⲉⲉⲣⲁ̀ⲅⲓⲁⲍⲓⲛ ⲙ̀ⲙⲟⲕ ⲛ̀ϫⲉ ⲉⲛⲭⲁⲓ ⲛⲓⲃⲉⲛ. Ⲁⲗⲗⲁ ⲛⲉⲙ ⲟⲩⲟⲛ ⲛⲓⲃⲉⲛ ⲉⲧⲉⲣⲁ̀ⲅⲓⲁⲍⲉⲛ ⲙ̀ⲙⲟⲕ: ϭⲓ ⲙ̀ⲡⲉⲛⲁ̀ⲅⲓⲁⲥⲙⲟⲥ ⲛ̀ⲧⲟⲧⲉⲛ ϩⲱⲛ Ⲡ̀ⲟ̅ⲥ̅: ⲉⲛϩⲱⲥ ⲉ̀ⲣⲟⲕ ⲛⲉⲙⲱⲟⲩ ⲉⲛϫⲱ ⲙ̀ⲙⲟⲥ.",
             "Parce qu’en tout temps tout être Te sanctifie.  Mais avec touts ceux qui Te sanctifient accepte aussi notre sanctification, Dieu, comme nous Te glorifions avec eux en disant:",
             "",
-            "لأنَ فى كل زمانٍ يُـقدّسُـكَ كل أحد.  لكن مع كل مَن يُـقدّسُـك، اقبل تقديسَنا منا نحنُ أيضاً يا رب إذ نسبحُك مَعَهم قائلين:"]
+            "لأنَ في كل زمانٍ يُـقدّسُـكَ كل أحد.  لكن مع كل مَن يُـقدّسُـك، اقبل تقديسَنا منا نحنُ أيضاً يا رب إذ نسبحُك مَعَهم قائلين:"]
+    ],
+    [
+        ["PMCAgios2Comment&D=0000&C=Comment",
+            "",
+            "ثم يرشم الخدام عن يمينه ويقول:"]
+    ],
+    [
+        ["PMCAgios3Comment&D=0000&C=Comment",
+            "",
+            "ثم يرشم الشعب إلى الغرب ويقول:"]
     ],
     [
         ["PMStCyrilPart4&D=0000&C=Priest",
@@ -4392,11 +4360,54 @@ PrayersArray = [[
             "نؤمن."]
     ],
     [
-        ["PMCAssemblyResponseWeAlsoBelieveConfesseAndGlorify&D=0000&C=Assembly",
-            "Ⲕⲉ ⲡⲁⲗⲓⲛ Ⲡⲓⲥⲧⲉⲩⲟⲙⲉⲛ ⲕⲉ ⲟ̀ⲙⲟⲗⲟⲅⲟⲩⲙⲉⲛ ⲕⲉ ⲇⲟⲝⲁⲍⲟⲙⲉⲛ.",
-            "De même, nous croyons, nous confessons et nous glorifions.",
-            "آمين كي بالين بيستيف أومين كي أو مولوغومين، كي ذوكسا ذومين.",
-            "وأيضاً نؤمِن ونَعترف ونُمَجِدُ."]
+        ["PMStBasilInstitutionNarrative3Comment&D=0000&C=Comment",
+            "",
+            "يأخذ الكاهن الخبز على يديه ويرفع اللفافة الحرير التي في الصينية ويقبلها بفيه ويتركها على المذبح ويقول:"]
+    ],
+    [
+        ["PMStBasilInstitutionNarrative4Comment&D=0000&C=Comment",
+            "",
+            "يضع الكاهن يده اليمنى على الخبز الذي على يده اليسرى ويرفع نظره إلى فوق ويقول:"]
+    ],
+    [
+        ["PMStBasilInstitutionNarrative5Comment&D=0000&C=Comment",
+            "",
+            "يرشم الكاهن الخبز بأصبعه ثلاث رشومات ويقول:"]
+    ],
+    [
+        ["PMStBasilInstitutionNarrative6Comment&D=0000&C=Comment",
+            "",
+            "ثم يقسم القربانة ثلثين عن يساره وثلثاً عن يمينه بلطف من غير فصل بعضها من بعض ومن غير أن يلمس الإسباديقون الذي في وسطها:"]
+    ],
+    [
+        ["PMStBasilInstitutionNarrative7Comment&D=0000&C=Comment",
+            "",
+            "هنا يفرق رأس القربانة من فوق قليلاً بأطراف أصابعه من غير فصل ويضعها في الصينية، ثم ينظف يديه داخل الصينية."]
+    ],
+    [
+        ["PMStBasilInstitutionNarrative8Comment&D=0000&C=Comment",
+            "",
+            "يضع الكاهن يده على حافة الكأس ويقول:"]
+    ],
+    [
+        ["PMStBasilInstitutionNarrative9Comment&D=0000&C=Comment",
+            "",
+            "يرشم الكاهن ثلاث رشومات ويقول:"]
+    ],
+    [
+        ["PMStBasilInstitutionNarrative10Comment&D=0000&C=Comment",
+            "",
+            "يمسك الكاهن فم الكأس بيده ويقول:"]
+    ],
+    [
+        ["PMStBasilInstitutionNarrative11Comment&D=0000&C=Comment",
+            "",
+            "يشير الكاهن بيده إلى الجسد ويقول:"]
+    ],
+    [
+        ["PMStBasilInstitutionNarrative12Comment&D=0000&C=Comment",
+            "",
+            "يشير الكاهن بيده إلى الكأس ويقول:"]
     ],
     [
         ["PMStCyrilPart8&D=0000&C=Priest",

@@ -43,7 +43,7 @@ function setCopticDates(today) {
 function convertGregorianDateToCopticDate(date) {
     let day = date.getDate();
     let month = date.getMonth() + 1; //we add one because the months count starts at 0
-    let coptMonth, coptDay, coptDate, dm;
+    let coptMonth, coptDay, dm;
     if (month == 1) {
         day < 9 ? (dm = [22, 4]) : (dm = [-8, 5]);
     }
