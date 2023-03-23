@@ -1221,7 +1221,7 @@ function showInlineButtonsForFractionPrayers(btn, fractions, btnsDiv) {
                 newDiv.style.display = 'grid';
                 newDiv.style.gridTemplateColumns = '33% 33% 33%';
                 newDiv.style.justifyItems = 'center';
-                newDiv.style.overflowY = 'scroll';
+                newDiv.style.overflowY = 'hidden';
                 newDiv.style.overflowX = 'hidden';
                 //We create a 'Go Back' html button that simulates clicking on the btn who called the function. We start by creating it in order to show it at the top before the other inline buttons that will be created for each fraction. NOTICE that we provided the bookmark argument to createGoBakBtn. We did his in order for the 'Go Back' button that will be created, when clicked, to scroll back to the fractionBtn in the page
                 createGoBackBtn(btn, inlineBtnsDiv, btn.cssClass, fractionBtn.btnID).then((b) => b.classList.add('centeredBtn'));
