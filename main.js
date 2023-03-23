@@ -320,6 +320,10 @@ function showChildButtonsOrPrayers(btn, clear = true, click = true, pursue = tru
     ;
     if (btn.onClick && click) {
         btn.onClick();
+        if (btn.pursue == false) {
+            return;
+        }
+        ;
     }
     ;
     if (btn.inlineBtns) {
@@ -406,7 +410,7 @@ function createFakeAnchor(id) {
  * @param {string} btnClass  - the class that will be given to the button (it is usually the cssClass property of the button)
  * @returns {HTMLElement} - the html element created for the button
  */
-function createBtn(btn, btnsBar, btnClass) {
+function createBtn(btn, btnsBar, btnClass, clear = true) {
     let newBtn = document.createElement('button');
     newBtn.classList.add(btnClass);
     newBtn.id = btn.btnID;
@@ -425,7 +429,7 @@ function createBtn(btn, btnsBar, btnClass) {
     btnsBar.appendChild(newBtn);
     if (btn.children || btn.prayers || btn.onClick || btn.inlineBtns) {
         // if the btn object that we used to create the html button element, has childs, we add an "onclick" event that passes the btn itself to the showChildButtonsOrPrayers. This will create html button elements for each child and show them
-        newBtn.addEventListener('click', () => showChildButtonsOrPrayers(btn, true));
+        newBtn.addEventListener('click', () => showChildButtonsOrPrayers(btn, clear));
     }
     ;
     function editBtnInnerText(el, text, btnClass) {
@@ -1206,28 +1210,60 @@ function showInlineButtonsForFractionPrayers(btn, fractions, btnsDiv) {
         fractionBtn = new Button({
             btnID: 'btnFractionPrayers',
             label: { AR: 'صلوات القسمة', FR: 'Fraction' },
+            pursue: false,
             inlineBtns: [],
             cssClass: 'fractionPrayersBtn',
             onClick: () => {
                 //When the fractionBtn is clicked, it will create a new div element to which it will append html buttons element for each inlineBtn in its inlineBtns[]
                 let newDiv = document.createElement('div');
+                newDiv.id = 'fractionsDiv';
                 //Customizing the style of newDiv
                 newDiv.style.display = 'grid';
                 newDiv.style.gridTemplateColumns = '33% 33% 33%';
                 newDiv.style.justifyItems = 'center';
                 newDiv.style.overflowY = 'scroll';
                 newDiv.style.overflowX = 'hidden';
-                //we set the focus on inlineBtnsDiv
                 //We create a 'Go Back' html button that simulates clicking on the btn who called the function. We start by creating it in order to show it at the top before the other inline buttons that will be created for each fraction. NOTICE that we provided the bookmark argument to createGoBakBtn. We did his in order for the 'Go Back' button that will be created, when clicked, to scroll back to the fractionBtn in the page
                 createGoBackBtn(btn, inlineBtnsDiv, btn.cssClass, fractionBtn.btnID).then((b) => b.classList.add('centeredBtn'));
                 //creating html button element for each inlineBtn of fractionBtn.inlineBtns[]. Notice that by passing newDiv to createBtn(), the html element that will be created for the inlineBtn will be automatically appended to newDiv
-                fractionBtn.inlineBtns.map(b => {
-                    createBtn(b, newDiv, b.cssClass);
-                });
-                //We append newDiv to inlineBtnsDiv, which is a div having a 'fixed' position, a z-index = 2, and remains visible in front of the other page's html element when the user scrolls down
-                inlineBtnsDiv.appendChild(newDiv);
-                //we delete the inlineBtns[] of fractionBtn in order to prevent showChildButtonsOrPrayers() from displaying them again in the inlineBtnsDiv
-                fractionBtn.inlineBtns = undefined;
+                if ((fractionBtn.inlineBtns.length / 6) <= 1) {
+                    //i.e. if the fraction prayers in selected[] are less or equal to 6
+                    fractionBtn.inlineBtns.map(b => createBtn(b, newDiv, b.cssClass));
+                    //We append newDiv to inlineBtnsDiv, which is a div having a 'fixed' position, a z-index = 2, and remains visible in front of the other page's html element when the user scrolls down
+                    inlineBtnsDiv.appendChild(newDiv);
+                }
+                else if ((fractionBtn.inlineBtns.length / 6) > 1) {
+                    //i.e., if the fractions prayers in selected[] are >6. We will create buttons for the 1st 6 and will add a 'next' button that will show the next 6, etc.
+                    let next = new Button({
+                        btnID: 'btnNext',
+                        label: { AR: 'التالي', FR: 'Suivants' },
+                    });
+                    splitFractions(0);
+                    function splitFractions(i) {
+                        for (let n = i; n < (i + 6); n++) {
+                            if (fractionBtn.inlineBtns[n]) {
+                                let b = fractionBtn.inlineBtns[n];
+                                createBtn(b, newDiv, b.cssClass);
+                            }
+                            ;
+                        }
+                        ;
+                        next.onClick = () => {
+                            newDiv.innerHTML = ''; //removing the displayed fractions
+                            inlineBtnsDiv.querySelector('#btnNext').remove();
+                            i += 6;
+                            splitFractions(i);
+                        };
+                        //We append newDiv  to inlineBtnsDiv before appending the 'next' button. Notice that inlineBtnsDiv is a div having a 'fixed' position, a z-index = 2, and remains visible in front of the other page's html element when the user scrolls down
+                        inlineBtnsDiv.appendChild(newDiv);
+                        if (fractionBtn.inlineBtns.length - i > 6) {
+                            createBtn(next, inlineBtnsDiv, next.cssClass, false).classList.add('centeredBtn'); //notice that we are appending next to inlineBtnsDiv not to newDiv (because newDiv has a display = 'grid' of 3 columns. If we append to it, 'next' button will be placed in the 1st cell of the last row. It will not be centered). Notice also that we are setting the 'clear' argument of createBtn() to false in order to prevent removing the 'Go Back' button when 'next' is passed to showchildButtonsOrPrayers()
+                        }
+                        ;
+                    }
+                    ;
+                }
+                ;
             }
         });
         //Creating an html button element for fractionBtn and displaying it in btnsDiv (which is an html element passed to the function)
@@ -1255,8 +1291,6 @@ function showInlineButtonsForFractionPrayers(btn, fractions, btnsDiv) {
                         cssClass: 'fractionPrayersBtn',
                         onClick: () => {
                             //in order for the 'Go Back' button (which is created when we click on the inline button to display the fraction prayer)  to show again the fraction prayers list as if we had clicked on th the fractionsBtn,  we need to rebuild the fractionBtn.inlineBtns[] that we had destroyed by assigning it to 'undefined' when the fractionBtn was clicked
-                            fractionBtn.inlineBtns = []; //we assign it to an empty [] in order to be able to push to it
-                            createInlineBtns(fractionBtn); //new inlineBtns will be created and pushed to fractionBtn
                             //We will also scroll to the beginning of the page where the fraction prayer is displayed. In order to do so, we will create a fake HTMLAnchorElement, will give it the id of the containerDiv (because at this btn there is no identifiable html elements in the page yet, since showPrayers() has not been called by showChildButtonsOrPrayers()) , will trigger its click() action, and will remove it 
                             createFakeAnchor(containerDiv.id);
                             //adding a 'Go Back Button to the inlineBtnsDiv. We also add to it the class 'centeredBtn'
