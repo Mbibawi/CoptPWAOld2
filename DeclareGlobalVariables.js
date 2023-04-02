@@ -8,6 +8,8 @@ const sideBarBtn = document.getElementById('opensidebar');
 const toggleDevBtn = document.getElementById('toggleDev');
 const inlineBtnsDiv = document.getElementById('inlineBtnsContainer');
 const ResurrectionDates = ["2023-04-16", "2024-05-05", "2025-04-29", "2026-04-12", "2027-05-02", "2028-04-23", "2029-04-8", "2030-04-28"]; // these are  the dates of the Ressurection feast caclulated from the end of the Jewish Pessah Feast as got from Google
+const btnClass = 'sideBarBtn';
+const inlineBtnClass = 'inlineBtn';
 const Readings = {
     BibleIntroFR: '',
     BibleIntroAR: 'قفوا بخوف أمام الله لنسمع الإنجيل المقدس، فصل من بشارة الإنجيل لمعلمنا مار ــــــــــ البشير، والتلميذ الطاهر، بركاته على جميعنا',
@@ -82,9 +84,10 @@ const copticFeasts = {
     StMaryFastVespers: '3010',
     StMaryFast: '0112',
     StMaryFeast: '1612',
-    PalmSunday: Seasons.GreatLent + '8thSunday',
+    EndOfGreatLentFriday: Seasons.GreatLent + ' 49',
     LazarusSaturday: Seasons.GreatLent + '50',
-    Resurrection: 'Resurrection',
+    PalmSunday: Seasons.GreatLent + '8thSunday',
+    Resurrection: Seasons.GreatLent + '56',
     Pentecoste: Seasons.Resurrection + '39',
     Ascension: Seasons.PentecostalDays + '7thSunday',
     Apostles: '0511',

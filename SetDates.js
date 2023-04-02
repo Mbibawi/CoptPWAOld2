@@ -135,7 +135,6 @@ function convertGregorianDateToCopticDate(date) {
  */
 function setSeasonAndCopticReadingsDate(coptDate) {
     let greatLentOrPentecostal = checkIfInASpecificSeason(todayDate);
-    //console.log("greateLentOrPentcostal = ", greatLentOrPentecostal)
     if (greatLentOrPentecostal != Seasons.NoSeason) {
         // it means we are either during the Great Lent period, or the Pentecostal 50 days, or any day/feast within these periods
         return greatLentOrPentecostal;
@@ -260,9 +259,17 @@ function checkForUnfixedEvent(today, resDate, weekDay) {
         Season = Seasons.StMaryFast;
         return Seasons.NoSeason;
     }
-    else if (copticDate == "3004" || (Number(copticMonth) == 5 && Number(copticDay) < 11)) {
-        //We are between the Coptic Nativity feast and the Coptic Epiphany feast
+    else if ((Number(copticMonth) == 4 && Number(copticDay) > 29) || (Number(copticMonth) == 5 && Number(copticDay) < 11)) {
+        //We are between the Nativity and the Baptism
         Season = Seasons.Nativity;
+        return Seasons.NoSeason;
+    }
+    else if (Number(copticMonth) == 1 && Number(copticDay) < 17) {
+        Season = Seasons.Nayrouz;
+        return Seasons.NoSeason;
+    }
+    else if (Number(copticMonth) == 1 && Number(copticDay) > 16 && Number(copticDay) > 20) {
+        Season = Seasons.CrossFeast;
         return Seasons.NoSeason;
     }
     else {

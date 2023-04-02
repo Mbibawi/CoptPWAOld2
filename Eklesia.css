@@ -1,10 +1,10 @@
 @font-face {
   font-family: AvaShenouda;
-  src: url(Avva_Shenouda.ttf);
+  src: url(./fonts/Avva_Shenouda.ttf);
 }
 @font-face {
   font-family: ArialCoptic;
-  src: url(ArialCoptic.ttf);
+  src: url(./fonts/ArialCoptic.ttf);
 }
 .root{
   --inline-column-width: 30%;
@@ -21,6 +21,9 @@
   width:100%;
   justify-items: center;
   overflow-x: hidden;
+}
+body{
+  background-color: beige;
 }
 .prayerTable {
   display: block;
@@ -89,6 +92,13 @@ width: auto !important;
   width: 100%;
   justify-items: center;
   justify-content: center;
+  width:99%;
+  align-self: center;
+}
+.home{
+  width: 75vmax;
+  height: 75vmax;
+  
 }
 .inlineBtns{
   display:grid;
