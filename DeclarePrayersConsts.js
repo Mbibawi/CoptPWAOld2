@@ -1,4 +1,4 @@
-const IncensePrayers = [
+const IncensePrayers = ["PRAYER_IncenseDawn START &D=0000",
     "PrayerEleysonImasComment&D=0000",
     "PrayerEleysonImas&D=0000",
     "PrayerOurFatherWhoArtInHeaven&D=0000",
@@ -121,10 +121,9 @@ const IncensePrayers = [
     "PrayerBlockIriniPassi&D=0000",
     "PrayerAbsolutionForTheSon&D=0000",
     "PrayerKyrieEliesonThreeTimes&D=0000",
-    "PrayerConcludingHymn&D=0000",
+    "PrayerConcludingHymnPart1&D=0000",
     "PrayerOurFatherWhoArtInHeaven&D=0000",
-    "PrayerOurFatherWhoArtInHeaven&D=0000",
-    "PrayerTest&D=2003"
+    "PrayerConcludingHymnPart2&D=0000",
 ]; //this is the generic sequence of all prayers for incense dawn and incense vespers. The onClick function triggered by btnIncenseDawn and btnIncenseVespers, will remove what is irrelevant and add what needs to be added according to whether it is a Dawn or Vespers office
 const GospelPrayers = ['PrayerPsalmResponse&D=', Readings.GospelMass, 'PrayerGospelResponse&D=']; //This is the generic sequence for the prayers related to the lecture of the gospel at any liturgy (mass, incense office, etc.). The OnClick function triggered by the liturgy, adds the dates of the readings and of the psalm and gospel responses
 const MassPrayers = {

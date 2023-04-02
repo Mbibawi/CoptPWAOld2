@@ -52,7 +52,7 @@ class Button {
     ;
     get onClick() { return this._onClick; }
     ;
-    get afterShowPrayers() { return this.afterShowPrayers; }
+    get afterShowPrayers() { return this._afterShowPrayers; }
     ;
     get showPrayers() { return this._showPrayers; }
     ;
@@ -317,6 +317,9 @@ const btnIncenseDawn = new Button({
             //then we append the newDiv
             containerDiv.children[0].insertAdjacentElement('beforebegin', newDiv); //Inserting the div containing the button as 1st element of containerDiv
         })();
+        return btnIncenseDawn.prayers;
+    },
+    afterShowPrayers: () => __awaiter(this, void 0, void 0, function* () {
         (function insertGospelReadings() {
             return __awaiter(this, void 0, void 0, function* () {
                 let responses = setGospelPrayers(Readings.GospelDawn); //this gives us an array like ['PsalmResponse&D=####', 'RGID', 'GospelResponse&D=####']
@@ -360,8 +363,23 @@ const btnIncenseDawn = new Button({
                 setCSSGridTemplate(gospelDiv);
             });
         })();
-        return btnIncenseDawn.prayers;
-    }
+        (function removeEklonominTaghonataExcessiveTitles() {
+            return __awaiter(this, void 0, void 0, function* () {
+                let titles = containerDiv.querySelectorAll('div[data-root="PrayerGodHaveMercyOnUsRefrain&S=GL"]');
+                if (titles) {
+                    for (let i = 7; i < titles.length; i += 7) {
+                        titles[i].remove();
+                    }
+                }
+                ;
+                let links = rightSideBar.querySelector('#sideBarBtns').querySelectorAll('a[href*="#PrayerGodHaveMercyOnUsRefrain"');
+                for (let i = 1; i < links.length; i++) {
+                    links[i].remove();
+                }
+                ;
+            });
+        })();
+    })
 });
 const btnIncenseVespers = new Button({
     btnID: 'btnIncenseVespers',
@@ -369,7 +387,7 @@ const btnIncenseVespers = new Button({
         AR: "بخور عشية",
         FR: 'Incense Vespers'
     },
-    showPrayers: false,
+    showPrayers: true,
     prayersArray: PrayersArray,
     languages: [...prayersLanguages],
     onClick: () => {
@@ -408,10 +426,12 @@ const btnIncenseVespers = new Button({
             }
             ;
         })();
+        return btnIncenseVespers.prayers;
+    },
+    afterShowPrayers: () => __awaiter(this, void 0, void 0, function* () {
         (function insertGospelReadings() {
             return __awaiter(this, void 0, void 0, function* () {
-                showPrayers(btnIncenseVespers, false);
-                let responses = getVespersGospel(setGospelPrayers(Readings.GospelVespers)); //this gives us an array like ['PsalmResponse&D=####', 'RGIV', 'GospelResponse&D=####']
+                let responses = setGospelPrayers(Readings.GospelVespers); //this gives us an array like ['PsalmResponse&D=####', 'RGIV', 'GospelResponse&D=####']
                 btnIncenseVespers.prayers.splice(btnIncenseVespers.prayers.indexOf('PrayerGospelPrayerPart2&D=0000') + 1, 0, responses[0]); //inserting Psalm Response id (which corresponds to responses[0])
                 btnIncenseVespers.prayers.splice(btnIncenseVespers.prayers.indexOf('PrayerGospelResponse&D=0000'), 1, responses[2]); //inserting Psalm Response id (which corresponds to responses[0])
                 //We create a fake button that we will pass to showPrayers() in order to retrieve the Gospel Text and append it to newDiv
@@ -419,11 +439,13 @@ const btnIncenseVespers = new Button({
                     btnID: 'fakeGospelReadingBtn',
                     label: { AR: '', FR: '' },
                     cssClass: inlineBtnClass,
-                    prayers: [responses[1] + '&D=' + copticReadingsDate],
+                    prayers: [responses[1] + '&D='],
                     prayersArray: ReadingsArrays.GospelVespersArray,
                     languages: btnReadingsGospelIncenseVespers.languages,
                 });
-                console.log(fakeBtn);
+                let today = new Date(todayDate.getTime() + calendarDay);
+                let date = setSeasonAndCopticReadingsDate(convertGregorianDateToCopticDate(today), today);
+                fakeBtn.prayers[0] += date;
                 //We create a new div to which we will append the Gospel
                 let gospelDiv = document.createElement('div');
                 gospelDiv.style.display = 'grid';
@@ -453,14 +475,13 @@ const btnIncenseVespers = new Button({
                 setCSSGridTemplate(gospelDiv);
             });
         })();
-        return btnIncenseVespers.prayers;
-    }
+    })
 });
 const btnMassStCyril = new Button({
     btnID: 'btnMassStCyril',
     rootID: 'StCyril',
     label: { AR: "كيرلسي", FR: "Saint Cyril", EN: "St Cyril" },
-    showPrayers: false,
+    showPrayers: true,
     prayersArray: PrayersArray,
     languages: [...prayersLanguages],
     onClick: () => {
@@ -478,8 +499,9 @@ const btnMassStCyril = new Button({
                 "PrayerOurFatherWhoArtInHeaven&D=0000",
                 "PMCConfession&D=0000",
                 "PMCConfessionComment&D=0000"], ...MassPrayers.Communion];
-        //We need to show the prayers before adding the buttons that redirect to the St Basil & St Gregory Masses
-        showPrayers(btnMassStCyril);
+        return btnMassStCyril.prayers;
+    },
+    afterShowPrayers: () => __awaiter(this, void 0, void 0, function* () {
         //Adding 2 buttons to redirect to the St Basil or St Gregory Reconciliation prayer
         redirectToAnotherMass(containerDiv.children[4].getAttribute('data-root'), [btnMassStBasil, btnMassStGregory, btnMassStJohn], "beforebegin");
         //Adding 2 buttons to redirect to the St Basil or St Gregory Anaphora prayer
@@ -487,14 +509,13 @@ const btnMassStCyril = new Button({
         //Adding 2 buttons to redirect to the St Basil or St Gregory Masses After the Spasmos
         redirectToAnotherMass('PMCSpasmosComment&D=0000', [btnMassStBasil, btnMassStGregory], 'beforebegin');
         scrollToTop(); //scrolling to the top of the page
-        return btnMassStCyril.prayers;
-    }
+    })
 });
 const btnMassStGregory = new Button({
     btnID: 'btnMassStGregory',
     rootID: 'StGregory',
     label: { AR: "غريغوري", FR: "Saint Gregory" },
-    showPrayers: false,
+    showPrayers: true,
     prayersArray: PrayersArray,
     languages: [...prayersLanguages],
     onClick: () => {
@@ -508,23 +529,23 @@ const btnMassStGregory = new Button({
         btnMassStGregory.prayers = [...MassPrayers.MassCommonIntro, ...MassPrayers.MassStGregory, ...MassPrayers.MassCallOfHolySpirit, ...MassPrayers.MassLitanies, ...MassPrayers.Communion];
         //removing irrelevant prayers from the array
         btnMassStGregory.prayers.splice(btnMassStGregory.prayers.indexOf('PMCCallOfTheHolySpiritPart1Comment&D=0000'), 10);
-        showPrayers(btnMassStGregory);
-        btnMassStGregory.showPrayers = false;
+        return btnMassStGregory.prayers;
+    },
+    afterShowPrayers: () => __awaiter(this, void 0, void 0, function* () {
         //Adding 3 buttons to redirect to the St Basil or St Cyril Reconciliation prayer
         redirectToAnotherMass(containerDiv.children[4].getAttribute('data-root'), [btnMassStBasil, btnMassStCyril, btnMassStJohn], "beforebegin");
         //We add buttons to redirect to the other Reconciliation masses
         redirectToAnotherMass('PMCAgiosComment1&D=0000', [btnMassStBasil], "beforebegin");
         //We add buttons to redirect to St Basil After the Espasmos
         redirectToAnotherMass('PMCSpasmosComment&D=0000', [btnMassStBasil], "beforebegin");
-        scrollToTop(); //scrolling to the top of the page
-        return btnMassStGregory.prayers;
-    }
+        scrollToTop(); //scrolling to the top of the page                
+    })
 });
 const btnMassStBasil = new Button({
     btnID: 'btnMassStBasil',
     rootID: 'StBasil',
     label: { AR: 'باسيلي', FR: 'Saint Basil', EN: 'St Basil' },
-    showPrayers: false,
+    showPrayers: true,
     prayersArray: PrayersArray,
     languages: [...prayersLanguages],
     onClick: () => {
@@ -536,15 +557,14 @@ const btnMassStBasil = new Button({
         ;
         //Setting the standard mass prayers sequence
         btnMassStBasil.prayers = [...MassPrayers.MassCommonIntro, ...MassPrayers.MassStBasil, ...MassPrayers.MassCallOfHolySpirit, ...MassPrayers.MassLitanies, ...MassPrayers.Communion];
-        showPrayers(btnMassStBasil);
+        return btnMassStBasil.prayers;
+    },
+    afterShowPrayers: () => __awaiter(this, void 0, void 0, function* () {
         //We add buttons to redirect to the other Reconciliation masses
         redirectToAnotherMass(containerDiv.children[4].getAttribute('data-root'), [btnMassStGregory, btnMassStCyril, btnMassStJohn], "beforebegin");
-        //We add buttons to redirect to the other Reconciliation masses
-        /*redirectToAnotherMass(['PMCAgiosComment1&D=0000'], 'div[data-root=\'', [btnMassStGregory, btnMassStCyril, btnMassStJohn], "beforebegin");*/
         //We scroll to the beginning of the page after the prayers have been displayed
         scrollToTop();
-        return btnMassStBasil.prayers;
-    }
+    })
 });
 const btnMassStJohn = new Button({
     btnID: 'btnMassStJohn',
@@ -767,20 +787,13 @@ const btnReadingsGospelIncenseVespers = new Button({
         EN: 'Vespers Gospel'
     },
     showPrayers: true,
-    prayers: setGospelPrayers(Readings.GospelVespers),
+    prayers: [Readings.GospelVespers + '&D='],
     prayersArray: ReadingsArrays.GospelVespersArray,
     languages: [...readingsLanguages],
     onClick: () => {
-        //we will first store the value of Season because it might be changed during the following process
-        let currentSeason = Season;
-        // we will retrieve the vespers prayers by the date of the next day (i.e., if we are a Saturday, we will retrieve the gospel according to the date of Sunday not the date of Saturday itself). Thi is because the ppt slides were setting the date of the vespers gospel according the the next day
-        let readingDate = 'Date=' + setSeasonAndCopticReadingsDate(convertGregorianDateToCopticDate(new Date(todayDate.getTime() + calendarDay)));
-        //adding the date to the psalm
-        btnReadingsGospelIncenseVespers.prayers[1] += readingDate;
-        //adding the date to the gospel
-        btnReadingsGospelIncenseVespers.prayers[2] += readingDate;
-        //we then reset the Season because it was potentially modified when calling setSeasonAndCopticReadingsDate()
-        Season = currentSeason;
+        let today = new Date(todayDate.getTime() + calendarDay); //We create a date corresponding to the  the next day. This is because in the PowerPoint presentations from which the gospel text was retrieved, the Vespers gospel of each day is linked to the day itself not to the day before it: i.e., if we are a Monday and want the gospel that will be read in the Vespers incense office, we should look for the Vespers gospel of the next day (Tuesday). 
+        let date = setSeasonAndCopticReadingsDate(convertGregorianDateToCopticDate(today), today);
+        btnReadingsGospelIncenseVespers.prayers[0] += date;
         scrollToTop(); //scrolling to the top of the page
     }
 });

@@ -271,6 +271,10 @@ function showChildButtonsOrPrayers(btn, clear = true, click = true, pursue = tru
         showPrayers(btn);
     }
     ;
+    if (btn.afterShowPrayers) {
+        btn.afterShowPrayers();
+    }
+    ;
     if (btn.parentBtn && btn.btnID !== btnGoBack.btnID) {
         createGoBackBtn(btn, btnsDiv, btn.cssClass)
             .then((b) => b.addEventListener("click", () => showChildButtonsOrPrayers(btn.parentBtn)));
@@ -279,6 +283,11 @@ function showChildButtonsOrPrayers(btn, clear = true, click = true, pursue = tru
     ;
     if (btn.btnID !== btnMain.btnID && btn.btnID !== btnGoBack.btnID) {
         createBtn(btnMain, btnsDiv, btnMain.cssClass);
+        let image = document.getElementById('homeImg');
+        if (image) {
+            document.getElementById('homeImg').style.width = '20vmax';
+            document.getElementById('homeImg').style.height = '25vmax';
+        }
     }
     ;
     if (btn.parentBtn && btn.btnID == btnGoBack.btnID) {

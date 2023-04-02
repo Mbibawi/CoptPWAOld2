@@ -133,13 +133,13 @@ function convertGregorianDateToCopticDate(date) {
  * @param {string} coptDate  - a string expressing the coptic day and month (e.g.: "0306")
  * @returns {string} - a string expressing the coptic reading date (e.g.: "0512", "GreatLent20", "JonahFeast2", etc.)
  */
-function setSeasonAndCopticReadingsDate(coptDate) {
-    let greatLentOrPentecostal = checkIfInASpecificSeason(todayDate);
+function setSeasonAndCopticReadingsDate(coptDate, today = todayDate) {
+    let greatLentOrPentecostal = checkIfInASpecificSeason(today);
     if (greatLentOrPentecostal != Seasons.NoSeason) {
         // it means we are either during the Great Lent period, or the Pentecostal 50 days, or any day/feast within these periods
         return greatLentOrPentecostal;
     }
-    else if (todayDate.getDay() == 0) {
+    else if (today.getDay() == 0) {
         // it means we are on an ordinary  Sunday (any sunday other than Great lent and Pentecostal period Sundays)
         // console.log('We are on a sunday')
         let sunday = checkWhichSundayWeAre(Number(coptDate.slice(0, 2)));
