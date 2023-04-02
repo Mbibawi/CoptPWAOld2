@@ -337,9 +337,11 @@ const btnIncenseDawn = new Button({
                 //We create a new div to which we will append the Gospel
                 let gospelDiv = document.createElement('div');
                 gospelDiv.style.display = 'grid';
+                gospelDiv.style.backgroundColor = 'white';
                 findAndProcessPrayers(fakeBtn.prayers[0], fakeBtn, gospelDiv);
                 //We will create another div in which we will put the Psalm text
                 let psalmDiv = document.createElement('div');
+                psalmDiv.style.backgroundColor = 'white';
                 if (gospelDiv.children[0] && gospelDiv.children[0].classList.contains('TargetRowTitle')) {
                     //If the first child is a div with class 'TargetRowTitle', it means this is the title of the Psalm
                     psalmDiv.appendChild(gospelDiv.children[0]); //we append the title to the psalmDiv
@@ -449,9 +451,11 @@ const btnIncenseVespers = new Button({
                 //We create a new div to which we will append the Gospel
                 let gospelDiv = document.createElement('div');
                 gospelDiv.style.display = 'grid';
+                gospelDiv.style.backgroundColor = 'white';
                 findAndProcessPrayers(fakeBtn.prayers[0], fakeBtn, gospelDiv);
                 //We will create another div in which we will put the Psalm text
                 let psalmDiv = document.createElement('div');
+                psalmDiv.style.backgroundColor = 'white';
                 if (gospelDiv.children[0] && gospelDiv.children[0].classList.contains('TargetRowTitle')) {
                     //If the first child is a div with class 'TargetRowTitle', it means this is the title of the Psalm
                     psalmDiv.appendChild(gospelDiv.children[0]); //we append the title to the psalmDiv
