@@ -5,28 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coptic PWA</title>
-    <!-- <script src="node_modules/requirejs/require.js"></script> -->
-<!--    <link href="//db.onlinewebfonts.com/c/b1f840b2fa953518e00c1c71dc3ace35?family=Coptic" rel="stylesheet" type="text/css"/>
-    <link  id="ExtractedHtml" href="ExtractedHtml.html" rel="import"/>
-    <link href="https://fonts.cdnfonts.com/css/coptic-eyes-coptic" rel="stylesheet"/> -->
-    <link rel="stylesheet" href="Eklesia.css"/>
-    <style>
-    
-    </style>
+
+        <link rel="stylesheet" href="Eklesia.css"/>
+<script>navigator.serviceWorker.register("service-worker.js")</script> 
+        <link rel="manifest" href="manifest.json" />    
 </head>
 <body>
-    <div id="visibelElements">
-</div>
-
         <!-- Page content -->
         <div id='content' class="Content">
-                  
-        <!-- Main area -->
-                <!-- the buttons for adding and removing a language -->
                 
-                <div id='main'>
-                      <!--  <p>Swipe right to open the side bar and start</p> -->
-                        <img id="homeImg" src="JesusChrist.jpg" class="home" alt="Swipe right to open the side bar and start" onclick="toggleSideBars(leftSideBar)">
+                        <img id="homeImg" src="./assets/JesusChrist.jpg" class="home" alt="Swipe right to open the side bar and start" onclick="toggleSideBars(leftSideBar)">
                         <!-- the div where the inline buttons are displayed -->
                         <div id='inlineBtnsContainer'  class='inlineBtnsContainer'>
                         </div>
@@ -56,31 +44,28 @@
                                 <div  id="sideBarBtns"></div>
                         </div>
                         <!-- the button opening and closing the left side bar -->
-                        <button id="opensidebar" class="openbtn" onclick='toggleSideBars()'>&#9776; Open Sidebar</button>
-                        <div id='textDisplayArea'>                   
+                        <button id="opensidebar" class="openbtn" onclick='toggleSideBars()'>&#9776; Open Sidebar</button>                   
                         <!--The div where the text of the prayers is displayed -->
-                        <div id='TargetDiv' class = 'Container'></div> 
-                        </div>
-                </div>
+                        <div id='TargetDiv' class = 'Container'></div>                 
         </div>
 
 
-        <script src="DeclareGlobalVariables.js" type="text/javascript"></script>
-        <script src="SetDates.js" type="text/javascript"></script>
-        <script src="DeclarePrayersConsts.js" type="text/javascript"></script> 
-        <script src="DeclareSeasonsPrayers.js" type="text/javascript"></script>
-        <script src="DeclarePrayersArray.js" type="text/javascript"></script>   
-        <script src="DeclareGospelVespersArray.js" type="text/javascript"></script>   
-        <script src="DeclareGospelDawnArray.js" type="text/javascript"></script>   
-        <script src="DeclareStPaulArray.js" type="text/javascript"></script>   
-        <script src="DeclareKatholikonArray.js" type="text/javascript"></script>   
-        <script src="DeclarePraxisArray.js" type="text/javascript"></script>   
-        <script src="DeclareSynaxariumArray.js" type="text/javascript"></script>   
-        <script src="DeclareGospelMassArray.js" type="text/javascript"></script>   
-        <script src="DeclareGospelNightArray.js" type="text/javascript"></script>   
-        <script src="DeclarePropheciesDawnArray.js" type="text/javascript"></script>   
-        <script src="DeclareButtons.js" type="text/javascript"></script>
-        <script src="main.js" type="text/javascript"></script>   
+        <script src="./Build/modules/DeclareGlobalVariables.js" type="text/javascript"></script>
+        <script src="./Build/modules/SetDates.js" type="text/javascript"></script>
+        <script src="./Build/modules/DeclarePrayersConsts.js" type="text/javascript"></script> 
+        <script src="./Build/modules/DeclareSeasonsPrayers.js" type="text/javascript"></script>
+        <script src="./Build/modules/DeclarePrayersArray.js" type="text/javascript"></script>   
+        <script src="./Build/modules/DeclareGospelVespersArray.js" type="text/javascript"></script>   
+        <script src="./Build/modules/DeclareGospelDawnArray.js" type="text/javascript"></script>   
+        <script src="./Build/modules/DeclareStPaulArray.js" type="text/javascript"></script>   
+        <script src="./Build/modules/DeclareKatholikonArray.js" type="text/javascript"></script>   
+        <script src="./Build/modules/DeclarePraxisArray.js" type="text/javascript"></script>   
+        <script src="./Build/modules/DeclareSynaxariumArray.js" type="text/javascript"></script>   
+        <script src="./Build/modules/DeclareGospelMassArray.js" type="text/javascript"></script>   
+        <script src="./Build/modules/DeclareGospelNightArray.js" type="text/javascript"></script>   
+        <script src="./Build/modules/DeclarePropheciesDawnArray.js" type="text/javascript"></script>   
+        <script src="./Build/modules/DeclareButtons.js" type="text/javascript"></script>
+        <script src="./Build/main.js" type="text/javascript"></script>   
 </body>
 </html>
 
