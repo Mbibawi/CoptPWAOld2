@@ -29,7 +29,7 @@ class Button {
         this._inlineBtns = btn.inlineBtns;
     }
     ;
-    //Setters
+    //Getters
     get btnID() { return this._btnID; }
     ;
     get children() { return this._children; }
@@ -64,7 +64,7 @@ class Button {
     ;
     get inlineBtns() { return this._inlineBtns; }
     ;
-    //getters
+    //Setters
     set btnID(id) { this._btnID = id; }
     ;
     set label(lbl) { this._label = lbl; }
@@ -265,6 +265,9 @@ const btnIncenseDawn = new Button({
             }
             ;
         })();
+        return btnIncenseDawn.prayers;
+    },
+    afterShowPrayers: () => __awaiter(this, void 0, void 0, function* () {
         (function addInlineBtnForAdamDoxolgies() {
             //Adding an inline Button for showing the "Adam" Doxologies, and removing the id of the Adam Doxologies from the btn.prayers array
             let btn = new Button({
@@ -298,10 +301,8 @@ const btnIncenseDawn = new Button({
                 }
             });
             let newDiv = document.createElement('div'); //Creating a div container in which the btn will be displayed
-            newDiv.style.alignSelf = 'center';
-            newDiv.style.justifySelf = 'center';
-            newDiv.style.justifyContent = 'center';
-            createBtn(btn, newDiv, btnIncenseVespers.cssClass, true); //creating the html div for the button (which is a div with an 'on click' event listener calling showChildButtonsOrPrayers(btn))
+            newDiv.classList.add('inlineBtns');
+            createBtn(btn, newDiv, btn.cssClass, true); //creating the html div for the button (which is a div with an 'on click' event listener calling showChildButtonsOrPrayers(btn))
             btnIncenseDawn.prayers.map(prayer => {
                 if (prayer.includes('DoxologiesAdam')) {
                     //adding the id of the prayer to the prayers of the inline button that we created
@@ -317,9 +318,6 @@ const btnIncenseDawn = new Button({
             //then we append the newDiv
             containerDiv.children[0].insertAdjacentElement('beforebegin', newDiv); //Inserting the div containing the button as 1st element of containerDiv
         })();
-        return btnIncenseDawn.prayers;
-    },
-    afterShowPrayers: () => __awaiter(this, void 0, void 0, function* () {
         (function insertGospelReadings() {
             return __awaiter(this, void 0, void 0, function* () {
                 let responses = setGospelPrayers(Readings.GospelDawn); //this gives us an array like ['PsalmResponse&D=####', 'RGID', 'GospelResponse&D=####']
@@ -966,6 +964,7 @@ function redirectToAnotherMass(id, btns, position) {
                     AR: btn.label.AR,
                     FR: btn.label.FR,
                 },
+                cssClass: inlineBtnClass,
                 onClick: () => {
                     showChildButtonsOrPrayers(btn);
                     let target = containerDiv.querySelector(dataset);

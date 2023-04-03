@@ -4,7 +4,7 @@
 "start_url": "https://mbibawi.github.io/CoptPWA.github.io",
 "display": "standalone",
 "description": "PWA for coptic liturgies",
-"lang": " English",
+"lang": " en",
 "dir": "auto",
 "theme_color": "#000000",
 "background_color": "#000000",

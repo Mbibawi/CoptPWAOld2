@@ -1,10 +1,10 @@
 @font-face {
   font-family: AvaShenouda;
-  src: url(Avva_Shenouda.ttf);
+  src: url(./fonts/Avva_Shenouda.ttf);
 }
 @font-face {
   font-family: ArialCoptic;
-  src: url(ArialCoptic.ttf);
+  src: url(./fonts/ArialCoptic.ttf);
 }
 .root{
   --inline-column-width: 30%;
@@ -61,21 +61,46 @@ body{
 .Menu {
   background-color: #5270a3;
 }
+
+#sideBarBtns{
+  margin-left: 2px;
+  margin-right: 0px;
+  justify-content: center;
+}
 .sideBarBtn, .inlineBtn {
-  height:fit-content;
   border-radius: 9px;
   background-color: #95190c;
-  padding: 1px;
-  margin-left: 05px;
   margin-bottom: 2px;
   border-color: #C45911 ;
   align-items: center !important;
 }
 .sideBarBtn{
+  height: fit-content;
   width: 95%;
+  padding: 0px 1px;
+}
+
+.sideBarBtn > p{
+  padding: 2px 1px;
+  margin: 1px 2px;
+}
+.inlineBtns{
+  display:grid;
+  justify-items: center;
+  max-width: 80vw;
+  align-self: center;
+  justify-self: center;
+  justify-content: center;
+  margin: 0px 2px;
 }
 .inlineBtn {
-width: auto !important;
+height: 70px;
+width: 20vmin;
+margin:2px 2px;
+}
+.inlineBtn > p{
+  padding: 2px 10px;
+  margin: 6Px 2px !important;
 }
 
 .centeredBtn {
@@ -88,33 +113,14 @@ width: auto !important;
   padding: 1px 1px !important;
 }
 
-.inlineBtnsContainer{
-  /*this is the sub div to the inlineBtnsContainer*/
-  display: grid;
-  grid-template-columns: auto;
-  position: fixed;
-  top:0px;
-  left:10px;
-  z-index: 2;
-  width: 100%;
-  justify-items: center;
-  justify-content: center;
-  width:99%;
-  align-self: center;
-}
-.home{
+.homeImg{
   width: 60%;
   height: 80%;
   justify-self: center;
   align-self: center;
-  padding-bottom: 5px;
-  
+  padding-bottom: 5px; 
 }
-.inlineBtns{
-  display:grid;
-  justify-items: center;
-  max-width: 90%;
-}
+
 
 #textDisplayArea{
   max-width: 100%;
@@ -154,7 +160,7 @@ width: auto !important;
 }
 .TargetRowTitle {
   text-align: center;
-  background-color: #7A7D7D !important;
+  background-color: #7E3B10 !important;
   color: white;
 }
 .TargetRow > .AR, .TargetRowTitle >.AR{

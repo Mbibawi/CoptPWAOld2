@@ -340,7 +340,7 @@ function createFakeAnchor(id) {
      */
 function createBtn(btn, btnsBar, btnClass, clear = true) {
     let newBtn = document.createElement('button');
-    newBtn.classList.add(btnClass);
+    btnClass ? newBtn.classList.add(btnClass) : newBtn.classList.add(btn.cssClass);
     newBtn.id = btn.btnID;
     for (let lang in btn.label) {
         //for each language in btn.text, we create a new "p" element
@@ -1114,10 +1114,10 @@ function showInlineButtonsForFractionPrayers(btn, fractions, btnsDiv) {
         //Creating a new Button to which we will attach as many inlineBtns as there are fraction prayers suitable for the day (if it is a feast or if it falls during a Season)
         fractionBtn = new Button({
             btnID: 'btnFractionPrayers',
-            label: { AR: 'صلوات القسمة', FR: 'Fraction' },
+            label: { AR: 'صلوات القسمة', FR: 'Oraisons de la Fraction' },
             pursue: false,
             inlineBtns: [],
-            cssClass: 'fractionPrayersBtn',
+            cssClass: inlineBtnClass,
             onClick: () => {
                 //When the fractionBtn is clicked, it will create a new div element to which it will append html buttons element for each inlineBtn in its inlineBtns[]
                 let newDiv = document.createElement('div');
@@ -1174,10 +1174,9 @@ function showInlineButtonsForFractionPrayers(btn, fractions, btnsDiv) {
             }
         });
         //Creating an html button element for fractionBtn and displaying it in btnsDiv (which is an html element passed to the function)
-        createBtn(fractionBtn, btnsDiv, fractionBtn.cssClass);
-        btnsDiv.style.display = 'grid';
+        createBtn(fractionBtn, btnsDiv, fractionBtn.cssClass).classList.add('fractionPrayersBtn');
+        btnsDiv.classList.add('inlineBtns');
         btnsDiv.style.gridTemplateColumns = '100%';
-        btnsDiv.style.justifyItems = 'center';
         createInlineBtns(fractionBtn);
         /**
          *creating a new inlineBtn for each fraction and pushing it to fractionBtn.inlineBtns[]
@@ -1376,11 +1375,8 @@ function showSettingsPanel() {
 }
 function insertRedirectionButtons(querySelector, btns, position = 'beforebegin') {
     let div = document.createElement('div');
-    div.style.display = 'grid';
-    div.style.width = '90vw';
+    div.classList.add('inlineBtns');
     div.style.gridTemplateColumns = ((100 / btns.length).toString() + '% ').repeat(btns.length);
-    div.style.justifySelf = 'center';
-    div.style.justifyItems = 'center';
     btns.map(b => div.appendChild(createBtn(b, div, b.cssClass)));
     containerDiv.querySelector(querySelector).insertAdjacentElement(position, div);
 }
