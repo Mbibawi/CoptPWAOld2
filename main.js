@@ -198,13 +198,14 @@ function showTitlesInRightSideBar(titlesCollection, rightTitlesDiv, btn, clear =
             rightTitlesDiv.innerHTML = '';
         }
         ; //we empty the side bar
-        let bookmark, div, text = '';
+        let bookmark, div;
         for (let i = 0; i < titlesCollection.length; i++) {
             titlesCollection[i].id += i.toString(); //we do this in order to give each title a distinctive id in cases where all the titles have the same id
             addTitle(titlesCollection[i]);
         }
         ;
         function addTitle(titles) {
+            let text = '';
             div = document.createElement('div'); //this is just a container
             div.role = 'button';
             rightTitlesDiv.appendChild(div);
