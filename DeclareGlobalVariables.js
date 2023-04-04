@@ -100,7 +100,7 @@ const copticFasts = [
     Seasons.JonahFast,
 ];
 const allLanguages = ['AR', 'FR', 'COP', 'CA', 'EN'];
-const userLanguages = ['AR', 'FR', 'COP'];
+const userLanguages = ['AR', 'FR', 'COP', 'CA', 'EN'];
 const prayersLanguages = ['COP', 'FR', 'CA', 'AR'];
 const readingsLanguages = ['AR', 'FR', 'EN'];
 //VARS

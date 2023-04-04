@@ -52,6 +52,24 @@ function addOrRemoveLanguage(el) {
 }
 ;
 /**
+ * Removed (if included) or adds (if missing) a given language from/to userLanguages[]
+ * @param {string} lang - the language that will be removed or added to userLanguages[]
+ */
+function modifyUserLanguages(lang) {
+    if (userLanguages.indexOf(lang) > -1) {
+        //lang is included, we will remove it
+        userLanguages.splice(userLanguages.indexOf(lang), 1);
+        return false;
+    }
+    else if (userLanguages.indexOf(lang) < 0) {
+        //lang is not included, we will add it
+        userLanguages.splice(allLanguages.indexOf(lang), 0, lang);
+        return true;
+    }
+    ;
+}
+;
+/**
  * Changes the current Gregorian date and adjusts the coptic date and the coptic readings date, etc.
  * @param {string} date  - allows the user to pass the Greogrian calendar day to which he wants the date to be set, as a string provided from an input box or by the date picker
  * @param {boolean} next  - used when the user wants to jumb forward or back by only one day
@@ -97,24 +115,6 @@ function autoRunOnLoad() {
 function getPrayerFromInputBox() {
     let input = document.getElementById("elID");
     showPrayers(new Button({ btnID: '', label: { AR: '', FR: '' }, prayers: [input.value] }));
-}
-;
-/**
- * Sets the css class for the each prayer according to who tells the prayer: Priest? Diacon? Assembly?
- * @param {string | string[]} id - represents the title of the Word table form which the text was extracted. If btn.prayersArray is a string[][], id is a string representing the 1st element of each string[] in the btn.prayersArray. If btn.prayersArray is a string[][][], id is a string[] representing the 1st element of each string[][] in btn.prayersArray. This string[] contains only one string element which is the title of the Word table (like [['TitleOfTheTable'],['TitleOfTheTableAdjusted', 'TextRow1Cell1', 'TextRow1Cell2', etc.],['TitleOfTheTableAdjusted', 'TextRow2Cell1', 'TextRow2Cell2', etc.])
- * @param {string} firstElement - the first element of a prayer which represents the id of the prayer. The prayer is an array  containing the text of the prayer. It is structured like this ['prayer id', 'text in a given language', 'text in another language', etc.]
- * @returns {string[]} - string[] of 2 elements: the 1st element is the title of the Word table after removing any extra information about its class; the 2nd element is a string that will be added as a class to the html element to give it the appropriate background color
- */
-function setActorsClasses(id) {
-    let actorClass;
-    let prayerID;
-    prayerID = id;
-    if (prayerID.includes('&C=')) {
-        actorClass = prayerID.split('&C=')[1];
-        prayerID = prayerID.split('&C=')[0];
-    }
-    ;
-    return [prayerID, actorClass];
 }
 ;
 /**
@@ -209,7 +209,19 @@ function showTitlesInRightSideBar(titlesCollection, rightTitlesDiv, btn, clear =
             bookmark.href = '#' + titles.id; //we add a link to the element having as id, the id of the prayer
             div.classList.add('sideTitle');
             div.addEventListener('click', () => closeSideBar(rightSideBar)); //when the user clicks on the div, the rightSideBar is closed	
-            text = titles.querySelector('.AR').textContent.replace(String.fromCharCode(10134), '') + '\n' + titles.querySelector('.FR').textContent;
+            if (titles.querySelector('.AR')) {
+                text += titles.querySelector('.AR').textContent.replace(String.fromCharCode(10134), '');
+            }
+            ;
+            if (titles.querySelector('.FR')) {
+                if (text != '') {
+                    text += '\n' + titles.querySelector('.FR').textContent;
+                }
+                else {
+                    text += titles.querySelector('.FR').textContent;
+                }
+            }
+            ;
             bookmark.innerText = text;
         }
         ;
@@ -225,6 +237,10 @@ function showTitlesInRightSideBar(titlesCollection, rightTitlesDiv, btn, clear =
  * @returns
  */
 function showChildButtonsOrPrayers(btn, clear = true, click = true, pursue = true) {
+    if (!btn) {
+        return;
+    }
+    ;
     let btnsDiv = leftSideBar.querySelector('#sideBarBtns');
     if (clear) {
         btnsDiv.innerHTML = '';
@@ -356,7 +372,7 @@ function createBtn(btn, btnsBar, btnClass, clear = true) {
     ;
     btnsBar.appendChild(newBtn);
     if (btn.children || btn.prayers || btn.onClick || btn.inlineBtns) {
-        // if the btn object that we used to create the html button element, has childs, we add an "onclick" event that passes the btn itself to the showChildButtonsOrPrayers. This will create html button elements for each child and show them
+        // if the btn object that we used to create the html button element, has children, we add an "onclick" event that passes the btn itself to the showChildButtonsOrPrayers. This will create html button elements for each child and show them
         newBtn.addEventListener('click', () => showChildButtonsOrPrayers(btn, clear));
     }
     ;
@@ -374,42 +390,6 @@ function createBtn(btn, btnsBar, btnClass, clear = true) {
 ;
 /** */
 function PWA() {
-    // Initialize deferredPrompt for use later to show browser install prompt.
-    let deferredPrompt;
-    window.addEventListener("beforeinstallprompt", (e) => {
-        // Prevent the mini-infobar from appearing on mobile
-        e.preventDefault();
-        // Stash the event so it can be triggered later.
-        deferredPrompt = e;
-        // Update UI notify the user they can install the PWA
-        showInstallPromotion();
-        // Optionally, send analytics event that PWA install promo was shown.
-        console.log(`'beforeinstallprompt' event was fired.`);
-    });
-    /** */
-    function showInstallPromotion() {
-        let buttonInstall = document.getElementById("InstallPWA");
-        buttonInstall.addEventListener("click", () => __awaiter(this, void 0, void 0, function* () {
-            // Hide the app provided install promotion
-            //hideInstallPromotion();
-            // Show the install prompt
-            deferredPrompt.prompt();
-            // Wait for the user to respond to the prompt
-            const { outcome } = yield deferredPrompt.userChoice;
-            // Optionally, send analytics event with outcome of user choice
-            console.log(`User response to the install prompt: ${outcome}`);
-            // We've used the prompt, and can't use it again, throw it away
-            deferredPrompt = null;
-        }));
-        window.addEventListener("appinstalled", () => {
-            // Hide the app-provided install promotion
-            //hideInstallPromotion();
-            // Clear the deferredPrompt so it can be garbage collected
-            deferredPrompt = null;
-            // Optionally, send analytics event to indicate successful install
-            console.log("PWA was installed");
-        });
-    }
     /** */
     function getPWADisplayMode() {
         const isStandalone = window.matchMedia("(display-mode: standalone)").matches;
@@ -1123,11 +1103,8 @@ function showInlineButtonsForFractionPrayers(btn, fractions, btnsDiv) {
                 let newDiv = document.createElement('div');
                 newDiv.id = 'fractionsDiv';
                 //Customizing the style of newDiv
-                newDiv.style.display = 'grid';
+                newDiv.classList.add('inlineBtns');
                 newDiv.style.gridTemplateColumns = '33% 33% 33%';
-                newDiv.style.justifyItems = 'center';
-                newDiv.style.overflowY = 'hidden';
-                newDiv.style.overflowX = 'hidden';
                 inlineBtnsDiv.style.backgroundColor = '#E07415';
                 inlineBtnsDiv.style.borderRadius = '10px';
                 //We create a 'Go Back' html button that simulates clicking on the btn who called the function. We start by creating it in order to show it at the top before the other inline buttons that will be created for each fraction. NOTICE that we provided the bookmark argument to createGoBakBtn. We did his in order for the 'Go Back' button that will be created, when clicked, to scroll back to the fractionBtn in the page
@@ -1144,6 +1121,7 @@ function showInlineButtonsForFractionPrayers(btn, fractions, btnsDiv) {
                     let next = new Button({
                         btnID: 'btnNext',
                         label: { AR: 'التالي', FR: 'Suivants' },
+                        cssClass: inlineBtnClass,
                     });
                     splitFractions(0);
                     function splitFractions(i) {
@@ -1174,7 +1152,7 @@ function showInlineButtonsForFractionPrayers(btn, fractions, btnsDiv) {
             }
         });
         //Creating an html button element for fractionBtn and displaying it in btnsDiv (which is an html element passed to the function)
-        createBtn(fractionBtn, btnsDiv, fractionBtn.cssClass).classList.add('fractionPrayersBtn');
+        createBtn(fractionBtn, btnsDiv, fractionBtn.cssClass);
         btnsDiv.classList.add('inlineBtns');
         btnsDiv.style.gridTemplateColumns = '100%';
         createInlineBtns(fractionBtn);
@@ -1184,18 +1162,17 @@ function showInlineButtonsForFractionPrayers(btn, fractions, btnsDiv) {
          */
         function createInlineBtns(target) {
             return __awaiter(this, void 0, void 0, function* () {
-                selected.map(table => {
+                selected.map(fractionTable => {
                     //for each string[][][] representing a table in the Word document from which the text was extracted, we create an inlineButton to display the text of the table
-                    title = setActorsClasses(table[0][0]);
                     inlineBtn = new Button({
-                        btnID: title[0],
+                        btnID: fractionTable[0][0].split('&C=')[0],
                         label: {
-                            AR: table[0][btn.languages.indexOf('AR') + 1],
-                            FR: table[0][btn.languages.indexOf('FR') + 1] //we add 1 because table[0] is the table title not the row's text in a given language
+                            AR: fractionTable[0][btn.languages.indexOf('AR') + 1],
+                            FR: fractionTable[0][btn.languages.indexOf('FR') + 1] //same logic and comment as above
                         },
                         showPrayers: true,
-                        prayers: [title[0]],
-                        prayersArray: [table],
+                        prayers: [fractionTable[0][0].split('&C=')][1],
+                        prayersArray: [fractionTable],
                         languages: btn.languages,
                         cssClass: 'fractionPrayersBtn',
                         onClick: () => {
@@ -1219,7 +1196,6 @@ function showInlineButtonsForFractionPrayers(btn, fractions, btnsDiv) {
  * Takes a prayer string "p" from the btn.prayers[], and looks for an array in the btn.prayersArray with its first element matches "p". When it finds the array (which is a string[][] where each element from the 2nd element represents a row in the Word table), it process the text in the row string[] to createHtmlElementForPrayer() in order to show the prayer in the main page
  * @param {string} p - a string representing a prayer in the btn.prayers[]. This string matches the title of one of the tables in the Word document from which the text was extracted. The btn.prayersArray should have one of its elements = to "p"
  * @param {Button} btn - the button to which the prayers are associated
- *   @param {string[][]} titles - a string array of arrays to which the titles (if any) will be pushed in order for showPrayers() to display them in the right side bar menu
  * @param {HTMLDivElement} div - the html element to which the text of the prayers will be appended. By default this is the containerDiv
  */
 function findAndProcessPrayers(p, btn, div = containerDiv) {
@@ -1260,6 +1236,7 @@ function findAndProcessPrayers(p, btn, div = containerDiv) {
 }
 ;
 function showSettingsPanel() {
+    let btn;
     inlineBtnsDiv.innerHTML = '';
     if (inlineBtnsDiv.dataset.status == 'settingsPanel') {
         inlineBtnsDiv.dataset.status = 'inlineButtons';
@@ -1268,111 +1245,196 @@ function showSettingsPanel() {
     ;
     inlineBtnsDiv.dataset.status = 'settingsPanel';
     //Show current version
-    let version = 'v0.4';
-    let p = document.createElement('p');
-    p.style.color = 'red';
-    p.style.fontSize = '15pt';
-    p.style.fontWeight = "bold";
-    p.innerText = version;
-    inlineBtnsDiv.appendChild(p);
-    let btn;
+    (function showCurrentVersion() {
+        let version = 'v0.6';
+        let p = document.createElement('p');
+        p.style.color = 'red';
+        p.style.fontSize = '15pt';
+        p.style.fontWeight = "bold";
+        p.innerText = version;
+        inlineBtnsDiv.appendChild(p);
+    })();
     //Show InstallPWA button
-    btn = document.createElement('div');
-    btn.id = 'InstallPWA';
-    btn.classList.add('btnIcon');
-    btn.role = 'button';
-    btn.innerText = 'Install PWA';
-    inlineBtnsDiv.appendChild(btn);
+    (function installPWA() {
+        btn = createBtn('button', 'button', 'langBtnRemove', 'Install PWA', inlineBtnsDiv, 'InstallPWA', undefined, undefined, undefined, undefined, {
+            event: 'click',
+            fun: () => __awaiter(this, void 0, void 0, function* () {
+                // Initialize deferredPrompt for use later to show browser install prompt.
+                let deferredPrompt;
+                window.addEventListener("beforeinstallprompt", (e) => {
+                    // Prevent the mini-infobar from appearing on mobile
+                    e.preventDefault();
+                    // Stash the event so it can be triggered later.
+                    deferredPrompt = e;
+                });
+                // Update UI notify the user they can install the PWA
+                (() => __awaiter(this, void 0, void 0, function* () {
+                    window.dispatchEvent(new Event('beforeinstallprompt'));
+                    deferredPrompt.prompt;
+                    // Optionally, send analytics event that PWA install promo was shown.
+                    console.log(`'beforeinstallprompt' event was fired.`);
+                    // Wait for the user to respond to the prompt
+                    const { outcome } = yield deferredPrompt.userChoice;
+                    // Optionally, send analytics event with outcome of user choice
+                    console.log(`User response to the install prompt: ${outcome}`);
+                    // We've used the prompt, and can't use it again, throw it away
+                    deferredPrompt = null;
+                }))();
+                function getPWADisplayMode() {
+                    const isStandalone = window.matchMedia("(display-mode: standalone)").matches;
+                    if (document.referrer.startsWith("android-app://")) {
+                        return "twa";
+                        //@ts-ignore
+                    }
+                    else if (navigator.standalone || isStandalone) {
+                        return "standalone";
+                    }
+                    return "browser";
+                }
+                ;
+            })
+        });
+    })();
     //Appending date picker
-    btn = document.createElement('input');
-    btn.type = 'date';
-    btn.id = 'datePicker';
-    btn.addEventListener('change', (e) => {
-        let el = e.target;
-        console.log("date value = ", el.value.toString());
-        changeDay(el.value.toString());
-    });
-    btn.setAttribute('value', todayDate);
-    btn.setAttribute('min', '1900-01-01');
-    inlineBtnsDiv.appendChild(btn);
+    (function showDatePicker() {
+        let datePicker = createBtn('input', undefined, undefined, undefined, inlineBtnsDiv, 'datePicker', undefined, 'date', undefined, undefined, { event: 'change', fun: () => changeDay(datePicker.value.toString()) });
+        datePicker.setAttribute('value', todayDate.toString());
+        datePicker.setAttribute('min', '1900-01-01');
+    })();
     //Appending 'Next Coptic Day' button
-    btn = document.createElement('button');
-    btn.type = 'submit';
-    btn.id = 'nextDay';
-    btn.size = '10';
-    btn.innerText = 'Next Coptic Day';
-    btn.style.backgroundColor = 'rgb(33, 175, 175)';
-    btn.addEventListener('click', () => changeDay(undefined, true, 1));
-    inlineBtnsDiv.appendChild(btn);
+    showNextCopticDayButton('nextDay', 'NextCopticDay', true);
+    function showNextCopticDayButton(id, innerText, next) {
+        btn = createBtn('button', 'button', '', innerText, inlineBtnsDiv, id, undefined, 'submit', '10', 'red', { event: 'click', fun: () => changeDay(undefined, next, 1) });
+    }
+    ;
     //Appending 'Previous Coptic Day' button
-    btn = document.createElement('button');
-    btn.type = 'submit';
-    btn.id = 'previousDay';
-    btn.size = '10';
-    btn.innerText = 'Next Coptic Day';
-    btn.style.backgroundColor = 'rgb(33, 175, 175)';
-    btn.addEventListener('click', () => changeDay(undefined, false, 1));
-    inlineBtnsDiv.appendChild(btn);
+    let langsContainer = document.createElement('div');
+    langsContainer.style.display = 'grid';
+    langsContainer.style.width = contentDiv.style.width;
+    langsContainer.style.gridTemplateColumns = '50% 50%';
+    langsContainer.style.justifyItems = 'center';
+    inlineBtnsDiv.appendChild(langsContainer);
+    showNextCopticDayButton('previousDay', 'Previous Coptic Day', false);
+    function addLanguage(id, dataSet, innerText) {
+        btn = createBtn('button', undefined, 'addLang', innerText, langsContainer, id, dataSet, 'submit', undefined, 'red', {
+            event: 'click',
+            fun: () => addOrRemoveLanguage(btn)
+        });
+    }
+    ;
     //Appending 'Add Coptic in Arabic Characters' button
-    btn = document.createElement('div');
-    btn.id = 'btns';
-    inlineBtnsDiv.appendChild(btn);
-    btn = document.createElement('button');
-    btn.type = 'submit';
-    btn.id = 'addCA';
-    btn.dataset.lang = 'CA';
-    btn.classList.add('addLang');
-    btn.innerText = 'Add Coptic In Arabic Characters';
-    btn.style.backgroundColor = 'rgb(33, 175, 175)';
-    btn.addEventListener('click', () => addOrRemoveLanguage(btn));
-    inlineBtnsDiv.querySelector('#btns').appendChild(btn);
+    addLanguage('addCA', 'CA', 'Add Coptic In Arabic Characters');
     //Appending 'Add English or French' button
-    btn = document.createElement('button');
-    btn.type = 'submit';
-    btn.id = 'addEN';
-    btn.dataset.lang = 'EN';
-    btn.classList.add('addLang');
-    btn.innerText = 'Add English Or French';
-    btn.style.backgroundColor = 'rgb(33, 175, 175)';
-    btn.addEventListener('click', () => addOrRemoveLanguage(btn));
-    inlineBtnsDiv.querySelector('#btns').appendChild(btn);
-    //Appending colors keys for actors
-    btn = document.createElement('div');
-    btn.id = 'actors';
-    inlineBtnsDiv.appendChild(btn);
-    let actors = [
-        {
-            id: 'PriestColor',
-            AR: 'الكاهن',
-            FR: 'Le Prêtre',
-            EN: 'The Priest',
-        },
-        {
-            id: 'AssemblyColor',
-            AR: "الشعب",
-            FR: 'L\'Assemblée',
-            EN: 'The Assembly',
-        },
-        {
-            id: 'DiaconColor',
-            AR: 'الشماس',
-            FR: 'Le Diacre',
-            EN: 'The Diacon',
-        }
-    ];
-    actors.map(b => {
-        btn = document.createElement('button');
-        btn.id = b.id;
-        btn.class = 'colorbtn';
-        for (let i = 1; i < 5; i++) {
-            let p = document.createElement('p');
-            p.innerText = Object.keys(b)[i];
-            btn.appendChild(p);
+    addLanguage('addEN', 'EN', 'Add English or French');
+    //Appending Add or Remove language Buttons
+    (function showAddOrRemoveLanguagesBtns() {
+        let subContainer = document.createElement('div');
+        subContainer.style.display = 'grid';
+        subContainer.style.gridTemplateColumns = '25% 25% 25% 25%';
+        subContainer.style.justifyItems = 'center';
+        langsContainer.appendChild(subContainer);
+        allLanguages.map(lang => {
+            let newBtn = createBtn('button', 'button', 'langBtnRemove', lang, subContainer, 'userLang', lang, undefined, undefined, undefined, {
+                event: 'click',
+                fun: () => {
+                    modifyUserLanguages(lang);
+                    newBtn.classList.toggle('langBtnAdd');
+                }
+            });
+            if (userLanguages.indexOf(lang) < 0) {
+                //The language of the button is absent from userLanguages[], we will give the button the class 'langBtnAdd'
+                newBtn.classList.add('langBtnAdd');
+            }
+            ;
+        });
+    })();
+    function createBtn(tag, role = tag, btnClass, innerText, parent, id, dataSet, type, size, backgroundColor, onClick) {
+        let btn = document.createElement(tag);
+        if (role) {
+            btn.role = role;
         }
         ;
-        inlineBtnsDiv.querySelector('#actors').appendChild(btn);
-    });
+        if (innerText) {
+            btn.innerHTML = innerText;
+        }
+        ;
+        if (btnClass) {
+            btn.classList.add(btnClass);
+        }
+        ;
+        if (id) {
+            btn.id = id;
+        }
+        ;
+        if (dataSet) {
+            btn.dataset.lang = dataSet;
+        }
+        ;
+        if (type && btn.nodeType) {
+            //@ts-ignore
+            btn.type = type;
+        }
+        ;
+        if (size) {
+            //@ts-ignore
+            btn.size = size;
+        }
+        ;
+        if (backgroundColor) {
+            btn.style.backgroundColor = backgroundColor;
+        }
+        ;
+        if (onClick) {
+            btn.addEventListener(onClick.event, () => onClick.fun());
+        }
+        ;
+        if (parent) {
+            parent.appendChild(btn);
+        }
+        ;
+        return btn;
+    }
+    ;
+    //Appending colors keys for actors
+    (function addActorsKeys() {
+        let container = document.createElement('div');
+        container.id = 'actors';
+        container.style.display = 'grid';
+        container.style.gridTemplateColumns = String('33% ').repeat(3);
+        inlineBtnsDiv.appendChild(container);
+        let actors = [
+            {
+                id: 'PriestColor',
+                AR: 'الكاهن',
+                FR: 'Le Prêtre',
+                EN: 'The Priest',
+            },
+            {
+                id: 'AssemblyColor',
+                AR: "الشعب",
+                FR: 'L\'Assemblée',
+                EN: 'The Assembly',
+            },
+            {
+                id: 'DiaconColor',
+                AR: 'الشماس',
+                FR: 'Le Diacre',
+                EN: 'The Diacon',
+            }
+        ];
+        actors.map(b => {
+            let newBtn = createBtn('button', undefined, 'colorbtn', undefined, container, b.id);
+            for (let i = 1; i < 4; i++) {
+                let p = document.createElement('p');
+                p.innerText = b[Object.keys(b)[i]];
+                //Object.keys(b)[i] 0K;
+                newBtn.appendChild(p);
+            }
+            ;
+        });
+    })();
 }
+;
 function insertRedirectionButtons(querySelector, btns, position = 'beforebegin') {
     let div = document.createElement('div');
     div.classList.add('inlineBtns');
