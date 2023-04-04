@@ -11,13 +11,13 @@
 "orientation": "any",
 "icons": [
     {
-        "src": "./JesusChrist512x512.png",
+        "src": "https://1drv.ms/i/s!AiW-8uLdyAZlm7ZB1gyUU12sHFtPKA?e=PbZcL0",
         "sizes": "512x512",
         "type": "image/png",
         "purpose": "maskable"
     },
     {
-        "src": "./JesusChrist192x192.png",
+        "src": "https://1drv.ms/i/s!AiW-8uLdyAZlm7ZArBALFmBzCyBNGA?e=yP3YfF",
         "sizes": "192x192",
         "type": "image/png",
         "purpose": "any"
