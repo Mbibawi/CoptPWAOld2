@@ -1368,21 +1368,28 @@ function showSettingsPanel() {
                 return;
             }
             ; //we will not show a button for 'CommentText' class, it will be handled by the 'Comment' button
+            let show = showActors.get(actor);
             btn = createBtn('button', 'button', 'langBtnRemove', 'remove ' + actor, container, actor, actor, undefined, undefined, undefined, {
                 event: 'click',
                 fun: () => {
                     closeSideBar(leftSideBar);
-                    let show = showActors.get(actor);
                     show == true ? show = false : show = true;
                     showActors.set(actor, show);
+                    if (show == false) {
+                        btn.classList.add('langBtnAdd');
+                    }
+                    ;
                     if (actor == 'Comment') {
                         showActors.set('CommentText', show);
                     }
                     showChildButtonsOrPrayers(lastClickedButton);
                     inlineBtnsDiv.innerText = '';
-                    btn.classList.toggle('langBtnAdd');
                 }
             });
+            if (show == false) {
+                btn.classList.add('langBtnAdd');
+            }
+            ;
         });
     })();
     function createBtn(tag, role = tag, btnClass, innerText, parent, id, dataSet, type, size, backgroundColor, onClick) {
