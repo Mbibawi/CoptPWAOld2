@@ -148,6 +148,10 @@ function createHtmlElementForPrayer(firstElement, prayers, languagesArray, userL
         }
         ; //we check that the language is included in the allLanguages array, i.e. if it has not been removed by the user, which means that he does not want this language to be displayed. If the language is not removed, we retrieve the text in this language. otherwise we will not retrieve its text.
         if (userLanguages.indexOf(lang) > -1) {
+            if (actorClass && showActors.get(actorClass) == false) {
+                return;
+            }
+            ;
             p = document.createElement("p"); //we create a new <p></p> element for the text of each language in the 'prayer' array (the 'prayer' array is constructed like ['prayer id', 'text in AR, 'text in FR', ' text in COP', 'text in Language', etc.])
             if (actorClass == "Title") {
                 //this means that the 'prayer' array includes the titles of the prayer since its first element ends with '&C=Title'.
@@ -1311,8 +1315,7 @@ function showSettingsPanel() {
     let langsContainer = document.createElement('div');
     langsContainer.style.display = 'grid';
     langsContainer.id = 'langsContainer';
-    langsContainer.style.width = contentDiv.style.width;
-    //langsContainer.style.gridTemplateColumns = '50% 50%'
+    langsContainer.style.width = '95%';
     langsContainer.style.justifyItems = 'center';
     langsContainer.style.justifySelf = 'center';
     //langsContainer.style.justifyItems = 'center';
@@ -1333,7 +1336,8 @@ function showSettingsPanel() {
     (function showAddOrRemoveLanguagesBtns() {
         let subContainer = document.createElement('div');
         subContainer.style.display = 'grid';
-        subContainer.style.gridTemplateColumns = '33% 33% 33%';
+        subContainer.style.gridTemplateColumns = String('30% ').repeat(3);
+        subContainer.style.width = '95%';
         subContainer.style.justifyItems = 'center';
         langsContainer.appendChild(subContainer);
         allLanguages.map(lang => {
@@ -1342,6 +1346,8 @@ function showSettingsPanel() {
                 fun: () => {
                     modifyUserLanguages(lang);
                     newBtn.classList.toggle('langBtnAdd');
+                    //We retrieve again the displayed text/prayers by recalling the last button clicked
+                    showChildButtonsOrPrayers(lastClickedButton);
                 }
             });
             if (userLanguages.indexOf(lang) < 0) {
@@ -1349,6 +1355,34 @@ function showSettingsPanel() {
                 newBtn.classList.add('langBtnAdd');
             }
             ;
+        });
+    })();
+    (function showExcludeActorButon() {
+        let container = document.createElement('div');
+        container.style.display = 'grid';
+        container.style.gridTemplateColumns = String('50%').repeat(2);
+        container.style.width = '99%';
+        inlineBtnsDiv.appendChild(container);
+        actors.map(actor => {
+            if (actor == 'CommentText') {
+                return;
+            }
+            ; //we will not show a button for 'CommentText' class, it will be handled by the 'Comment' button
+            btn = createBtn('button', 'button', 'langBtnRemove', 'remove ' + actor, container, actor, actor, undefined, undefined, undefined, {
+                event: 'click',
+                fun: () => {
+                    closeSideBar(leftSideBar);
+                    let show = showActors.get(actor);
+                    show == true ? show = false : show = true;
+                    showActors.set(actor, show);
+                    if (actor == 'Comment') {
+                        showActors.set('CommentText', show);
+                    }
+                    showChildButtonsOrPrayers(lastClickedButton);
+                    inlineBtnsDiv.innerText = '';
+                    btn.classList.toggle('langBtnAdd');
+                }
+            });
         });
     })();
     function createBtn(tag, role = tag, btnClass, innerText, parent, id, dataSet, type, size, backgroundColor, onClick) {
@@ -1404,6 +1438,7 @@ function showSettingsPanel() {
         container.id = 'actors';
         container.style.display = 'grid';
         container.style.gridTemplateColumns = String('33% ').repeat(3);
+        container.style.width = '95%';
         inlineBtnsDiv.appendChild(container);
         let actors = [
             {

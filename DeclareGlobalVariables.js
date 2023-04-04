@@ -109,6 +109,9 @@ let lastClickedButton;
 let copticDate, copticMonth, copticDay, copticReadingsDate, Season, weekDay;
 var todayDate;
 let isFast;
+let actors = ['Priest', 'Diacon', 'Assembly', 'Comment', 'CommentText'];
+let showActors = new Map();
+actors.map(actor => showActors.set(actor, true));
 let lordFeasts = [
     copticFeasts.Nativity, copticFeasts.Baptism, Seasons.Resurrection, copticFeasts.Ascension, copticFeasts.Epiphany, copticFeasts.Circumcision, copticFeasts.EntryToEgypt, copticFeasts.EntryToTemple
 ];

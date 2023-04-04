@@ -1,10 +1,10 @@
 @font-face {
   font-family: AvaShenouda;
-  src: url(Avva_Shenouda.ttf);
+  src: url(./fonts/Avva_Shenouda.ttf);
 }
 @font-face {
   font-family: ArialCoptic;
-  src: url(ArialCoptic.ttf);
+  src: url(./fonts/ArialCoptic.ttf);
 }
 .root{
   --inline-column-width: 30%;
@@ -21,8 +21,7 @@
   top:0px;
   width:100%;
   justify-items: center;
-
-  
+  z-index: 3;
 }
 
 .Content {
@@ -81,14 +80,16 @@ body{
   align-items: center !important;
 }
 .sideBarBtn{
-  height: fit-content;
+  height: 8rem;
+  max-height: 60px;
   width: 95%;
   padding: 0px 1px;
 }
 
 .sideBarBtn > p{
-  padding: 2px 1px;
-  margin: 1px 2px;
+  padding: 0.1vw 0.1vw;
+  margin: 0.1vw 0.1vw;
+  font-size: 1vmax;
 }
 .inlineBtns{
   display:grid;
@@ -140,7 +141,7 @@ margin:2px 2px;
 }
 .btnText, .btnLableAR, .btnLableFR, .btnLableEN {
   font-weight: bold;
-  font-size: 2vmin;
+  font-size: 1.3vmax;
   color: #f1f1f1;
   font-family: "Times New Roman", Times, serif;
   line-height:9pt;
@@ -156,7 +157,7 @@ margin:2px 2px;
   background-color: rgba(161, 9, 29, 0.705);
   border-radius: 10px;
   font-family: "Times New Roman", Times, serif;
-  width: 10vmax;
+  width: 95%;
   padding: 3pt;
   word-wrap:break-word;
 }
