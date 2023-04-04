@@ -1,10 +1,10 @@
 @font-face {
   font-family: AvaShenouda;
-  src: url(Avva_Shenouda.ttf);
+  src: url(./fonts/Avva_Shenouda.ttf);
 }
 @font-face {
   font-family: ArialCoptic;
-  src: url(ArialCoptic.ttf);
+  src: url(./fonts/ArialCoptic.ttf);
 }
 .root{
   --inline-column-width: 30%;
@@ -160,6 +160,12 @@ margin:2px 2px;
   width: 95%;
   padding: 3pt;
   word-wrap:break-word;
+  max-width: 120px;
+  min-width: 80px;
+  max-height: 50px;
+  justify-items: center;
+  align-items: center;
+  justify-self: center;
 }
 
 .TargetRow, .TargetRowTitle {
@@ -240,11 +246,15 @@ table{
   border-radius: 10px;
   padding: 3pt;
   font-size: 9pt !important;
+  max-width: 100px;
+  max-height: 90px;
+  justify-self: center;
 }
 .showDate {
   color: #5270a3;
   font-weight: bold;
   padding: 7px;
+
 }
 
 /* The sidebar menu */
@@ -372,10 +382,11 @@ table{
   align-content: stretch;
 }
 .settings{
-  width:60px;
+  width:auto;
   height: 60px;
-  background-color: black;
-  font-size: 30pt;
+  background-color: green;
+  font-size: 10pt;
+  font-weight: bold;
   color:white;
   text-align: center !important;
   align-content: center !important;
