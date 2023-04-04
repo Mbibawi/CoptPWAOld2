@@ -1310,9 +1310,12 @@ function showSettingsPanel() {
     //Appending 'Previous Coptic Day' button
     let langsContainer = document.createElement('div');
     langsContainer.style.display = 'grid';
+    langsContainer.id = 'langsContainer';
     langsContainer.style.width = contentDiv.style.width;
-    langsContainer.style.gridTemplateColumns = '50% 50%';
+    //langsContainer.style.gridTemplateColumns = '50% 50%'
     langsContainer.style.justifyItems = 'center';
+    langsContainer.style.justifySelf = 'center';
+    //langsContainer.style.justifyItems = 'center';
     inlineBtnsDiv.appendChild(langsContainer);
     showNextCopticDayButton('previousDay', 'Previous Coptic Day', false);
     function addLanguage(id, dataSet, innerText) {
@@ -1323,14 +1326,14 @@ function showSettingsPanel() {
     }
     ;
     //Appending 'Add Coptic in Arabic Characters' button
-    addLanguage('addCA', 'CA', 'Add Coptic In Arabic Characters');
+    //addLanguage('addCA', 'CA', 'Add Coptic In Arabic Characters');
     //Appending 'Add English or French' button
-    addLanguage('addEN', 'EN', 'Add English or French');
+    //addLanguage('addEN', 'EN', 'Add English or French');
     //Appending Add or Remove language Buttons
     (function showAddOrRemoveLanguagesBtns() {
         let subContainer = document.createElement('div');
         subContainer.style.display = 'grid';
-        subContainer.style.gridTemplateColumns = '25% 25% 25% 25%';
+        subContainer.style.gridTemplateColumns = '33% 33% 33%';
         subContainer.style.justifyItems = 'center';
         langsContainer.appendChild(subContainer);
         allLanguages.map(lang => {
@@ -1433,6 +1436,7 @@ function showSettingsPanel() {
             ;
         });
     })();
+    closeSideBar(leftSideBar);
 }
 ;
 function insertRedirectionButtons(querySelector, btns, position = 'beforebegin') {
