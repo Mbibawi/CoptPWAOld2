@@ -1243,21 +1243,33 @@ function findAndProcessPrayers(p, btn, div = containerDiv) {
 function showSettingsPanel() {
     let btn;
     inlineBtnsDiv.innerHTML = '';
-    if (inlineBtnsDiv.dataset.status == 'settingsPanel') {
-        inlineBtnsDiv.dataset.status = 'inlineButtons';
-        return;
-    }
-    ;
     inlineBtnsDiv.dataset.status = 'settingsPanel';
     //Show current version
     (function showCurrentVersion() {
-        let version = 'v0.6';
+        let version = 'v0.7';
         let p = document.createElement('p');
         p.style.color = 'red';
         p.style.fontSize = '15pt';
         p.style.fontWeight = "bold";
         p.innerText = version;
         inlineBtnsDiv.appendChild(p);
+    })();
+    //Appending close button
+    (function appendCloseBtn() {
+        let close = document.createElement('a');
+        close.innerText = String.fromCharCode(215);
+        close.classList.add('closebtn');
+        close.style.position = 'fixed';
+        close.style.top = '3px';
+        close.style.right = '10px';
+        close.style.fontSize = '30pt';
+        close.style.fontWeight = 'bold';
+        close.addEventListener('click', () => {
+            inlineBtnsDiv.dataset.status = 'inlineButtons';
+            inlineBtnsDiv.innerHTML = '';
+            return;
+        });
+        inlineBtnsDiv.appendChild(close);
     })();
     //Show InstallPWA button
     (function installPWA() {
@@ -1302,28 +1314,31 @@ function showSettingsPanel() {
     })();
     //Appending date picker
     (function showDatePicker() {
-        let datePicker = createBtn('input', undefined, undefined, undefined, inlineBtnsDiv, 'datePicker', undefined, 'date', undefined, undefined, { event: 'change', fun: () => changeDay(datePicker.value.toString()) });
+        let datePicker = createBtn('input', undefined, undefined, undefined, inlineBtnsDiv, 'datePicker', undefined, 'date', undefined, undefined, {
+            event: 'change',
+            fun: () => changeDay(datePicker.value.toString())
+        });
         datePicker.setAttribute('value', todayDate.toString());
         datePicker.setAttribute('min', '1900-01-01');
     })();
     //Appending 'Next Coptic Day' button
-    showNextCopticDayButton('nextDay', 'NextCopticDay', true);
-    function showNextCopticDayButton(id, innerText, next) {
-        btn = createBtn('button', 'button', '', innerText, inlineBtnsDiv, id, undefined, 'submit', '10', 'red', { event: 'click', fun: () => changeDay(undefined, next, 1) });
-    }
-    ;
-    //Appending 'Previous Coptic Day' button
-    let langsContainer = document.createElement('div');
-    langsContainer.style.display = 'grid';
-    langsContainer.id = 'langsContainer';
-    langsContainer.style.width = '95%';
-    langsContainer.style.justifyItems = 'center';
-    langsContainer.style.justifySelf = 'center';
-    //langsContainer.style.justifyItems = 'center';
-    inlineBtnsDiv.appendChild(langsContainer);
-    showNextCopticDayButton('previousDay', 'Previous Coptic Day', false);
+    (function showNextCopticDayButton() {
+        return __awaiter(this, void 0, void 0, function* () {
+            let langsContainer = document.createElement('div');
+            langsContainer.id = 'langsContainer';
+            langsContainer.style.display = 'grid';
+            langsContainer.id = 'langsContainer';
+            langsContainer.style.justifyItems = 'center';
+            langsContainer.style.justifySelf = 'center';
+            inlineBtnsDiv.appendChild(langsContainer);
+            btn = createBtn('button', 'button', '', 'Next Coptic Day', inlineBtnsDiv, 'nextDay', undefined, 'submit', '10', 'red', { event: 'click', fun: () => changeDay(undefined, true, 1) });
+            langsContainer.appendChild(btn);
+            btn = createBtn('button', 'button', '', 'Previous Coptic Day', inlineBtnsDiv, 'previousDay', undefined, 'submit', '10', 'red', { event: 'click', fun: () => changeDay(undefined, false, 1) });
+            langsContainer.appendChild(btn);
+        });
+    })();
     function addLanguage(id, dataSet, innerText) {
-        btn = createBtn('button', undefined, 'addLang', innerText, langsContainer, id, dataSet, 'submit', undefined, 'red', {
+        btn = createBtn('button', undefined, 'addLang', innerText, inlineBtnsDiv.querySelector('#langsContainer'), id, dataSet, 'submit', undefined, 'red', {
             event: 'click',
             fun: () => addOrRemoveLanguage(btn)
         });
@@ -1335,62 +1350,64 @@ function showSettingsPanel() {
     //addLanguage('addEN', 'EN', 'Add English or French');
     //Appending Add or Remove language Buttons
     (function showAddOrRemoveLanguagesBtns() {
-        let subContainer = document.createElement('div');
-        subContainer.style.display = 'grid';
-        subContainer.style.gridTemplateColumns = String('30% ').repeat(3);
-        subContainer.style.width = '95%';
-        subContainer.style.justifyItems = 'center';
-        langsContainer.appendChild(subContainer);
-        allLanguages.map(lang => {
-            let newBtn = createBtn('button', 'button', 'langBtnRemove', lang, subContainer, 'userLang', lang, undefined, undefined, undefined, {
-                event: 'click',
-                fun: () => {
-                    modifyUserLanguages(lang);
-                    newBtn.classList.toggle('langBtnAdd');
-                    //We retrieve again the displayed text/prayers by recalling the last button clicked
-                    showChildButtonsOrPrayers(lastClickedButton);
+        return __awaiter(this, void 0, void 0, function* () {
+            let subContainer = document.createElement('div');
+            subContainer.style.display = 'grid';
+            subContainer.style.gridTemplateColumns = String('30% ').repeat(3);
+            subContainer.style.justifyItems = 'center';
+            inlineBtnsDiv.querySelector('#langsContainer').appendChild(subContainer);
+            allLanguages.map(lang => {
+                let newBtn = createBtn('button', 'button', 'langBtnRemove', lang, subContainer, 'userLang', lang, undefined, undefined, undefined, {
+                    event: 'click',
+                    fun: () => {
+                        modifyUserLanguages(lang);
+                        newBtn.classList.toggle('langBtnAdd');
+                        //We retrieve again the displayed text/prayers by recalling the last button clicked
+                        showChildButtonsOrPrayers(lastClickedButton);
+                    }
+                });
+                if (userLanguages.indexOf(lang) < 0) {
+                    //The language of the button is absent from userLanguages[], we will give the button the class 'langBtnAdd'
+                    newBtn.classList.add('langBtnAdd');
                 }
+                ;
             });
-            if (userLanguages.indexOf(lang) < 0) {
-                //The language of the button is absent from userLanguages[], we will give the button the class 'langBtnAdd'
-                newBtn.classList.add('langBtnAdd');
-            }
-            ;
         });
     })();
     (function showExcludeActorButon() {
-        let container = document.createElement('div');
-        container.style.display = 'grid';
-        container.style.gridTemplateColumns = String('50%').repeat(2);
-        container.style.width = '99%';
-        inlineBtnsDiv.appendChild(container);
-        actors.map(actor => {
-            if (actor == 'CommentText') {
-                return;
-            }
-            ; //we will not show a button for 'CommentText' class, it will be handled by the 'Comment' button
-            let show = showActors.get(actor);
-            btn = createBtn('button', 'button', 'langBtnRemove', 'remove ' + actor, container, actor, actor, undefined, undefined, undefined, {
-                event: 'click',
-                fun: () => {
-                    closeSideBar(leftSideBar);
-                    show == true ? show = false : show = true;
-                    showActors.set(actor, show);
-                    if (show == false) {
-                        btn.classList.add('langBtnAdd');
-                    }
-                    ;
-                    if (actor == 'Comment') {
-                        showActors.set('CommentText', show);
-                    }
-                    showChildButtonsOrPrayers(lastClickedButton);
-                    inlineBtnsDiv.innerText = '';
+        return __awaiter(this, void 0, void 0, function* () {
+            let container = document.createElement('div');
+            container.style.display = 'grid';
+            container.style.gridTemplateColumns = String('50%').repeat(2);
+            inlineBtnsDiv.appendChild(container);
+            actors.map(actor => {
+                if (actor == 'CommentText') {
+                    return;
                 }
+                ; //we will not show a button for 'CommentText' class, it will be handled by the 'Comment' button
+                let show = showActors.get(actor);
+                btn = createBtn('button', 'button', 'langBtnRemove', 'remove ' + actor, container, actor, actor, undefined, undefined, undefined, {
+                    event: 'click',
+                    fun: () => {
+                        closeSideBar(leftSideBar);
+                        show == true ? show = false : show = true;
+                        showActors.set(actor, show);
+                        if (show == false) {
+                            btn.classList.add('langBtnAdd');
+                        }
+                        ;
+                        if (actor == 'Comment') {
+                            showActors.set('CommentText', show);
+                        }
+                        showChildButtonsOrPrayers(lastClickedButton);
+                        inlineBtnsDiv.innerText = '';
+                    }
+                });
+                if (show == false) {
+                    btn.classList.add('langBtnAdd');
+                }
+                ;
             });
-            if (show == false) {
-                btn.classList.add('langBtnAdd');
-            }
-            ;
         });
     })();
     function createBtn(tag, role = tag, btnClass, innerText, parent, id, dataSet, type, size, backgroundColor, onClick) {
@@ -1442,52 +1459,56 @@ function showSettingsPanel() {
     ;
     //Appending colors keys for actors
     (function addActorsKeys() {
-        let container = document.createElement('div');
-        container.id = 'actors';
-        container.style.display = 'grid';
-        container.style.gridTemplateColumns = String('33% ').repeat(3);
-        container.style.width = '95%';
-        inlineBtnsDiv.appendChild(container);
-        let actors = [
-            {
-                id: 'PriestColor',
-                AR: 'الكاهن',
-                FR: 'Le Prêtre',
-                EN: 'The Priest',
-            },
-            {
-                id: 'AssemblyColor',
-                AR: "الشعب",
-                FR: 'L\'Assemblée',
-                EN: 'The Assembly',
-            },
-            {
-                id: 'DiaconColor',
-                AR: 'الشماس',
-                FR: 'Le Diacre',
-                EN: 'The Diacon',
-            }
-        ];
-        actors.map(b => {
-            let newBtn = createBtn('button', undefined, 'colorbtn', undefined, container, b.id);
-            for (let i = 1; i < 4; i++) {
-                let p = document.createElement('p');
-                p.innerText = b[Object.keys(b)[i]];
-                //Object.keys(b)[i] 0K;
-                newBtn.appendChild(p);
-            }
-            ;
+        return __awaiter(this, void 0, void 0, function* () {
+            let container = document.createElement('div');
+            container.id = 'actors';
+            container.style.display = 'grid';
+            container.style.gridTemplateColumns = String('33% ').repeat(3);
+            container.style.width = '95%';
+            inlineBtnsDiv.appendChild(container);
+            let actors = [
+                {
+                    id: 'PriestColor',
+                    AR: 'الكاهن',
+                    FR: 'Le Prêtre',
+                    EN: 'The Priest',
+                },
+                {
+                    id: 'AssemblyColor',
+                    AR: "الشعب",
+                    FR: 'L\'Assemblée',
+                    EN: 'The Assembly',
+                },
+                {
+                    id: 'DiaconColor',
+                    AR: 'الشماس',
+                    FR: 'Le Diacre',
+                    EN: 'The Diacon',
+                }
+            ];
+            actors.map(b => {
+                let newBtn = createBtn('button', undefined, 'colorbtn', undefined, container, b.id);
+                for (let i = 1; i < 4; i++) {
+                    let p = document.createElement('p');
+                    p.innerText = b[Object.keys(b)[i]];
+                    //Object.keys(b)[i] 0K;
+                    newBtn.appendChild(p);
+                }
+                ;
+            });
         });
     })();
     closeSideBar(leftSideBar);
 }
 ;
 function insertRedirectionButtons(querySelector, btns, position = 'beforebegin') {
-    let div = document.createElement('div');
-    div.classList.add('inlineBtns');
-    div.style.gridTemplateColumns = ((100 / btns.length).toString() + '% ').repeat(btns.length);
-    btns.map(b => div.appendChild(createBtn(b, div, b.cssClass)));
-    containerDiv.querySelector(querySelector).insertAdjacentElement(position, div);
+    return __awaiter(this, void 0, void 0, function* () {
+        let div = document.createElement('div');
+        div.classList.add('inlineBtns');
+        div.style.gridTemplateColumns = ((100 / btns.length).toString() + '% ').repeat(btns.length);
+        btns.map(b => div.appendChild(createBtn(b, div, b.cssClass)));
+        containerDiv.querySelector(querySelector).insertAdjacentElement(position, div);
+    });
 }
 ;
 /**Was meant to fetch the Arabic Synaxarium text but didn't work for CORS issue on the api */
