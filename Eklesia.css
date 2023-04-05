@@ -1,10 +1,10 @@
 @font-face {
   font-family: AvaShenouda;
-  src: url(Avva_Shenouda.ttf);
+  src: url(./fonts/Avva_Shenouda.ttf);
 }
 @font-face {
   font-family: ArialCoptic;
-  src: url(ArialCoptic.ttf);
+  src: url(./fonts/ArialCoptic.ttf);
 }
 .root{
   --inline-column-width: 30%;
@@ -153,16 +153,20 @@ margin:2px 2px;
   margin: 1vw 1vw;
 }
 
-.addLang, .langBtnAdd, .langBtnRemove {
+.addLang, .langBtnAdd, .settingsBtn, .colorbtn {
+  display: grid;
   background-color: rgba(161, 9, 29, 0.705);
   border-radius: 10px;
-  font-family: "Times New Roman", Times, serif;
+  font-family: "Times New Roman", Times, serif; 
   width: 95%;
-  padding: 3pt;
+  margin: 1.5px 5px;
+  padding: 3px !important;
   word-wrap:break-word;
   max-width: 120px;
   min-width: 80px;
+  min-height: 50px;
   max-height: 50px;
+  text-align: center;
   justify-items: center;
   align-items: center;
   justify-self: center;
@@ -249,6 +253,9 @@ table{
   max-width: 100px;
   max-height: 90px;
   justify-self: center;
+}
+.colorbtn >p{
+  margin:1px 1px;
 }
 .showDate {
   color: #5270a3;
@@ -424,9 +431,11 @@ table{
 .langBtnAdd{
   background-color: red !important;
 }
-.langBtnRemove, langBtnAdd{
+.settingsBtn{
   background-color: green;
   color:white;
   padding: 12pt;
-  margin: 3px 3px;
+}
+.dd{
+  background-color: saddlebrown;
 }

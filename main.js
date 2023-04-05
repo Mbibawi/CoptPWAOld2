@@ -1273,7 +1273,7 @@ function showSettingsPanel() {
     })();
     //Show InstallPWA button
     (function installPWA() {
-        btn = createBtn('button', 'button', 'langBtnRemove', 'Install PWA', inlineBtnsDiv, 'InstallPWA', undefined, undefined, undefined, undefined, {
+        btn = createBtn('button', 'button', 'settingsBtn', 'Install PWA', inlineBtnsDiv, 'InstallPWA', undefined, undefined, undefined, undefined, {
             event: 'click',
             fun: () => __awaiter(this, void 0, void 0, function* () {
                 // Initialize deferredPrompt for use later to show browser install prompt.
@@ -1324,19 +1324,23 @@ function showSettingsPanel() {
     //Appending 'Next Coptic Day' button
     (function showNextCopticDayButton() {
         return __awaiter(this, void 0, void 0, function* () {
-            let langsContainer = document.createElement('div');
-            langsContainer.id = 'langsContainer';
-            langsContainer.style.display = 'grid';
-            langsContainer.id = 'langsContainer';
-            langsContainer.style.justifyItems = 'center';
-            langsContainer.style.justifySelf = 'center';
-            inlineBtnsDiv.appendChild(langsContainer);
-            btn = createBtn('button', 'button', '', 'Next Coptic Day', inlineBtnsDiv, 'nextDay', undefined, 'submit', '10', 'red', { event: 'click', fun: () => changeDay(undefined, true, 1) });
-            langsContainer.appendChild(btn);
-            btn = createBtn('button', 'button', '', 'Previous Coptic Day', inlineBtnsDiv, 'previousDay', undefined, 'submit', '10', 'red', { event: 'click', fun: () => changeDay(undefined, false, 1) });
-            langsContainer.appendChild(btn);
+            let container = document.createElement('div');
+            container.style.display = 'grid',
+                container.style.gridTemplateColumns = String('50%').repeat(2);
+            inlineBtnsDiv.appendChild(container);
+            btn = createBtn('button', 'button', 'settingsBtn', 'Next Coptic Day', container, 'nextDay', undefined, 'submit', undefined, undefined, { event: 'click', fun: () => changeDay(undefined, true, 1) });
+            btn.style.backgroundColor = 'saddlebrown';
+            btn = createBtn('button', 'button', 'settingsBtn', 'Previous Coptic Day', container, 'previousDay', undefined, 'submit', undefined, undefined, { event: 'click', fun: () => changeDay(undefined, false, 1) });
+            btn.style.backgroundColor = 'saddlebrown';
         });
     })();
+    let langsContainer = document.createElement('div');
+    langsContainer.id = 'langsContainer';
+    langsContainer.style.display = 'grid';
+    langsContainer.id = 'langsContainer';
+    langsContainer.style.justifyItems = 'center';
+    langsContainer.style.justifySelf = 'center';
+    inlineBtnsDiv.appendChild(langsContainer);
     function addLanguage(id, dataSet, innerText) {
         btn = createBtn('button', undefined, 'addLang', innerText, inlineBtnsDiv.querySelector('#langsContainer'), id, dataSet, 'submit', undefined, 'red', {
             event: 'click',
@@ -1355,9 +1359,9 @@ function showSettingsPanel() {
             subContainer.style.display = 'grid';
             subContainer.style.gridTemplateColumns = String('30% ').repeat(3);
             subContainer.style.justifyItems = 'center';
-            inlineBtnsDiv.querySelector('#langsContainer').appendChild(subContainer);
+            langsContainer.appendChild(subContainer);
             allLanguages.map(lang => {
-                let newBtn = createBtn('button', 'button', 'langBtnRemove', lang, subContainer, 'userLang', lang, undefined, undefined, undefined, {
+                let newBtn = createBtn('button', 'button', 'settingsBtn', lang, subContainer, 'userLang', lang, undefined, undefined, undefined, {
                     event: 'click',
                     fun: () => {
                         modifyUserLanguages(lang);
@@ -1386,7 +1390,7 @@ function showSettingsPanel() {
                 }
                 ; //we will not show a button for 'CommentText' class, it will be handled by the 'Comment' button
                 let show = showActors.get(actor);
-                btn = createBtn('button', 'button', 'langBtnRemove', 'remove ' + actor, container, actor, actor, undefined, undefined, undefined, {
+                btn = createBtn('button', 'button', 'settingsBtn', 'remove ' + actor, container, actor, actor, undefined, undefined, undefined, {
                     event: 'click',
                     fun: () => {
                         closeSideBar(leftSideBar);
@@ -1464,7 +1468,6 @@ function showSettingsPanel() {
             container.id = 'actors';
             container.style.display = 'grid';
             container.style.gridTemplateColumns = String('33% ').repeat(3);
-            container.style.width = '95%';
             inlineBtnsDiv.appendChild(container);
             let actors = [
                 {
